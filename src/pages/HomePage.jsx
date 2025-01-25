@@ -7,12 +7,14 @@ import { Link } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import Scope from "../components/Scope";
 import Brand from "../components/Brand";
+import WeOffer from "../components/WeOffer";
 const HomePage = () => {
     return ( 
-        <div className="">
+        <div className="" style={{ fontFamily: "'Poppins', sans-serif" }}>
             <Carousel />
             <Scope />
             <Brand/>
+            <WeOffer/>
         </div>
      );
 }

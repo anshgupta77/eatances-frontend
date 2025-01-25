@@ -37,14 +37,14 @@ import barkat from "../assets/barkat.webp";
 import chaalo from "../assets/chaalo-oshawa.webp";
 import tadka from "../assets/tadka-king.webp";
 import fresh from "../assets/fresh-slice.webp";
-
+import { Link } from "react-router-dom";
 const BrandsPhoto = [
     sankalp, barkat, chaalo, tadka, fresh
 ];
 
 const Brand = () => {
     return ( 
-        <div className="space-y-4 bg-gray-100 h-[70vh] flex flex-col mt-[10%]">
+        <div className="space-y-4 bg-gray-100 h-[65vh] flex flex-col mt-[10%]">
             <div className="my-[4%] flex flex-col justify-between text-center space-y-4">
                 <div className="text-center text-5xl font-bold text-blue-950">
                     Your <span className="text-green-500">Favourite Brands</span>, All in One Place
@@ -63,9 +63,11 @@ const Brand = () => {
                 ))}
             </div>
             <div className="flex justify-center">
-                <button className="px-18 py-4 bg-green-500 text-white text-xl rounded-md hover:bg-green-600">
-                    View All
-                </button>
+                <Link to="/counter">
+                    <button className="px-18 py-4 bg-green-500 text-white text-xl rounded-md hover:bg-green-600">
+                            View all Brands
+                        </button>
+                </Link>
             </div>
 
         </div>

@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import DishPage from './pages/DishesPage';
 import NavBar from './components/NavBar';
 import CounterPage from './pages/CounterPage';
+import Connect from './components/Connect';
 function Layout(element){
   return (
     <>
@@ -31,6 +32,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/dish/counter/:id" element={<DishPage />} />
         </Routes>
+        <Connect/>
       </Router>
     </div>
   )
