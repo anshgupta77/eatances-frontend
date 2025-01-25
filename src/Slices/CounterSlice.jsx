@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const counterSlice = createSlice({
     name: "counter",
     initialState: {
-        counters: [],
+        items: [],
         loading: true,
     },
     reducers: {
         setCounter:(state , action) =>{
-            state.counters = action.payload;
+            state.items = action.payload;
             state.loading = false;
         }
     }

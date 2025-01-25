@@ -6,7 +6,8 @@ import CounterCard from "../components/CounterCard";
 import { Link } from "react-router-dom";
 const HomePage = () => {
     const dispatch = useDispatch();
-    const counter = useSelector(state => state.counter.counters)
+    const counter = useSelector(state => state.counter.items)
+    console.log(counter);
     useEffect(() =>{
         axios("http://localhost:3000/counter")
         .then(response => {

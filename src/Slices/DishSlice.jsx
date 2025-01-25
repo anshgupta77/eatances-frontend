@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const dishSlice = createSlice({
     name: "dish",
     initialState: {
-        dishes: [],
+        items: [],
         loading: true,
     },
     reducers: {
         setDish:(state , action) =>{
-            state.dishes = action.payload;
+            state.items = action.payload;
             state.loading = false;
         }
     }

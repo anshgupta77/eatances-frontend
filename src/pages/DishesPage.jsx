@@ -6,7 +6,7 @@ import DishCard from "../components/DishesCard";
 import { useParams } from "react-router-dom";
 const DishesPage = () => {
   const dispatch = useDispatch();
-  const dishes = useSelector((state) => state.dish.dishes);
+  const dishes = useSelector((state) => state.dish.items);
   const {id} = useParams();
 
   useEffect(() => {
