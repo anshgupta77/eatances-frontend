@@ -3,7 +3,7 @@ import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 const NewNavbar = () => {
   return (
-    <div className=" shadow-md " style={{ fontFamily: "'Poppins', sans-serif" }}>
+    <div className=" shadow-md sticky top-0 z-50 bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
       <div className="container mx-auto flex items-center justify-between py-4 px-6 w-[90vw] mx-auto">
        
         <div 
