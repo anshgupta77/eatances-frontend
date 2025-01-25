@@ -2,7 +2,7 @@ import bannerPic from "./../assets/food-ordering-banner-pic.webp";
 
 const Carousel = () => {
   return (
-    <div className="flex h-[100vh] px-6 my-2 justify-between ">
+    <div className="flex h-[100vh] px-6 my-2 justify-between mx-auto w-[90vw]">
       {/* Content Section */}
         <div className="flex flex-col justify-center text-left space-y-4 w-[50%] ">
         <div className="text-blue-950">
@@ -18,7 +18,7 @@ const Carousel = () => {
           Welcome to Eatance, the revolutionary Food-Tech that is transforming your dining experience. Happy You, Happy Restaurants
         </div>
         <div>
-          <button className="px-12 py-4 bg-green-500 text-white text-xl rounded-md hover:bg-blue-700">
+          <button className="px-12 py-4 bg-green-500 text-white text-xl rounded-md hover:bg-green-600">
             Contact us
           </button>
         </div>

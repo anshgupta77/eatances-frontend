@@ -6,11 +6,13 @@ import CounterCard from "../components/CounterCard";
 import { Link } from "react-router-dom";
 import Carousel from "../components/Carousel";
 import Scope from "../components/Scope";
+import Brand from "../components/Brand";
 const HomePage = () => {
     return ( 
-        <div className="w-[90vw] mx-auto">
+        <div className="">
             <Carousel />
             <Scope />
+            <Brand/>
         </div>
      );
 }
