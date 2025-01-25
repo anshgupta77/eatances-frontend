@@ -6,6 +6,7 @@ import CartPage from './pages/CartPage';
 import ProfilePage from './pages/ProfilePage';
 import DishPage from './pages/DishesPage';
 import NavBar from './components/NavBar';
+import CounterPage from './pages/CounterPage';
 function Layout(element){
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/counter" element={<CounterPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/dish/counter/:id" element={<DishPage />} />
