@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { setDish } from "../Slices/DishSlice";
 import { setCart } from "../Slices/CartSlice";
 const DishCard = ({ dishes }) => {
   const dispatch = useDispatch();
@@ -8,9 +9,29 @@ const DishCard = ({ dishes }) => {
     axios.post("http://localhost:3000/cart", {dish: dish._id})
     .then(response =>{
         console.log(response);
-        dispatch(setCart(response.data.cart));
+        dispatch(setCart(response?.data?.cart || []));
     })
   }
+
+  // function editDish(dish){
+  //   axios.post("http://localhost:3000/dish", {dish: dish._id})
+  //   .then(response =>{
+  //       console.log(response);
+  //       dispatch(setCart(response.data.cart));
+  //   })
+  // }
+
+
+  function deleteDish(id){
+    axios.delete(`http://localhost:3000/dish/${id}`)
+    .then(response =>{
+        console.log(response.data);
+        dispatch(setDish(response.data.counterDish));
+    })
+  }
+
+
+
   console.log("Dishes in the dishCard",dishes);
   return (
     <>
@@ -48,13 +69,28 @@ const DishCard = ({ dishes }) => {
                   Out of Stock
                 </p>
               )}
-              <div className="flex justify-center mt-6">
+              <div className="flex justify-between mt-6">
                 <button
                   onClick={()=>addItemToCart(dish)}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                   Add to Cart
                 </button>
+                <div className="flex space-x-4">
+                  <button
+                    onClick={() => editDish(dish)}
+                    className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteDish(dish._id)}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+                  >
+                    Delete
+                  </button>
+
+                </div>
               </div>
             </div>
           </div>

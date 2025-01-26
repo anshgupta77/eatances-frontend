@@ -4,12 +4,11 @@ const dishSlice = createSlice({
     name: "dish",
     initialState: {
         items: [],
-        loading: true,
+        // loading: true,
     },
     reducers: {
         setDish:(state , action) =>{
             state.items = action.payload;
-            state.loading = false;
         }
     }
 });

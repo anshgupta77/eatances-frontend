@@ -29,7 +29,7 @@ function App() {
   useEffect(()=>{
     axios.get("http://localhost:3000/cart")
     .then(response =>{
-      console.log(response.data.cart)
+      console.log(response?.data?.cart || []);
       dispatch(setCart(response.data.cart));
     })
   }, [])

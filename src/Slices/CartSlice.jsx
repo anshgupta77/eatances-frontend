@@ -2,7 +2,15 @@ import{createSlice} from '@reduxjs/toolkit';
 const cartSlice = createSlice({
     name:"cart",
     initialState:{
-        items:[],
+        items:[{dish:{
+            "_id": "6794cb7b4bfad619c32af4dc",
+            "name": "Paneer Tikka",
+            "price": 200,
+            "description": "Cubes of paneer marinated with spices and grilled to perfection.",
+            "image": "https://example.com/paneer-tikka.jpg",
+            "inStock": true,
+            "category": "veg",
+    }}],
     },
     reducers: {
         setCart:(state , action) =>{

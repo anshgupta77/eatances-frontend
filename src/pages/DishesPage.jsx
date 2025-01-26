@@ -14,7 +14,7 @@ const DishesPage = () => {
     axios(`http://localhost:3000/dish/counter/${id}`) // Replace with your actual API endpoint
       .then((response) => {
         console.log(response);
-        dispatch(setDish(response.data.counterDish));
+        dispatch(setDish(response?.data?.counterDish || []));
       })
       .catch((error) => console.log(error));
   }, []);
