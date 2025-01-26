@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 const DishesPage = () => {
   const dispatch = useDispatch();
   const dishes = useSelector((state) => state.dish.items);
+  console.log(dishes);
   const {id} = useParams();
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const DishesPage = () => {
         dispatch(setDish(response.data.counterDish));
       })
       .catch((error) => console.log(error));
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="p-6">

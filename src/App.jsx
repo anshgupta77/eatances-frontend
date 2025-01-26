@@ -8,7 +8,12 @@ import DishPage from './pages/DishesPage';
 import NavBar from './components/NavBar';
 import CounterPage from './pages/CounterPage';
 import Connect from './components/Connect';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setCart } from './Slices/CartSlice';
 function Layout(element){
+  
   return (
     <>
       <Header />
@@ -20,6 +25,14 @@ function Layout(element){
   )}
 
 function App() { 
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    axios.get("http://localhost:3000/cart")
+    .then(response =>{
+      console.log(response.data.cart)
+      dispatch(setCart(response.data.cart));
+    })
+  }, [])
   return (
     <div className="App">
       <Router>

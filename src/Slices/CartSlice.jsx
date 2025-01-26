@@ -7,13 +7,17 @@ const cartSlice = createSlice({
     reducers: {
         setCart:(state , action) =>{
             state.items = action.payload;
+            console.log(state.items);
         },
         emptyCart:(state , action) =>{
             state.items = [];
         },
         addToCart:(state,action) => {
             const dish = action.payload;
-            state.items.push(...dish , quantity = 1);
+            // console.log(dish);
+            state.items.push({...dish , quantity: 1});
+            console.log(state.items);
+
         }
     },
 });

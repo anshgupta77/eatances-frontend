@@ -5,9 +5,9 @@ const NewNavbar = () => {
   return (
     <div className=" shadow-md sticky top-0 z-50 bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
       <div className="container mx-auto flex items-center justify-between py-4 px-6 w-[90vw] mx-auto">
-       
+       <Link to="/">
         <div 
-            className="text-3xl font-bold text-gray-800 font-serif" 
+            className="text-3xl font-bold text-blue-950 font-serif hover:text-green-500"
             style={{ fontFamily: "'Poppins', sans-serif" }}
             >
             eatances
@@ -17,9 +17,10 @@ const NewNavbar = () => {
             >
                 •
             </span>
-            </div>
+        </div>
+       </Link>
         
-        <div className="flex space-x-6 text-gray-600 font-serif font-bold" style={{ fontFamily: "'Poppins', sans-serif" }}>
+        <div className="flex space-x-6 text-blue-950 font-serif font-bold" style={{ fontFamily: "'Poppins', sans-serif" }}>
         <div className="relative hover:text-green-600 cursor-pointer group">
             <Link to="/">
             Home

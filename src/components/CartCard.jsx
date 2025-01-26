@@ -2,44 +2,37 @@ import React from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setCart } from "../Slices/CartSlice";
-const DishCard = ({ dishes }) => {
+const CartCard = ({ cartItems }) => {
   const dispatch = useDispatch();
-  function addItemToCart(dish){
-    axios.post("http://localhost:3000/cart", {dish: dish._id})
-    .then(response =>{
-        console.log(response);
-        dispatch(setCart(response.data.cart));
-    })
-  }
-  console.log("Dishes in the dishCard",dishes);
+  console.log("Dishes in the dishCard",cartItems);
   return (
     <>
       <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
         Dishes Menu
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-        {dishes.map((dish) => (
+        {cartItems.map((item) => (
           <div
-            key={dish._id}
+            key={item.dish._id}
             className="bg-white rounded-2xl shadow-lg overflow-hidden transition transform hover:scale-105 hover:shadow-2xl"
           >
             <img
-              src={dish.image}
-              alt={dish.name}
+              src={item.dish.image}
+              alt={item.dish.name}
               className="w-full h-52 object-cover"
             />
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                {dish.name}
+                {item.name}
               </h2>
-              <p className="text-sm text-gray-600 mb-4">{dish.description}</p>
+              <p className="text-sm text-gray-600 mb-4">{item.dish.description}</p>
               <p className="text-sm font-semibold text-green-600">
-                Category: {dish.category}
+                Category: {item.dish.category}
               </p>
               <p className="text-lg font-bold text-gray-900 mt-2">
-                ₹{dish.price}
+                ₹{item.dish.price}
               </p>
-              {dish.inStock ? (
+              {item.dish.inStock ? (
                 <p className="text-sm text-green-500 font-medium mt-2">
                   In Stock
                 </p>
@@ -50,7 +43,7 @@ const DishCard = ({ dishes }) => {
               )}
               <div className="flex justify-center mt-6">
                 <button
-                  onClick={()=>addItemToCart(dish)}
+                  onClick={()=>addItemToCart(item.dish)}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                   Add to Cart
@@ -64,5 +57,5 @@ const DishCard = ({ dishes }) => {
   );
 };
 
-export default DishCard;
+export default CartCard;
 
