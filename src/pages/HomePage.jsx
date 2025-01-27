@@ -8,9 +8,11 @@ import Carousel from "../components/Carousel";
 import Scope from "../components/Scope";
 import Brand from "../components/Brand";
 import WeOffer from "../components/WeOffer";
+// import { CircularProgress } from "@mui/material";
 const HomePage = () => {
     return ( 
         <div className="" style={{ fontFamily: "'Poppins', sans-serif" }}>
+            {/* <CircularProgress /> */}
             <Carousel />
             <Scope />
             <Brand/>

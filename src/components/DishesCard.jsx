@@ -3,8 +3,24 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setDish } from "../Slices/DishSlice";
 import { setCart } from "../Slices/CartSlice";
+import { useState } from "react";
 const DishCard = ({ dishes }) => {
   const dispatch = useDispatch();
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentDish, setCurrentDish] = useState(null);
+
+  const openEditModal = (dish) => {
+    setCurrentDish(dish);
+    setIsEditing(true);
+  };
+
+  const closeEditModal = () => {
+    setCurrentDish(null);
+    setIsEditing(false);
+  };
+
+
   function addItemToCart(dish){
     axios.post("http://localhost:3000/cart", {dish: dish._id})
     .then(response =>{
@@ -35,6 +51,9 @@ const DishCard = ({ dishes }) => {
   console.log("Dishes in the dishCard",dishes);
   return (
     <>
+      {isEditing && (
+        <EditDish dish={currentDish} onClose={closeEditModal} />
+      )}
       <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
         Dishes Menu
       </h1>
@@ -78,7 +97,7 @@ const DishCard = ({ dishes }) => {
                 </button>
                 <div className="flex space-x-4">
                   <button
-                    onClick={() => editDish(dish)}
+                    onClick={() => openEditModal(dish)}
                     className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
                   >
                     Edit

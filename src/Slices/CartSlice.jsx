@@ -2,15 +2,8 @@ import{createSlice} from '@reduxjs/toolkit';
 const cartSlice = createSlice({
     name:"cart",
     initialState:{
-        items:[{dish:{
-            "_id": "6794cb7b4bfad619c32af4dc",
-            "name": "Paneer Tikka",
-            "price": 200,
-            "description": "Cubes of paneer marinated with spices and grilled to perfection.",
-            "image": "https://example.com/paneer-tikka.jpg",
-            "inStock": true,
-            "category": "veg",
-    }}],
+        items:[],
+        loading: false,
     },
     reducers: {
         setCart:(state , action) =>{
@@ -26,10 +19,16 @@ const cartSlice = createSlice({
             state.items.push({...dish , quantity: 1});
             console.log(state.items);
 
+        },
+        setLoading:(state,action) =>{
+            state.loading = true;
+        },
+        removeLoading:(state,action) =>{
+            state.loading = false;
         }
     },
 });
 
-export const {setCart, emptyCart , addToCart} = cartSlice.actions;
+export const {setCart, emptyCart , addToCart, setLoading, removeLoading} = cartSlice.actions;
 
 export default cartSlice.reducer;
