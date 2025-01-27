@@ -1,7 +1,3 @@
-
-
-
-
 import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -119,20 +115,19 @@ const CartCard = ({ cartItems }) => {
                     Out of Stock
                   </p>
                 )}
-                <div className="flex flex-col justify-between mt-6 ">
-                  </div>
+                <div className="flex justify-between mt-6 ">
+                
                     <button
                       onClick={() => removeFromCart(item.dish)}
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                     >
                       Remove
                     </button>
-                  </div>
                   <div className="flex items-center gap-1.5">
                   <button
                     onClick={() => handleQuantity(item.dish, -1)}
                     className="bg-gray-200 px-2 py-1 rounded-l-lg text-gray-800 hover:bg-gray-300"
-                  >
+                    >
                     -
                   </button>
                   <span className="px-4 py-1 bg-gray-100 text-gray-800">
@@ -141,13 +136,14 @@ const CartCard = ({ cartItems }) => {
                   <button
                     onClick={() => handleQuantity(item.dish, +1)}
                     className="bg-gray-200 px-2 py-1 rounded-r-lg text-gray-800 hover:bg-gray-300"
-                  >
+                    >
                     +
                   </button>
                 </div>
 
+              </div>
 
-
+                </div>
                 </div>
           ))}
         </div>
