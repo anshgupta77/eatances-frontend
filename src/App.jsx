@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setCart , setLoading, removeLoading} from './Slices/CartSlice';
+import { useRequestCall } from './hook';
 function Layout(element){
   
   return (
@@ -26,16 +27,30 @@ function Layout(element){
 
 function App() { 
   const dispatch = useDispatch();
+  const [loading, fetchCart] = useRequestCall("get");
+
+  
+  // useEffect(()=>{
+  //   dispatch(setLoading());
+  //   axios.get("http://localhost:3000/cart")
+  //   .then(response =>{
+  //     console.log(response?.data?.cart || []);
+  //     dispatch(setCart(response.data.cart));
+  //   }).catch(error =>{
+  //     console.log(error);
+  //   }).finally(()=>{
+  //     dispatch(removeLoading());
+  //   })
+  // }, [])
+
   useEffect(()=>{
-    dispatch(setLoading());
-    axios.get("http://localhost:3000/cart")
+    // dispatch(setLoading());
+    fetchCart("http://localhost:3000/cart")
     .then(response =>{
       console.log(response?.data?.cart || []);
       dispatch(setCart(response.data.cart));
     }).catch(error =>{
       console.log(error);
-    }).finally(()=>{
-      dispatch(removeLoading());
     })
   }, [])
   return (
