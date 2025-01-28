@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setDish } from "../Slices/DishSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setDish , updateDish} from "../Slices/DishSlice";
+import { setLoading, removeLoading } from "../Slices/AuthSlice";
 
 const EditDish = ({ dish, onClose }) => {
+  const loading = useSelector((state) => state.auth.loading); // Get loading state from Redux
   const [updatedDish, setUpdatedDish] = useState({ ...dish });
   const dispatch = useDispatch();
 
@@ -13,21 +15,35 @@ const EditDish = ({ dish, onClose }) => {
   };
 
   const saveChanges = () => {
+    console.log("dish id:", dish._id);
+    dispatch(setLoading());
     axios
-      .put(`http://localhost:3000/dish/${dish._id}`, updatedDish)
+      .patch(`http://localhost:3000/dish/${dish._id}`, updatedDish)
       .then((response) => {
         console.log("Updated dish:", response.data);
-        dispatch(setDish(response.data.dishes)); // Update dishes in the Redux store
-        onClose(); // Close the modal
+        const updatedDish = response.data.dishes;
+        dispatch(updateDish({updatedDish: updatedDish, id: dish._id})); // Update dishes in the Redux store
+        // Close the modal
       })
       .catch((error) => {
         console.error("Error updating dish:", error);
+      })
+      .finally(() => {
+        dispatch(removeLoading());
+        onClose();
       });
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Darkened Background */}
+      <div
+        className="absolute inset-0 bg-gray-400 opacity-50"
+        onClick={onClose}
+      ></div>
+
+      {/* Modal Content */}
+      <div className="fixed bg-white p-6 rounded-lg shadow-lg w-96 z-10">
         <h2 className="text-xl font-bold mb-4">Edit Dish</h2>
 
         <div className="mb-4">

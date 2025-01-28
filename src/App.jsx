@@ -11,7 +11,7 @@ import Connect from './components/Connect';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setCart , setLoading, removeLoading} from './Slices/CartSlice';
+import { setCart} from './Slices/CartSlice';
 import { useRequestCall } from './hook';
 function Layout(element){
   

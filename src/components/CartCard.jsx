@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart, setLoading, removeLoading } from "./../Slices/CartSlice";
+import { setCart } from "./../Slices/CartSlice";
+import { setLoading, removeLoading } from "./../Slices/AuthSlice";
 import { CircularProgress } from "@mui/material";
 import { useRequestCall } from "../hook";
 
@@ -16,12 +17,9 @@ const CartCard = ({ cartItems }) => {
   // console.log(cartItems[0].quantity);
   const removeFromCart = (dish) => {
     dispatch(setLoading());
-    setTimeout(() => {
-      handleRemoveCall(dish);
-    }, 3000);
-  };
-
-  function handleRemoveCall(dish) {
+    // setTimeout(() => {
+    //   handleRemoveCall(dish);
+    // }, 3000);
     axios
       .delete(`http://localhost:3000/cart/${dish._id}`)
       .then((response) => {
@@ -34,7 +32,22 @@ const CartCard = ({ cartItems }) => {
       .finally(() => {
         dispatch(removeLoading());
       });
-  }
+    };
+
+  // function handleRemoveCall(dish) {
+  //   axios
+  //     .delete(`http://localhost:3000/cart/${dish._id}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       dispatch(setCart(response.data.cart));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
+  //     .finally(() => {
+  //       dispatch(removeLoading());
+  //     });
+  // }
 
 
   // function removeFromCart(dish) {
@@ -50,25 +63,38 @@ const CartCard = ({ cartItems }) => {
 
   function handleQuantity(dish, increment) {
     dispatch(setLoading());
-    setTimeout(() => {
-      handleUpdateCall(dish, increment);
-    }, 3000);
+    // setTimeout(() => {
+    //   handleUpdateCall(dish, increment);
+    // }, 3000);
+      axios
+        .patch(`http://localhost:3000/cart/${dish._id}`, { changeQuantity :increment })
+        .then((response) => {
+          console.log(response.data);
+          dispatch(setCart(response.data.cart));
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          dispatch(removeLoading());
+        });
+
   }
 
-  function handleUpdateCall(dish, increment) {
-    axios
-      .patch(`http://localhost:3000/cart/${dish._id}`, { changeQuantity :increment })
-      .then((response) => {
-        console.log(response.data);
-        dispatch(setCart(response.data.cart));
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        dispatch(removeLoading());
-      });
-  }
+  // function handleUpdateCall(dish, increment) {
+  //   axios
+  //     .patch(`http://localhost:3000/cart/${dish._id}`, { changeQuantity :increment })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       dispatch(setCart(response.data.cart));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     })
+  //     .finally(() => {
+  //       dispatch(removeLoading());
+  //     });
+  // }
 
   return (
     <div className="relative">

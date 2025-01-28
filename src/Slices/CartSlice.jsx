@@ -20,15 +20,9 @@ const cartSlice = createSlice({
             console.log(state.items);
 
         },
-        setLoading:(state,action) =>{
-            state.loading = true;
-        },
-        removeLoading:(state,action) =>{
-            state.loading = false;
-        }
     },
 });
 
-export const {setCart, emptyCart , addToCart, setLoading, removeLoading} = cartSlice.actions;
+export const {setCart, emptyCart , addToCart} = cartSlice.actions;
 
 export default cartSlice.reducer;

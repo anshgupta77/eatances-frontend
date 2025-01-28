@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setDish } from "../Slices/DishSlice";
 import { setCart } from "../Slices/CartSlice";
 import { useState } from "react";
+import EditDish from "./EditDish";
 const DishCard = ({ dishes }) => {
   const dispatch = useDispatch();
 
@@ -52,9 +53,9 @@ const DishCard = ({ dishes }) => {
   return (
     <>
       {isEditing && (
-        <EditDish dish={currentDish} onClose={closeEditModal} />
+        <EditDish dish={currentDish} onClose={closeEditModal}  />
       )}
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+      <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center ">
         Dishes Menu
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">

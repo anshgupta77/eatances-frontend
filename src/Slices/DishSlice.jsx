@@ -9,10 +9,16 @@ const dishSlice = createSlice({
     reducers: {
         setDish:(state , action) =>{
             state.items = action.payload;
-        }
+            console.log(state.items);
+        },
+        updateDish: (state, action) => {
+            const {updatedDish, id} = action.payload;
+            const index = state.items.findIndex((dish) => dish._id === id);
+            state.items[index] = updatedDish;
+        },
     }
 });
 
-export const { setDish } = dishSlice.actions;
+export const { setDish , updateDish} = dishSlice.actions;
 
 export default dishSlice.reducer;
