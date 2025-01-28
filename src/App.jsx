@@ -1,11 +1,11 @@
 import './App.css'
-import Navbar from "./components/Navbar"
+// import Navbar from "./components/Navbar"
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
 import ProfilePage from './pages/ProfilePage';
 import DishPage from './pages/DishesPage';
-import NavBar from './components/NavBar';
+import NavBar from './components/Navbar';
 import CounterPage from './pages/CounterPage';
 import Connect from './components/Connect';
 import { useEffect } from 'react';
@@ -13,17 +13,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setCart} from './Slices/CartSlice';
 import { useRequestCall } from './hook';
-function Layout(element){
-  
-  return (
-    <>
-      <Header />
-      <Navbar />
-      {element} 
-      <Connect />
-      <Footer />
-    </>
-  )}
+
 
 function App() { 
   const dispatch = useDispatch();
