@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setCart} from './Slices/CartSlice';
 import { useRequestCall } from './hook';
+import UserPage from './pages/UserPage';
 
 
 function App() { 
@@ -54,6 +55,7 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/dish/counter/:id" element={<DishPage />} />
+          <Route path="/user" element={<UserPage />} />
         </Routes>
         <Connect/>
       </Router>

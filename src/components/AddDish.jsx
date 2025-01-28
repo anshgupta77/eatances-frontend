@@ -1,36 +1,42 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { setDish , updateDish} from "../Slices/DishSlice";
+import { useDispatch } from "react-redux";
 import { setLoading, removeLoading } from "../Slices/AuthSlice";
+import { addDish } from "../Slices/DishSlice";
+import { CircularProgress } from "@mui/material";
+import { useParams } from "react-router-dom";
 
-const EditDish = ({ dish, onClose }) => {
-  const loading = useSelector((state) => state.auth.loading); // Get loading state from Redux
-  const [updatedDish, setUpdatedDish] = useState({ ...dish });
+const AddDish = ({ onClose }) => {
   const dispatch = useDispatch();
+  const counterId = useParams().id;
+  const [newDish, setNewDish] = useState({
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+    counter: counterId,
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedDish({ ...updatedDish, [name]: value });
+    setNewDish({ ...newDish, [name]: value });
   };
 
-  const saveChanges = () => {
-    console.log("dish id:", dish._id);
+  const handleAddDish = () => {
     dispatch(setLoading());
     axios
-      .patch(`http://localhost:3000/dish/${dish._id}`, updatedDish)
+      .post("http://localhost:3000/dish", newDish)
       .then((response) => {
-        console.log("Updated dish:", response.data);
-        const updatedDish = response.data.dish;
-        dispatch(updateDish({updatedDish: updatedDish, id: dish._id})); // Update dishes in the Redux store
-        // Close the modal
+        console.log("New dish added:", response.data);
+        dispatch(addDish(response.data.dish)); // Update the Redux store with new dishes
+         // Close the modal
       })
       .catch((error) => {
-        console.error("Error updating dish:", error);
+        console.error("Error adding dish:", error);
       })
       .finally(() => {
-        dispatch(removeLoading());
         onClose();
+        dispatch(removeLoading());
       });
   };
 
@@ -44,7 +50,7 @@ const EditDish = ({ dish, onClose }) => {
 
       {/* Modal Content */}
       <div className="fixed bg-white p-6 rounded-lg shadow-lg w-96 z-10">
-        <h2 className="text-xl font-bold mb-4">Edit Dish</h2>
+        <h2 className="text-xl font-bold mb-4">Add New Dish</h2>
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -53,7 +59,7 @@ const EditDish = ({ dish, onClose }) => {
           <input
             type="text"
             name="name"
-            value={updatedDish.name}
+            value={newDish.name}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -65,7 +71,7 @@ const EditDish = ({ dish, onClose }) => {
           </label>
           <textarea
             name="description"
-            value={updatedDish.description}
+            value={newDish.description}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           ></textarea>
@@ -78,10 +84,23 @@ const EditDish = ({ dish, onClose }) => {
           <input
             type="number"
             name="price"
-            value={updatedDish.price}
+            value={newDish.price}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+
+         <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+            Image
+        </label>
+        <input
+            type="text"
+            name="image"
+            value={newDish.imageUrl}
+            onChange={(e) => setNewDish({ ...newDish, image: e.target.value })}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
         </div>
 
         <div className="mb-4">
@@ -91,7 +110,7 @@ const EditDish = ({ dish, onClose }) => {
           <input
             type="text"
             name="category"
-            value={updatedDish.category}
+            value={newDish.category}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -105,7 +124,7 @@ const EditDish = ({ dish, onClose }) => {
             Cancel
           </button>
           <button
-            onClick={saveChanges}
+            onClick={handleAddDish}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
           >
             Save
@@ -116,4 +135,5 @@ const EditDish = ({ dish, onClose }) => {
   );
 };
 
-export default EditDish;
+
+export default AddDish;

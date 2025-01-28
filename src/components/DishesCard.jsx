@@ -1,16 +1,22 @@
 import React from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import { setDish } from "../Slices/DishSlice";
 import { setCart } from "../Slices/CartSlice";
 import { useState } from "react";
 import EditDish from "./EditDish";
+import { Link } from "react-router-dom";
 const DishCard = ({ dishes }) => {
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
   const [currentDish, setCurrentDish] = useState(null);
+  const items = useSelector(state => state.cart.items);
+  
 
+  function isInCart(dish){
+    return items.some(item => item.dish._id === dish._id);
+  }
   const openEditModal = (dish) => {
     setCurrentDish(dish);
     setIsEditing(true);
@@ -55,14 +61,12 @@ const DishCard = ({ dishes }) => {
       {isEditing && (
         <EditDish dish={currentDish} onClose={closeEditModal}  />
       )}
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center ">
-        Dishes Menu
-      </h1>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {dishes.map((dish) => (
           <div
             key={dish._id}
-            className="bg-white rounded-2xl shadow-lg overflow-hidden transition transform hover:scale-105 hover:shadow-2xl"
+            className="bg-white rounded-2xl overflow-hidden transition transform hover:scale-105 hover:shadow-2xl"
           >
             <img
               src={dish.image}
@@ -90,12 +94,19 @@ const DishCard = ({ dishes }) => {
                 </p>
               )}
               <div className="flex justify-between mt-6">
-                <button
+
+                {isInCart(dish) ? (
+                  <Link to="/cart"><button
+                  className="bg-yellow-400 text-black px-4 py-2 rounded-lg hover:bg-yellow-500">  <span className="text-sm text-black">Go to Cart</span></button></Link>
+                ):(
+                  <button
                   onClick={()=>addItemToCart(dish)}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                   Add to Cart
                 </button>
+                )}
+                
                 <div className="flex space-x-4">
                   <button
                     onClick={() => openEditModal(dish)}

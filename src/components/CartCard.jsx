@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "./../Slices/CartSlice";
 import { setLoading, removeLoading } from "./../Slices/AuthSlice";
 import { CircularProgress } from "@mui/material";
+import { FiTrash } from "react-icons/fi";
 import { useRequestCall } from "../hook";
 
 const CartCard = ({ cartItems }) => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.cart.loading); // Get loading state from Redux
+  const loading = useSelector((state) => state.auth.loading); // Get loading state from Redux
+
 
   // const [loading1, makeDeleteRequest] = useRequestCall("delete");
   // const [loading2, makePatchRequest] = useRequestCall("patch");
@@ -98,16 +100,19 @@ const CartCard = ({ cartItems }) => {
 
   return (
     <div className="relative">
+      
       {/* CircularProgress Overlay */}
-      {loading && (
-        <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
-          <CircularProgress />
-        </div>
-      )}
-
-      {/* Main Content */}
-      <div className={`transition-opacity duration-300`}>
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+      {loading ? (
+        <> 
+          {console.log("loading" , loading)}
+          <div className="absolute inset-0 flex justify-center align-center bg-transparent opacity-50 z-50">
+            <CircularProgress />
+          </div>
+        </>
+      ):(
+        <>
+           <div className={`transition-opacity duration-300`}>
+           <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
           Carts Menu
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
@@ -150,12 +155,29 @@ const CartCard = ({ cartItems }) => {
                       Remove
                     </button>
                   <div className="flex items-center gap-1.5">
-                  <button
+                  {/* <button
+                    onClick={() => handleQuantity(item.dish, -1)}
+                    className="bg-gray-200 px-2 py-1 rounded-l-lg text-gray-800 hover:bg-gray-300"
+                    >
+                    {item.quantity === 1 ? "remove": "-"}
+                  </button> */}
+
+                  {item.quantity === 1 ? (
+                    <button
+                    onClick={() => removeFromCart(item.dish)}
+                    className="bg-gray-200 px-2 py-1 rounded-l-lg text-gray-800 hover:bg-gray-300"
+                    >
+                    delete
+                  </button>
+                  ):(
+                    <button
                     onClick={() => handleQuantity(item.dish, -1)}
                     className="bg-gray-200 px-2 py-1 rounded-l-lg text-gray-800 hover:bg-gray-300"
                     >
                     -
                   </button>
+                  )
+                  }
                   <span className="px-4 py-1 bg-gray-100 text-gray-800">
                     {item.quantity}
                   </span>
@@ -174,6 +196,12 @@ const CartCard = ({ cartItems }) => {
           ))}
         </div>
       </div>
+        </>
+
+      )}
+
+      {/* Main Content */}
+     
     </div>
   );
 };

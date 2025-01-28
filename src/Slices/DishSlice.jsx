@@ -16,9 +16,13 @@ const dishSlice = createSlice({
             const index = state.items.findIndex((dish) => dish._id === id);
             state.items[index] = updatedDish;
         },
+        addDish: (state, action) => {
+            console.log("Adding dish", action.payload);
+            state.items.push(action.payload);
+        }
     }
 });
 
-export const { setDish , updateDish} = dishSlice.actions;
+export const { setDish , updateDish, addDish} = dishSlice.actions;
 
 export default dishSlice.reducer;
