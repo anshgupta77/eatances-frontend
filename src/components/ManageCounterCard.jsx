@@ -1,29 +1,7 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-
-// const CounterCard = ({ counterData }) => {
-//   return (
-//     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 h-[70vh]">
-//       {/* Since counterData is a single object, you don't need to map */}
-
-//       {counterData.map((counter) => (
-//       <Link to={`/dish/counter/${counter._id}`}>
-//         <div className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
-//           <h2 className="text-xl font-bold text-gray-800 mb-2">{counter.name}</h2>
-//         </div>
-//       </Link>
-//        ))}
-//     </div>
-//   );
-// };
-
-// export default CounterCard;
-
-
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CounterCard = ({ counterData }) => {
+const ManageCounterCard = ({ counterData }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
       {/* Iterate through each counter */}
@@ -40,8 +18,8 @@ const CounterCard = ({ counterData }) => {
           </Link>
 
           {/* Merchants Section */}
-          {/* <div className="mt-4 ">
-            <h3 className="text-lg font-semibold  text-gray-700">Owned by:</h3>
+          <div className="mt-4 ">
+            <h3 className="text-lg font-semibold text-gray-700">Owned by:</h3>
             <ul className="list-disc list-inside mt-2 space-y-1">
               {counter.merchants && counter.merchants.length > 0 ? (
                 counter.merchants.map((merchant) => (
@@ -56,12 +34,12 @@ const CounterCard = ({ counterData }) => {
                 <li className="text-gray-500 text-sm">No merchants assigned</li>
               )}
             </ul>
-          </div> */}
+          </div>
         </div>
       ))}
     </div>
   );
 };
 
-export default CounterCard;
+export default ManageCounterCard;
 

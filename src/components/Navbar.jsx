@@ -55,7 +55,9 @@ const NewNavbar = () => {
             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-600 rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
         </div>
         <div className="relative hover:text-green-600 cursor-pointer group">
-                        About us
+            <Link to="/managecounter">
+            Manage Counter
+            </Link>
             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-600 rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
         </div>
         <div className="relative hover:text-green-600 cursor-pointer group">

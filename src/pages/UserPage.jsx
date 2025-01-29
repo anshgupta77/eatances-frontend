@@ -17,8 +17,8 @@ const UserPage = () => {
         axios("http://localhost:3000/user") // Replace with your backend URL
             .then(response => {
                 console.log(response);
-                console.log(response?.data?.user || []);
-                dispatch(setUser(response.data.user)); // Assuming the response contains users data
+                console.log(response?.data?.users || []);
+                dispatch(setUser(response.data.users)); // Assuming the response contains users data
             })
             .catch(error => console.log(error))
             .finally(() => {
@@ -28,12 +28,13 @@ const UserPage = () => {
 
     return ( 
         <div>
-            {loading && (
+            {loading ? (
             <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
+                {console.log("loading")}
                 <CircularProgress />
             </div>
-            )}
-            <div>
+            ) : (
+                <div>
                 {users && users.length > 0 ? (
                     users.map(user => (
                         <UserCard key={user.id} userData={user} /> // Display each user in a card
@@ -42,6 +43,7 @@ const UserPage = () => {
                     <p>No users found</p>
                 )}
             </div>
+            )}
         </div>
      );
 }
