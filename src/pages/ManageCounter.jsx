@@ -81,7 +81,7 @@ const ManageCounter = () => {
         axios.get("http://localhost:3000/counter")
             .then(response => {
                 console.log(response);
-                dispatch(setCounter(response.data.counters));
+                dispatch(setCounter(response?.data?.counters || []));
             })
             .catch(error => console.log(error))
             .finally(() => {

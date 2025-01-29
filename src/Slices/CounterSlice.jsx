@@ -14,10 +14,16 @@ const counterSlice = createSlice({
         addCounter: (state, action) => {
             console.log("Adding counter", action.payload);
             state.items.push(action.payload);
-        }
+        },
+        updateCounter: (state, action) => {
+            const index = state.items.findIndex((counter) => counter._id === action.payload._id);
+            if(index !== -1){
+                state.items[index] = action.payload;
+            }
+        },
     }
 });
 
-export const { setCounter, addCounter } = counterSlice.actions;
+export const { setCounter, addCounter, updateCounter } = counterSlice.actions;
 
 export default counterSlice.reducer;
