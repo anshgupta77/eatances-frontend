@@ -51,6 +51,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import EditCounterModal from "./EditCounterModal";
 import { Icon } from "lucide-react";
+import editImage from "../assets/editImage.png";
 const ManageCounterCard = ({ counterData }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCounter, setSelectedCounter] = useState(null);
@@ -65,8 +66,9 @@ const ManageCounterCard = ({ counterData }) => {
       {counterData.map((counter) => (
         <div
           key={counter._id}
-          className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition"
+          className="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition flex justify-between"
         >
+            <div>
           <Link to={`/dish/counter/${counter._id}`}>
             <h2 className="text-xl font-bold text-gray-800 mb-4 hover:underline">
               {counter.name}
@@ -91,13 +93,10 @@ const ManageCounterCard = ({ counterData }) => {
             </ol>
           </div>
 
+            </div>
+
           <div className="mt-4">
-            <button
-              onClick={() => handleEditClick(counter)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-            >
-                 Edit
-            </button>
+            <img src={editImage} alt="" onClick={() => handleEditClick(counter)} className="w-5 h-5 hover:border-2" />
           </div>
         </div>
       ))}
