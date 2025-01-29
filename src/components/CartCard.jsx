@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "./../Slices/CartSlice";
 import { setLoading, removeLoading } from "./../Slices/AuthSlice";
 import { CircularProgress } from "@mui/material";
+import deleteImage from "../assets/delete.png";
 import { FiTrash } from "react-icons/fi";
 import { useRequestCall } from "../hook";
 
@@ -167,7 +168,7 @@ const CartCard = ({ cartItems }) => {
                     onClick={() => removeFromCart(item.dish)}
                     className="bg-gray-200 px-2 py-1 rounded-l-lg text-gray-800 hover:bg-gray-300"
                     >
-                    delete
+                    <img src={deleteImage} alt="" className="w-5 h-5"/>
                   </button>
                   ):(
                     <button

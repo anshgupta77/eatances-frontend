@@ -21,9 +21,13 @@ const counterSlice = createSlice({
                 state.items[index] = action.payload;
             }
         },
+        deleteCounter: (state, action) => {
+            console.log("Deleting counter", action.payload);
+            state.items = state.items.filter(item => item._id !== action.payload._id);
+        }
     }
 });
 
-export const { setCounter, addCounter, updateCounter } = counterSlice.actions;
+export const { setCounter, addCounter, updateCounter , deleteCounter} = counterSlice.actions;
 
 export default counterSlice.reducer;
