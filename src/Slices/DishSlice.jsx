@@ -19,10 +19,15 @@ const dishSlice = createSlice({
         addDish: (state, action) => {
             console.log("Adding dish", action.payload);
             state.items.push(action.payload);
+        },
+        removeDish: (state, action) => {
+            const dish = action.payload;
+            state.items = state.items.filter(item => item._id !== dish._id);
         }
+
     }
 });
 
-export const { setDish , updateDish, addDish} = dishSlice.actions;
+export const { setDish , updateDish, addDish, removeDish} = dishSlice.actions;
 
 export default dishSlice.reducer;

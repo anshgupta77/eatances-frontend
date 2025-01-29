@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch , useSelector} from "react-redux";
-import { setDish } from "../Slices/DishSlice";
+import { removeDish } from "../Slices/DishSlice";
 import { setCart } from "../Slices/CartSlice";
 import { useState } from "react";
 import EditDish from "./EditDish";
 import { Link } from "react-router-dom";
+import { removeLoading, setLoading } from "../Slices/AuthSlice";
 const DishCard = ({ dishes }) => {
   const dispatch = useDispatch();
 
@@ -46,11 +47,18 @@ const DishCard = ({ dishes }) => {
 
 
   function deleteDish(id){
+    dispatch(setLoading());
     axios.delete(`http://localhost:3000/dish/${id}`)
     .then(response =>{
         console.log(response.data);
-        dispatch(setDish(response.data.counterDish));
+        dispatch(removeDish(response.data.dish));
     })
+    .catch(error =>{
+        console.log(error);
+    }).finally(()=>{
+        dispatch(removeLoading());
+    })
+
   }
 
 

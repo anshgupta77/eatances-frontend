@@ -21,9 +21,16 @@ const authSlice = createSlice({
             const user = action.payload;
             state.items = state.items.filter(item => item._id !== user._id);
         },
+        updateUser: (state, action) => {
+            const user = action.payload;
+            const index = state.items.findIndex(item => item._id === user._id);
+            if (index !== -1) {
+                state.items[index] = user;
+            }
+        }
     },
 });
 
-export const { setLoading, removeLoading, setUser, removeUser } = authSlice.actions;
+export const { setLoading, removeLoading, setUser, removeUser, updateUser } = authSlice.actions;
 
 export default authSlice.reducer;
