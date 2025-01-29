@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { updateCounter } from "../Slices/CounterSlice";
+import { updateCounter } from "../../Slices/CounterSlice";
 import { useDispatch } from "react-redux";
+import { useRequestCall } from "../../hook"; 
 
 const EditCounterModal = ({ counter, onClose }) => {
   const [counterName, setCounterName] = useState(counter.name);
   const [merchants, setMerchants] = useState([]);
+  const [callingPatchRequest] = useRequestCall("patch");
+  const [callingGetRequest] = useRequestCall("get");
+  console.log("Counter the edit page ");
   const [selectedMerchants, setSelectedMerchants] = useState(
     counter.merchants.map((merchant) => merchant._id)
   );
   const dispatch = useDispatch();
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
     // Fetch all users for merchant selection
-    axios
-      .get("http://localhost:3000/user")
-      .then((response) => setMerchants(response.data.users))
-      .catch((error) => console.error("Error fetching users:", error));
+   
+    axios.get("http://localhost:3000/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    })
+      .then((response) => {
+        console.log(response?.data?.users || []);
+        setMerchants(response.data.users)
+    })
   }, []);
 
   const handleMerchantChange = (merchantId) => {
@@ -31,10 +41,13 @@ const EditCounterModal = ({ counter, onClose }) => {
     e.preventDefault();
 
     // Send the updated counter details to the backend
-    axios
-      .patch(`http://localhost:3000/counter/${counter._id}`, {
+    axios.patch(`http://localhost:3000/counter/${counter._id}`, {
         name: counterName,
         merchants: selectedMerchants,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       })
       .then((response) => {
         console.log("Counter updated:", response.data.counter);

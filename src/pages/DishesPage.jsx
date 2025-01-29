@@ -2,57 +2,37 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setDish } from "./../Slices/DishSlice";
-import DishCard from "../components/DishesCard";
+import DishCard from "../components/Cards/DishesCard";
 import { useParams } from "react-router-dom";
 import { useRequestCall } from "../hook";
 import { CircularProgress } from "@mui/material";
-import { setLoading, removeLoading } from "../Slices/AuthSlice";
+import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { useState } from "react";
-import AddDish from "../components/AddDish";
+import AddDish from "../components/Modals/AddDish";
 
 const DishesPage = () => {
   const dispatch = useDispatch();
   const dishes = useSelector((state) => state.dish.items);
-  const loading = useSelector((state) => state.auth.loading); // Get loading state from Redux
+  const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
   const [counter, setCounter] = useState({});
-  // const [loading, fetchDish] = useRequestCall("get");
+  const [fetchDish] = useRequestCall("get");
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
+  
   console.log(dishes);
   const {id} = useParams();
 
-  // useEffect(() => {
-  //   axios(`http://localhost:3000/dish/counter/${id}`) // Replace with your actual API endpoint
-  //     .then((response) => {
-  //       console.log(response);
-  //       dispatch(setDish(response?.data?.counterDish || []));
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
 
   useEffect(() => {
-    dispatch(setLoading());
-    axios
-    .get(`http://localhost:3000/counter/${id}`)
+    fetchDish(`http://localhost:3000/counter/${id}`)
     .then(response => {
       console.log(response);
       setCounter(response.data.counter)
     })
-    .catch(error => console.log(error));
-
-
-    axios.get(`http://localhost:3000/dish/counter/${id}`) // Replace with your actual API endpoint
+    fetchDish(`http://localhost:3000/dish/counter/${id}`) // Replace with your actual API endpoint
       .then((response) => {
         console.log(response);
         dispatch(setDish(response?.data?.counterDish || []));
       })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        dispatch(removeLoading());
-      });
-
-
 
   }, []);
 

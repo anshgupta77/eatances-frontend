@@ -1,104 +1,45 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart } from "./../Slices/CartSlice";
-import { setLoading, removeLoading } from "./../Slices/AuthSlice";
+import { setCart } from "../../Slices/CartSlice";
+import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import deleteImage from "../assets/delete.png";
 import { FiTrash } from "react-icons/fi";
-import { useRequestCall } from "../hook";
+import { useRequestCall } from "../../hook";
 
 const CartCard = ({ cartItems }) => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.auth.loading); // Get loading state from Redux
+  const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
 
 
-  // const [loading1, makeDeleteRequest] = useRequestCall("delete");
-  // const [loading2, makePatchRequest] = useRequestCall("patch");
+  const [makeDeleteRequest] = useRequestCall("delete");
+  const [makePatchRequest] = useRequestCall("patch");
   console.log(loading);
 
   // console.log(cartItems[0].quantity);
   const removeFromCart = (dish) => {
-    dispatch(setLoading());
-    // setTimeout(() => {
-    //   handleRemoveCall(dish);
-    // }, 3000);
-    axios
-      .delete(`http://localhost:3000/cart/${dish._id}`)
+   
+    makeDeleteRequest(`http://localhost:3000/cart/${dish._id}`)
       .then((response) => {
         console.log(response.data);
         dispatch(setCart(response.data.cart));
       })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        dispatch(removeLoading());
-      });
     };
 
-  // function handleRemoveCall(dish) {
-  //   axios
-  //     .delete(`http://localhost:3000/cart/${dish._id}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       dispatch(setCart(response.data.cart));
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     })
-  //     .finally(() => {
-  //       dispatch(removeLoading());
-  //     });
-  // }
 
 
-  // function removeFromCart(dish) {
-  //   makeDeleteRequest(`http://localhost:3000/cart/${dish._id}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       dispatch(setCart(response?.data?.cart || []));
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
+
 
   function handleQuantity(dish, increment) {
-    dispatch(setLoading());
-    // setTimeout(() => {
-    //   handleUpdateCall(dish, increment);
-    // }, 3000);
-      axios
-        .patch(`http://localhost:3000/cart/${dish._id}`, { changeQuantity :increment })
+    makePatchRequest(`http://localhost:3000/cart/${dish._id}`, { changeQuantity :increment })
         .then((response) => {
           console.log(response.data);
           dispatch(setCart(response.data.cart));
         })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          dispatch(removeLoading());
-        });
 
   }
-
-  // function handleUpdateCall(dish, increment) {
-  //   axios
-  //     .patch(`http://localhost:3000/cart/${dish._id}`, { changeQuantity :increment })
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       dispatch(setCart(response.data.cart));
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     })
-  //     .finally(() => {
-  //       dispatch(removeLoading());
-  //     });
-  // }
-
+  
   return (
     <div className="relative">
       

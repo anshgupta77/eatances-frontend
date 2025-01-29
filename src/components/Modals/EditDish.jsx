@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setDish , updateDish} from "../Slices/DishSlice";
-import { setLoading, removeLoading } from "../Slices/AuthSlice";
+import { setDish , updateDish} from "../../Slices/DishSlice";
+import { setLoading, removeLoading } from "../../Slices/UserSlice";
+import { useRequestCall } from "../../hook";
 
 const EditDish = ({ dish, onClose }) => {
-  const loading = useSelector((state) => state.auth.loading); // Get loading state from Redux
+  const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
   const [updatedDish, setUpdatedDish] = useState({ ...dish });
+  const [callingRequest] = useRequestCall("patch");
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
@@ -16,22 +18,12 @@ const EditDish = ({ dish, onClose }) => {
 
   const saveChanges = () => {
     console.log("dish id:", dish._id);
-    dispatch(setLoading());
-    axios
-      .patch(`http://localhost:3000/dish/${dish._id}`, updatedDish)
+    callingRequest(`http://localhost:3000/dish/${dish._id}`, updatedDish)
       .then((response) => {
         console.log("Updated dish:", response.data);
         const updatedDish = response.data.dish;
-        dispatch(updateDish({updatedDish: updatedDish, id: dish._id})); // Update dishes in the Redux store
-        // Close the modal
+        dispatch(updateDish({updatedDish: updatedDish, id: dish._id})); 
       })
-      .catch((error) => {
-        console.error("Error updating dish:", error);
-      })
-      .finally(() => {
-        dispatch(removeLoading());
-        onClose();
-      });
   };
 
   return (

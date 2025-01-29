@@ -1,17 +1,20 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch , useSelector} from "react-redux";
-import { removeDish } from "../Slices/DishSlice";
-import { setCart } from "../Slices/CartSlice";
+import { removeDish } from "../../Slices/DishSlice";
+import { setCart } from "../../Slices/CartSlice";
 import { useState } from "react";
-import EditDish from "./EditDish";
+import EditDish from "../Modals/EditDish";
 import { Link } from "react-router-dom";
-import { removeLoading, setLoading } from "../Slices/AuthSlice";
+import { useRequestCall } from "../../hook";
+import { removeLoading, setLoading } from "../../Slices/UserSlice";
 const DishCard = ({ dishes }) => {
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
   const [currentDish, setCurrentDish] = useState(null);
+  const [callingPostRequest] = useRequestCall("post");
+  const [callingDeleteRequest] = useRequestCall("delete");
   const items = useSelector(state => state.cart.items);
   
 
@@ -30,35 +33,22 @@ const DishCard = ({ dishes }) => {
 
 
   function addItemToCart(dish){
-    axios.post("http://localhost:3000/cart", {dish: dish._id})
+    callingPostRequest("http://localhost:3000/cart", {dish: dish._id})
     .then(response =>{
         console.log(response);
         dispatch(setCart(response?.data?.cart || []));
     })
   }
 
-  // function editDish(dish){
-  //   axios.post("http://localhost:3000/dish", {dish: dish._id})
-  //   .then(response =>{
-  //       console.log(response);
-  //       dispatch(setCart(response.data.cart));
-  //   })
-  // }
+
 
 
   function deleteDish(id){
-    dispatch(setLoading());
-    axios.delete(`http://localhost:3000/dish/${id}`)
+    callingDeleteRequest(`http://localhost:3000/dish/${id}`)
     .then(response =>{
         console.log(response.data);
         dispatch(removeDish(response.data.dish));
     })
-    .catch(error =>{
-        console.log(error);
-    }).finally(()=>{
-        dispatch(removeLoading());
-    })
-
   }
 
 

@@ -1,37 +1,3 @@
-// import sankalp from "../assets/sankalp.webp";
-// import barkat from "../assets/barkat.webp";
-// import chaalo from "../assets/chaalo-oshawa.webp";
-// import tadka from "../assets/tadka-king.webp";
-// import fresh from "../assets/fresh-slice.webp"
-
-// const BrandsPhoto = [
-//     sankalp, barkat, chaalo, tadka, fresh
-// ];
-
-// const Brand = () => {
-//     return ( 
-//         <div>
-//             <div>
-//                 Your Favourite Brands, All in One Place
-//             </div>
-//             <div>
-//                 Eatance partners with the best restaurants and event organizers to bring you an unmatched selection of coupons and deals.
-//             </div>
-//             <div>
-//                 {BrandsPhoto.map((brand, index) => (
-//                     <div key={index}>
-//                         <img src={brand} alt="" />
-//                     </div>
-//                 ))}
-//             </div>
-//         </div>
-//      );
-// }
- 
-// export default Brand;
-
-
-
 import sankalp from "../assets/sankalp.webp";
 import barkat from "../assets/barkat.webp";
 import chaalo from "../assets/chaalo-oshawa.webp";

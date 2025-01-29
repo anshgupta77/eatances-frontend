@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading, removeLoading } from "../Slices/AuthSlice";
-import { addDish } from "../Slices/DishSlice";
+import { setLoading, removeLoading } from "../../Slices/UserSlice";
+import { addDish } from "../../Slices/DishSlice";
 import { CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
+import { useRequestCall } from "../../hook";
 
 const AddDish = ({ onClose }) => {
   const dispatch = useDispatch();
   const counterId = useParams().id;
+  const [callingRequest] = useRequestCall("post");
   const [newDish, setNewDish] = useState({
     name: "",
     description: "",
@@ -23,20 +25,16 @@ const AddDish = ({ onClose }) => {
   };
 
   const handleAddDish = () => {
-    dispatch(setLoading());
-    axios
-      .post("http://localhost:3000/dish", newDish)
+    callingRequest("http://localhost:3000/dish", newDish)
       .then((response) => {
         console.log("New dish added:", response.data);
-        dispatch(addDish(response.data.dish)); // Update the Redux store with new dishes
-         // Close the modal
+        dispatch(addDish(response.data.dish)); 
       })
       .catch((error) => {
         console.error("Error adding dish:", error);
       })
       .finally(() => {
         onClose();
-        dispatch(removeLoading());
       });
   };
 

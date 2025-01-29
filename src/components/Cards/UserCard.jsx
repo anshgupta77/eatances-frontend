@@ -3,41 +3,36 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import userProfile from "../assets/userprofile.jpeg";
+import userProfile from "../../assets/userprofile.jpeg";
 import { useSelector, useDispatch } from 'react-redux';
-import { removeUser , updateUser} from '../Slices/AuthSlice';
+import { removeUser , updateUser} from '../../Slices/UserSlice';
+import { useRequestCall } from '../../hook';
 
 const UserCard = ({ userData}) => {
-    const loading = useSelector(state => state.auth.loading);
+    const loading = useSelector(state => state.user.loading);
     const dispatch = useDispatch();
     const [selectedRole, setSelectedRole] = useState(userData.role);
-
+    const [callingPatchRequest] = useRequestCall("patch");
+    const [callingDeleteRequest] = useRequestCall("delete");
     // Handle role change
     const handleRoleChange = (event) => {
         const newRole = event.target.value;
         setSelectedRole(newRole);
-    
-        axios.patch(`http://localhost:3000/user/${userData._id}/role`, { role: newRole })
+        callingPatchRequest(`http://localhost:3000/user/${userData._id}/role`, { role: newRole })
             .then(response => {
                 console.log("Updated user role:", response.data.user);
                 dispatch(updateUser(response.data.user)); // Assuming the response contains the updated user data
             })
-            .catch(error => {
-                console.error("Error updating user role:", error);
-            });
     };
     
 
     // Handle user deletion
     const handleDelete = () => {
-        axios.delete(`http://localhost:3000/user/${userData._id}`)
+        callingDeleteRequest(`http://localhost:3000/user/${userData._id}`)
             .then(response => {
                 console.log(response?.data?.user || {});
                 dispatch(removeUser(response.data.user)); // Assuming the response contains the user data
             })
-            .catch(error => {
-                console.error("There was an error deleting the user!", error);
-            });
     };
 
     return (

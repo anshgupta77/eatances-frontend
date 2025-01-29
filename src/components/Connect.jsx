@@ -1,7 +1,3 @@
-
-
-
-
 const Connect = () => {     
     return ( 
         <div className="">

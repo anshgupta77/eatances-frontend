@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import EditCounterModal from "./EditCounterModal";
-import editImage from "../assets/editImage.png";
-import deleteImage from "../assets/delete.png";
+import EditCounterModal from "../Modals/EditCounter";
+import editImage from "../../assets/editImage.png";
+import deleteImage from "../../assets/delete.png";
 import { useDispatch } from "react-redux";
-import {setLoading, removeLoading } from "../Slices/AuthSlice";
+import {setLoading, removeLoading } from "../../Slices/UserSlice";
 import axios from "axios";
-import { deleteCounter } from "../Slices/CounterSlice";
+import { deleteCounter } from "../../Slices/CounterSlice";
+import { useRequestCall } from "../../hook";
 
 const ManageCounterCard = ({ counterData }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCounter, setSelectedCounter] = useState(null);
+  const [callingRequest] = useRequestCall("delete");
   const dispatch = useDispatch();
   const handleEditClick = (counter) => {
     setSelectedCounter(counter);
@@ -18,16 +20,12 @@ const ManageCounterCard = ({ counterData }) => {
   };
 
   const handleDeleteClick = (counter) => {
-    dispatch(setLoading());
-    axios.delete(`http://localhost:3000/counter/${counter._id}`)
+    callingRequest(`http://localhost:3000/counter/${counter._id}`)
     .then(response => {
         console.log(response?.data);
         dispatch(deleteCounter(response?.data?.counter || {}));
         }
-    ).catch(error => console.log(error))
-    .finally(() =>{
-        dispatch(removeLoading());
-    })
+    )
 }
 
   return (
@@ -40,11 +38,10 @@ const ManageCounterCard = ({ counterData }) => {
           {/* Top section with title and actions */}
           <div className="flex justify-between items-center">
             {/* Counter Name */}
-            <Link to={`/dish/counter/${counter._id}`}>
               <h2 className="text-xl font-bold text-gray-800 hover:underline">
                 {counter.name}
               </h2>
-            </Link>
+    
 
             {/* Edit & Delete Buttons */}
             <div className="flex items-center space-x-3">

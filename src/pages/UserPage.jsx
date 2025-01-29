@@ -2,28 +2,26 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 // import { setUsers } from "../Slices/UserSlice"; // Assuming you have a slice for users
-import UserCard from "../components/UserCard"; // Assuming a component to display user info
-import { setLoading, removeLoading, setUser } from "../Slices/AuthSlice";
+import UserCard from "../components/Cards/UserCard"; // Assuming a component to display user info
+import { setLoading, removeLoading, setUser } from "../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
+import { useRequestCall } from "../hook";
 // import { setUser } from "../Slices/AuthSlice";
 
 const UserPage = () => {
     const dispatch = useDispatch();
-    const users = useSelector(state => state.auth.items);
-    const loading = useSelector(state => state.auth.loading);
+    const users = useSelector(state => state.user.items);
+    const loading = useSelector(state=> state.user.loading);
+
+    const [callingRequest] = useRequestCall("get");
 
     useEffect(() => {
-        dispatch(setLoading());
-        axios("http://localhost:3000/user") // Replace with your backend URL
+        callingRequest("http://localhost:3000/user") // Replace with your backend URL
             .then(response => {
                 console.log(response);
                 console.log(response?.data?.users || []);
                 dispatch(setUser(response.data.users)); // Assuming the response contains users data
             })
-            .catch(error => console.log(error))
-            .finally(() => {
-                dispatch(removeLoading());
-            });
     }, []);
 
     return ( 

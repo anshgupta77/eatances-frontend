@@ -1,30 +1,28 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser, setLoading, removeLoading } from "../Slices/AuthSlice";
-import { addCounter } from "../Slices/CounterSlice";
+import { setUser, setLoading, removeLoading } from "../../Slices/UserSlice";
+import { addCounter } from "../../Slices/CounterSlice";
 import { useSelect } from "@chakra-ui/react";
+import { useRequestCall } from "../../hook";
 
 const AddCounter = ({ onClose }) => {
     const [name, setName] = useState("");
     const [merchant, setMerchant] = useState("");
     // const [search, setSearch] = useState("");
-    const users = useSelector(state => state.auth.items);
+    const users = useSelector(state => state.user.items);
+    const [callingGetRequest] = useRequestCall("get");
+    const [callingPostRequest] = useRequestCall("post");
     const [showDropdown, setShowDropdown] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setLoading());
-        axios("http://localhost:3000/user") // Replace with your backend URL
+        callingGetRequest("http://localhost:3000/user") 
             .then(response => {
                 console.log(response);
                 console.log(response?.data?.users || []);
                 dispatch(setUser(response.data.users)); // Assuming the response contains users data
             })
-            .catch(error => console.log(error))
-            .finally(() => {
-                dispatch(removeLoading());
-            });
     }, []);
 
 
@@ -32,11 +30,10 @@ const AddCounter = ({ onClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        axios.post("http://localhost:3000/counter", { name : name, merchants: [merchant._id]})
+        callingPostRequest("http://localhost:3000/counter", { name : name, merchants: [merchant._id]})
             .then(response => {
                 console.log("Counter added:", response?.data?.counter || {});
-                dispatch(addCounter( response?.data?.counter))// Close modal after successful submission
+                dispatch(addCounter( response?.data?.counter))
             })
             .catch(error => {
                 console.error("Error adding counter:", error);

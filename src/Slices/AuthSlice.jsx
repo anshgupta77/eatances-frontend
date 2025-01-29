@@ -1,36 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const authSlice = createSlice({
-    name: "auth",  
+    name: "auth",
     initialState: {
-        items: [],
-        loading: false,
+        items: {},
     },
     reducers: {
-        setLoading: (state, action) => {
-            state.loading = true;
-            console.log("loading", state.loading);
-        },
-        removeLoading: (state, action) => {
-            state.loading = false;
-        },
-        setUser: (state, action) => {
-            console.log("Setting user", action.payload);
+        setCurrentUser: (state, action) => {
             state.items = action.payload;
         },
-        removeUser: (state, action) => {
-            const user = action.payload;
-            state.items = state.items.filter(item => item._id !== user._id);
+        removeCurrentUser: (state) => {
+            state.items = {};
         },
-        updateUser: (state, action) => {
-            const user = action.payload;
-            const index = state.items.findIndex(item => item._id === user._id);
-            if (index !== -1) {
-                state.items[index] = user;
-            }
-        }
     },
 });
 
-export const { setLoading, removeLoading, setUser, removeUser, updateUser } = authSlice.actions;
+export const { setCurrentUser, removeCurrentUser } = authSlice.actions;
+
 
 export default authSlice.reducer;

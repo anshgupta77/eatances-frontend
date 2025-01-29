@@ -2,49 +2,25 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setCounter } from "../Slices/CounterSlice";
-import CounterCard from "../components/CounterCard";
-import { setLoading, removeLoading } from "../Slices/AuthSlice";
+import CounterCard from "../components/Cards/CounterCard";
+import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
+import { useRequestCall } from "../hook";
 import { Link } from "react-router-dom";
 const CounterPage = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
-    const loading = useSelector(state => state.auth.loading);
+    const loading = useSelector(state => state.user.loading);
+    const [callingRequest] = useRequestCall("get");
     console.log(counter);
-
-
     useEffect(() =>{
-        dispatch(setLoading());
-        // setTimeout(() => {
-        //     handleGetCounterCall();
-        // }, 3000);
-
-
-    
-            axios("http://localhost:3000/counter")
+        callingRequest("http://localhost:3000/counter")
             .then(response => {
                 console.log(response);
                 dispatch(setCounter(response.data.counters))
             })
-            .catch(error => console.log(error))
-            .finally(() => {
-                dispatch(removeLoading());
-            })
     }, [])
 
-    // function handleGetCounterCall(counter){
-    //     axios("http://localhost:3000/counter")
-    //     .then(response => {
-    //         console.log(response);
-    //         dispatch(setCounter(response.data.counters))
-    //     })
-    //     .catch(error => console.log(error))
-    //     .finally(() => {
-    //         dispatch(removeLoading());
-    //     })
-    // }
-
-   
     return ( 
         <div>
             {loading && (

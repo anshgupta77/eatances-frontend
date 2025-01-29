@@ -1,28 +1,30 @@
 import axios from "axios";
 import { useState } from "react";
+import { setLoading, removeLoading } from "./Slices/UserSlice";
+import { useDispatch } from "react-redux";
 
 // Custom hook for making API requests
 export function useRequestCall(method) {
-  const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const call = async (url, body) => {
-    setLoading(true); // Set loading state to true
+    dispatch(setLoading()) // Set loading state to true
     try {
       // Introduce a delay before making the API call
-      await delay(3000); 
+      // await delay(3000); 
 
       // Make the API call
-      return await axios.request(axiosConfig(method, url, body));
+      const token = localStorage.getItem("token");
+      return await axios.request(axiosConfig(method, url, body, token));
  
     } catch (error) {
       console.error(`Error in the ${method} method`, error.message);
       throw error; // Rethrow error for further handling if needed
     } finally {
-      setLoading(false); // Reset loading state
+      dispatch(removeLoading()) // Reset loading state
     }
   };
 
-  return [loading, call];
+  return [call];
 }
 
 // Helper function for adding delay
@@ -31,10 +33,14 @@ function delay(ms) {
 }
 
 // Axios configuration
-function axiosConfig(method, url, body) {
+function axiosConfig(method, url, body, token) {
+  consolelog("Token ",token)
   return {
     method: method,
     url: url,
     data: body,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   };
 }
