@@ -17,7 +17,7 @@ const UserCard = ({ userData}) => {
     // Handle role change
     const handleRoleChange = (event) => {
         const newRole = event.target.value;
-        setSelectedRole(newRole);
+        // setSelectedRole(newRole);
         callingPatchRequest(`http://localhost:3000/user/${userData._id}/role`, { role: newRole })
             .then(response => {
                 console.log("Updated user role:", response.data.user);
@@ -53,7 +53,7 @@ const UserCard = ({ userData}) => {
 
                 {/* Role Selection */}
                 <select 
-                    value={selectedRole} 
+                    value={userData.role} 
                     onChange={handleRoleChange}
                     className="mt-2 p-2 border-collapse border-hidden outline-hidden rounded-md"
                 >

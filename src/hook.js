@@ -34,7 +34,7 @@ function delay(ms) {
 
 // Axios configuration
 function axiosConfig(method, url, body, token) {
-  consolelog("Token ",token)
+  console.log("Token ",token)
   return {
     method: method,
     url: url,

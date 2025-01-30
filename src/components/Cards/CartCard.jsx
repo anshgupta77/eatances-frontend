@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../../Slices/CartSlice";
 import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
-import deleteImage from "../assets/delete.png";
+import deleteImage from "../../assets/delete.png";
 import { FiTrash } from "react-icons/fi";
 import { useRequestCall } from "../../hook";
 

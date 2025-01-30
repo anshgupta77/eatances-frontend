@@ -23,12 +23,15 @@ const CounterPage = () => {
 
     return ( 
         <div>
-            {loading && (
+            {loading ? (
             <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
                 <CircularProgress />
             </div>
+            ) :(
+                <div className="min-h-screen">
+                    <CounterCard counterData={counter}/>    
+                </div>
             )}
-            <CounterCard counterData={counter}/>
         </div>
      );
 }
