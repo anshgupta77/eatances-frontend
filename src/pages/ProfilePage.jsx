@@ -4,7 +4,7 @@ import { removeCurrentUser } from "../Slices/AuthSlice";
 
 const ProfilePage = () => {
     const user = useSelector(state => state.auth.currentUser);
-    console.log(user);
+    // console.log("profile",user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -19,9 +19,21 @@ const ProfilePage = () => {
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="bg-white shadow-lg rounded-xl p-6 w-96 text-center">
                 <h1 className="text-2xl font-semibold text-gray-800">Profile Page</h1>
-                <p className="text-lg text-gray-600 mt-2">Welcome, <span className="font-medium text-gray-800">{user.username}</span></p>
+                {/* <p className="text-lg text-gray-600 mt-2">Welcome, <span className="font-medium text-gray-800">{user.username}</span></p>
                 <p className="text-gray-500 text-sm mt-1">Email: {user.email}</p>
-                <p className="text-gray-500 text-sm mt-1">Role: {user.role}</p>
+                <p className="text-gray-500 text-sm mt-1">Role: {user.role}</p> */}
+
+                {user ? ( // Ensure user exists before accessing properties
+                <>
+                    <p className="text-lg text-gray-600 mt-2">
+                        Welcome, <span className="font-medium text-gray-800">{user.username}</span>
+                    </p>
+                    <p className="text-gray-500 text-sm mt-1">Email: {user.email}</p>
+                    <p className="text-gray-500 text-sm mt-1">Role: {user.role}</p>
+                </>
+            ) : (
+                <p className="text-gray-500 text-sm mt-1">Loading user data...</p>
+            )}
 
                 <button 
                     onClick={handleLogout} 

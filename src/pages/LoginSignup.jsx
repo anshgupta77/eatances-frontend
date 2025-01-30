@@ -46,9 +46,11 @@ const AuthPage = () => {
         // userFetch("http://localhost:4000/user/userinfo")
         dispatch(setCurrentUser(response.data.user));
         dispatch(setCart(response.data.user.cart));
+        console.log("login cart",response.data.user.cart);
         // .then(response =>{
         //   console.log(response);
-          navigate("/profile");
+          // navigate("/profile");
+        navigate("/cart");
       })
       .catch((err) => {
         console.log(err);

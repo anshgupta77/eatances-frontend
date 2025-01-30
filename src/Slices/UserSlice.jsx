@@ -8,13 +8,13 @@ const authSlice = createSlice({
     reducers: {
         setLoading: (state, action) => {
             state.loading = true;
-            console.log("loading", state.loading);
+            // console.log("loading", state.loading);
         },
         removeLoading: (state, action) => {
             state.loading = false;
         },
         setUser: (state, action) => {
-            console.log("Setting user", action.payload);
+            // console.log("Setting user", action.payload);
             state.items = action.payload;
         },
         removeUser: (state, action) => {

@@ -17,11 +17,11 @@ const EditCounterModal = ({ counter, onClose }) => {
   const token = localStorage.getItem("token");
   useEffect(() => {
     // Fetch all users for merchant selection
-   
-    axios.get("http://localhost:3000/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    
+    axios.get("http://localhost:3000/user",{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     })
       .then((response) => {
         console.log(response?.data?.users || []);

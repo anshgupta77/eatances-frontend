@@ -64,7 +64,7 @@ const DishCard = ({ dishes }) => {
         {dishes.map((dish) => (
           <div
             key={dish._id}
-            className="bg-white rounded-2xl overflow-hidden transition transform hover:scale-105 hover:shadow-2xl"
+            className="bg-white rounded-2xl border-1 border-gray-600 hover:shadow-lg"
           >
             <img
               src={dish.image}

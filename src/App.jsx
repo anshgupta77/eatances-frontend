@@ -16,25 +16,15 @@ import { setCart} from './Slices/CartSlice';
 import { useRequestCall } from './hook';
 import UserPage from './pages/UserPage';
 import ManageCounter from './pages/ManageCounter';
+import { setCurrentUser } from './Slices/AuthSlice';
 
 
 function App() { 
   const dispatch = useDispatch();
-  const [fetchCart] = useRequestCall("get");
+  const [CallingRequest] = useRequestCall("get");
 
   
-  // useEffect(()=>{
-  //   dispatch(setLoading());
-  //   axios.get("http://localhost:3000/cart")
-  //   .then(response =>{
-  //     console.log(response?.data?.cart || []);
-  //     dispatch(setCart(response.data.cart));
-  //   }).catch(error =>{
-  //     console.log(error);
-  //   }).finally(()=>{
-  //     dispatch(removeLoading());
-  //   })
-  // }, [])
+
 
   function Layout(component){
     return (
@@ -45,11 +35,24 @@ function App() {
     )
   }
 
+  useEffect(() =>{
+    CallingRequest("http://localhost:3000/user/userinfo")
+    .then(response =>{
+      // console.log("Fetch detail in the app.js",response.data.user);
+      // dispatch(setCart(response.data.user.cart));
+      // const user = response.data.user;
+      dispatch(setCurrentUser(response.data.user));
+      
+    }).catch (error=> {
+      console.log(error);
+    })
+  },[])
+
   useEffect(()=>{
     // dispatch(setLoading());
-    fetchCart("http://localhost:3000/cart")
+    CallingRequest("http://localhost:3000/cart")
     .then(response =>{
-      console.log(response?.data?.cart || []);
+      // console.log(response?.data?.cart || []);
       dispatch(setCart(response.data.cart));
     }).catch(error =>{
       console.log(error);

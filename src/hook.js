@@ -28,13 +28,10 @@ export function useRequestCall(method) {
 }
 
 // Helper function for adding delay
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 // Axios configuration
 function axiosConfig(method, url, body, token) {
-  console.log("Token ",token)
+  // console.log("Token ",token)
   return {
     method: method,
     url: url,
