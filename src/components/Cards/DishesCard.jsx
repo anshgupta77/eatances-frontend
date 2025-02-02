@@ -20,7 +20,7 @@ const DishCard = ({ dishes }) => {
   const items = useSelector(state => state.cart.items);
   
 
-  console.log("Dishes  in the dishCard",dishes.image);
+  
 
   function isInCart(dish){
     return items.some(item => item.dish._id === dish._id);
@@ -57,7 +57,7 @@ const DishCard = ({ dishes }) => {
 
 
 
-  console.log("Dishes in the dishCard",dishes);
+  
   return (
     <>
       {isEditing && (

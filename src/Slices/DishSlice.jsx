@@ -9,7 +9,7 @@ const dishSlice = createSlice({
     reducers: {
         setDish:(state , action) =>{
             state.items = action.payload;
-            console.log(state.items);
+            // console.log(state.items);
         },
         updateDish: (state, action) => {
             const {updatedDish, id} = action.payload;
@@ -17,7 +17,7 @@ const dishSlice = createSlice({
             state.items[index] = updatedDish;
         },
         addDish: (state, action) => {
-            console.log("Adding dish", action.payload);
+            // console.log("Adding dish", action.payload);
             state.items.push(action.payload);
         },
         removeDish: (state, action) => {

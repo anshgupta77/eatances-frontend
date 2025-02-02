@@ -36,7 +36,7 @@ const UserCard = ({ userData}) => {
     };
 
     return (
-        <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg shadow-md mb-4">
+        <div className="flex bg-white items-center space-x-4 p-4 border border-gray-200 rounded-lg shadow-md mb-4">
             {/* Avatar */}
             <div className="flex-shrink-0">
                 <img 

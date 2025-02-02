@@ -18,7 +18,7 @@ const DishesPage = () => {
   const [fetchDish] = useRequestCall("get");
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
   
-  console.log(dishes);
+  
   const {id} = useParams();
 
 
@@ -26,18 +26,18 @@ const DishesPage = () => {
     window.scrollTo(0,0);
     fetchDish(`http://localhost:3000/counter/${id}`)
     .then(response => {
-      console.log(response);
+      // console.log(response);
       setCounter(response.data.counter)
     })
     fetchDish(`http://localhost:3000/dish/counter/${id}`) // Replace with your actual API endpoint
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         dispatch(setDish(response?.data?.counterDish || []));
       })
 
       return () => {
         dispatch(setDish([]));
-        dispatch(setCounter({}));
+        setCounter({});
       }
 
   }, []);
