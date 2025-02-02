@@ -18,15 +18,15 @@ const EditCounterModal = ({ counter, onClose }) => {
   useEffect(() => {
     // Fetch all users for merchant selection
     
-    axios.get("http://localhost:3000/user",{
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
-    })
+    callingGetRequest(`http://localhost:3000/user?role=merchant&page=1&limit=100`)
       .then((response) => {
         console.log(response?.data?.users || []);
         setMerchants(response.data.users)
     })
+
+    return () =>{
+      setMerchants([]);
+    }
   }, []);
 
   const handleMerchantChange = (merchantId) => {
@@ -41,13 +41,9 @@ const EditCounterModal = ({ counter, onClose }) => {
     e.preventDefault();
 
     // Send the updated counter details to the backend
-    axios.patch(`http://localhost:3000/counter/${counter._id}`, {
+    callingPatchRequest(`http://localhost:3000/counter/${counter._id}`, {
         name: counterName,
         merchants: selectedMerchants,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
       })
       .then((response) => {
         console.log("Counter updated:", response.data.counter);
