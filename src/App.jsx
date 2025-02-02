@@ -17,7 +17,8 @@ import { useRequestCall } from './hook';
 import UserPage from './pages/UserPage';
 import ManageCounter from './pages/ManageCounter';
 import { setCurrentUser } from './Slices/AuthSlice';
-
+import AdminPage from './pages/AdminPage';
+import MerchantPage from './pages/MerchantPage';
 
 function App() { 
   const dispatch = useDispatch();
@@ -38,11 +39,7 @@ function App() {
   useEffect(() =>{
     CallingRequest("http://localhost:3000/user/userinfo")
     .then(response =>{
-      // console.log("Fetch detail in the app.js",response.data.user);
-      // dispatch(setCart(response.data.user.cart));
-      // const user = response.data.user;
       dispatch(setCurrentUser(response.data.user));
-      
     }).catch (error=> {
       console.log(error);
     })
@@ -59,11 +56,11 @@ function App() {
     })
   }, [])
   return (
-    <div className="App">
+    <div className="App ">
       <Router>
         {/* <Navbar /> */}
         {/* <NavBar /> */}
-        <Routes>
+        <Routes className="min-h-screen bg-gray-100" >
           <Route path="/" element={Layout(<HomePage />)} />
           <Route path="/counter" element={Layout(<CounterPage />)} />
           <Route path="/cart" element={Layout(<CartPage />)} />
@@ -72,6 +69,8 @@ function App() {
           <Route path="/user" element={Layout(<UserPage />)} />
           <Route path="/managecounter" element={Layout(<ManageCounter />)} />
           <Route path="/loginsignup" element={<AuthPage />} />
+          <Route path="/admin" element={Layout(<AdminPage />)}></Route>
+          <Route path="/merchant" element={Layout(<MerchantPage />)}></Route>
         </Routes>
         <Connect/>
       </Router>

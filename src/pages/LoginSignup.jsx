@@ -49,8 +49,8 @@ const AuthPage = () => {
         console.log("login cart",response.data.user.cart);
         // .then(response =>{
         //   console.log(response);
-          // navigate("/profile");
-        navigate("/cart");
+          navigate("/profile");
+        
       })
       .catch((err) => {
         console.log(err);

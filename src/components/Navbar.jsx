@@ -1,10 +1,21 @@
 import cartImage from "./../assets/cart.png";
 import { ShoppingCart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { removeCurrentUser } from "../Slices/AuthSlice";
 const NewNavbar = () => {
     const cartItems = useSelector(state =>state.cart.items);
     const cartItemsCount = cartItems.length;
+    const token = localStorage.getItem("token");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    function handleLogout() {
+            dispatch(removeCurrentUser());
+            localStorage.removeItem("token");
+            localStorage.removeItem("refresh-token");
+            navigate("/loginsignup");
+        }
   return (
     <div className=" shadow-md sticky top-0 z-50 bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
       <div className="container mx-auto flex items-center justify-between py-4 px-6 w-[90vw] mx-auto">
@@ -37,8 +48,8 @@ const NewNavbar = () => {
             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-600 rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
         </div>
         <div className="relative hover:text-green-600 cursor-pointer group">
-            <Link to="/user" >
-            User
+            <Link to="/admin" >
+            Admin Panel
             </Link>
             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-600 rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
         </div>
@@ -55,8 +66,8 @@ const NewNavbar = () => {
             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-600 rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
         </div>
         <div className="relative hover:text-green-600 cursor-pointer group">
-            <Link to="/managecounter">
-            Manage Counter
+            <Link to="/merchant" >
+            Merchant Panel
             </Link>
             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-green-600 rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
         </div>
@@ -81,12 +92,17 @@ const NewNavbar = () => {
                 <ShoppingCart className="w-8 h-8 text-green-500 cursor-pointer hover:text-green-600" />
             </Link>
         </div>
-            <Link to="/loginsignup">
+            {!token?(<Link to="/loginsignup">
                 <button className="flex items-center justify-center space-x-2 px-8 py-3 text-green-600 text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition-all duration-300">
                 <i className="fi-rr-user text-green-600 text-xl"></i>
                 <span>Login</span>
                 </button>
-            </Link>
+            </Link>): (
+                <button onClick={handleLogout} className="flex items-center justify-center space-x-2 px-8 py-3 text-green-600 text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition-all duration-300">
+                <i className="fi-rr-user text-green-600 text-xl"></i>
+                <span>Logout</span>
+                </button>
+            )}
         </div>
       </div>
     </div>

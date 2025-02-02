@@ -23,6 +23,7 @@ const DishesPage = () => {
 
 
   useEffect(() => {
+    window.scrollTo(0,0);
     fetchDish(`http://localhost:3000/counter/${id}`)
     .then(response => {
       console.log(response);
@@ -34,23 +35,18 @@ const DishesPage = () => {
         dispatch(setDish(response?.data?.counterDish || []));
       })
 
+      return () => {
+        dispatch(setDish([]));
+        dispatch(setCounter({}));
+      }
+
   }, []);
 
 
 
   return (
-    <div className="p-6 min-h-[80vh]">
-    <div className="flex justify-between items-center mb-8">
-      <button
-        onClick={() => setIsAddDishOpen(true)}
-        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
-      >
-        Add Dish
-      </button>
-      <h1 className="text-3xl font-bold text-gray-800 text-center flex-grow">
-        {counter.name}'s Dishes Menu
-      </h1>
-    </div>
+    <div className="p-6 min-h-[80vh] bg-gray-100">
+    
 
     {/* Conditionally render the AddDish component */}
     {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} />}
@@ -61,6 +57,17 @@ const DishesPage = () => {
       </div>
     ) : (
       <div>
+        <div className="flex justify-between items-center mb-8">
+      <button
+        onClick={() => setIsAddDishOpen(true)}
+        className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+      >
+        Add Dish
+      </button>
+      <h1 className="text-3xl font-bold text-gray-800 text-center flex-grow">
+        {counter.name}'s Dishes Menu
+      </h1>
+    </div>
         <DishCard dishes={dishes} />
       </div>
     )}

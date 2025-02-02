@@ -7,6 +7,8 @@ import { useState } from "react";
 import EditDish from "../Modals/EditDish";
 import { Link } from "react-router-dom";
 import { useRequestCall } from "../../hook";
+import editIcon from "../../assets/editImage.png";
+import deleteIcon from "../../assets/delete.png";
 import { removeLoading, setLoading } from "../../Slices/UserSlice";
 const DishCard = ({ dishes }) => {
   const dispatch = useDispatch();
@@ -17,6 +19,8 @@ const DishCard = ({ dishes }) => {
   const [callingDeleteRequest] = useRequestCall("delete");
   const items = useSelector(state => state.cart.items);
   
+
+  console.log("Dishes  in the dishCard",dishes.image);
 
   function isInCart(dish){
     return items.some(item => item.dish._id === dish._id);
@@ -66,11 +70,14 @@ const DishCard = ({ dishes }) => {
             key={dish._id}
             className="bg-white rounded-2xl border-1 border-gray-600 hover:shadow-lg"
           >
-            <img
-              src={dish.image}
-              alt={dish.name}
-              className="w-full h-52 object-cover"
-            />
+            <div className="relative h-60 w-[90%] mx-auto mt-3 border-2 border-gray-200 rounded-lg">
+              <img
+                src={dish.image}
+                alt={dish.name}
+                className="w-full object-cover h-full"
+              />
+
+            </div>
             <div className="p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {dish.name}
@@ -91,7 +98,7 @@ const DishCard = ({ dishes }) => {
                   Out of Stock
                 </p>
               )}
-              <div className="flex justify-between mt-6">
+              <div className="flex justify-between mt-6 items-center">
 
                 {isInCart(dish) ? (
                   <Link to="/cart"><button
@@ -106,19 +113,8 @@ const DishCard = ({ dishes }) => {
                 )}
                 
                 <div className="flex space-x-4">
-                  <button
-                    onClick={() => openEditModal(dish)}
-                    className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteDish(dish._id)}
-                    className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
-                  >
-                    Delete
-                  </button>
-
+                  <img src={editIcon} alt="" onClick={() => openEditModal(dish)} className="w-5 h-5 cursor-pointer hover:opacity-75"/>
+                  <img src={deleteIcon} alt="" onClick={() => deleteDish(dish._id)} className="w-5 h-5 cursor-pointer hover:opacity-75"/>
                 </div>
               </div>
             </div>

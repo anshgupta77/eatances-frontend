@@ -6,6 +6,7 @@ import CounterCard from "../components/Cards/CounterCard";
 import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import { useRequestCall } from "../hook";
+import Restuarant from "../assets/resturants.avif"
 import { Link } from "react-router-dom";
 const CounterPage = () => {
     const dispatch = useDispatch();
@@ -14,15 +15,21 @@ const CounterPage = () => {
     const [callingRequest] = useRequestCall("get");
     console.log(counter);
     useEffect(() =>{
+        window.scrollTo(0,0);
         callingRequest("http://localhost:3000/counter")
             .then(response => {
                 console.log(response);
                 dispatch(setCounter(response.data.counters))
             })
+
+            return () => {
+                dispatch(setCounter([]));
+            }
     }, [])
 
     return ( 
-        <div>
+        <div className="min-h-screen">
+            <img src={Restuarant} alt="" className="h-[50vh] w-full object-cover"/>
             {loading ? (
             <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
                 <CircularProgress />

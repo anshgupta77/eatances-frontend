@@ -23,6 +23,10 @@ const AddCounter = ({ onClose }) => {
                 console.log(response?.data?.users || []);
                 dispatch(setUser(response.data.users)); // Assuming the response contains users data
             })
+
+            return () => {  
+                dispatch(setUser([]));
+            }
     }, []);
 
 
