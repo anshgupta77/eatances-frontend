@@ -17,6 +17,7 @@ const AddDish = ({ onClose }) => {
     price: "",
     category: "",
     counter: counterId,
+    inStock: true,
   });
 
   const handleInputChange = (e) => {
@@ -100,6 +101,36 @@ const AddDish = ({ onClose }) => {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         </div>
+
+        <div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2">
+    Availability
+  </label>
+  <div className="flex space-x-4">
+    <label className="flex items-center space-x-2">
+      <input
+        type="radio"
+        name="inStock"
+        value="true"
+        checked={newDish.inStock === true}
+        onChange={() => setNewDish({ ...newDish, inStock: true })}
+        className="form-radio text-blue-500"
+      />
+      <span>In Stock</span>
+    </label>
+    <label className="flex items-center space-x-2">
+      <input
+        type="radio"
+        name="inStock"
+        value="false"
+        checked={newDish.inStock === false}
+        onChange={() => setNewDish({ ...newDish, inStock: false })}
+        className="form-radio text-blue-500"
+      />
+      <span>Out of Stock</span>
+    </label>
+  </div>
+</div>
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">

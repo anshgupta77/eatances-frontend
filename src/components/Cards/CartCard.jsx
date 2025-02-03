@@ -53,15 +53,22 @@ const CartCard = ({ cartItems }) => {
         </>
       ):(
         <>
-           <div className={`transition-opacity duration-300`}>
-           <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+           <div className={`transition-opacity duration-300 bg-gray-100`}>
+           <h1 className="text-3xl font-bold text-gray-800  mb-8 text-center">
           Carts Menu
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-          {cartItems.map((item) => (
-            <div
+          {cartItems.map((item) =>{ 
+              if(!item.dish){
+                return (
+                  <div className="">
+                    <h1 className="text-2xl font-bold text-gray-800">Your cart is invalid !</h1>
+                  </div>
+                )
+              }else return (
+             <div
               key={item.dish._id}
-              className={`bg-white rounded-2xl shadow-lg overflow-hidden transition transform hover:shadow-2xl ${loading ? "opacity-50 cursor-not-allowed" : "opacity-100"}`}
+              className={`bg-white rounded-2xl shadow-lg border-1 border-gray-600 hover:shadow-lg overflow-hidden transition transform hover:shadow-2xl ${loading ? "opacity-50 cursor-not-allowed" : "opacity-100"}`}
             >
               <img
                 src={item.dish.image}
@@ -70,7 +77,7 @@ const CartCard = ({ cartItems }) => {
               />
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                  {item.name}
+                  {item.dish.name}
                 </h2>
                 <p className="text-sm text-gray-600 mb-4">{item.dish.description}</p>
                 <p className="text-sm font-semibold text-green-600">
@@ -135,7 +142,8 @@ const CartCard = ({ cartItems }) => {
 
                 </div>
                 </div>
-          ))}
+                )
+      })}
         </div>
       </div>
         </>

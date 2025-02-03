@@ -91,6 +91,37 @@ const EditDish = ({ dish, onClose }) => {
           />
         </div>
 
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Availability
+          </label>
+          <div className="flex space-x-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="inStock"
+                value="true"
+                checked={updatedDish.inStock === true}
+                onChange={() => setUpdatedDish({ ...updatedDish, inStock: true })}
+                className="form-radio text-blue-500"
+              />
+              <span>In Stock</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="inStock"
+                value="false"
+                checked={updatedDish.inStock === false}
+                onChange={() => setUpdatedDish({ ...updatedDish, inStock: false })}
+                className="form-radio text-blue-500"
+              />
+              <span>Out of Stock</span>
+            </label>
+          </div>
+        </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Category
