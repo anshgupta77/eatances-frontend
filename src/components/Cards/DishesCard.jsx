@@ -23,7 +23,11 @@ const DishCard = ({ dishes }) => {
   
 
   function isInCart(dish){
-    return items.some(item => item.dish._id === dish._id);
+    return items.some(item => {
+      if(item.dish){
+        return item.dish._id === dish._id;
+      }
+    });
   }
   const openEditModal = (dish) => {
     setCurrentDish(dish);
