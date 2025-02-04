@@ -21,6 +21,8 @@ import AdminPage from './pages/AdminPage';
 import MerchantPage from './pages/MerchantPage';
 import Auth from './Auth';
 import { ToastContainer, toast } from "react-toastify";
+import { ProtectedRoute } from './Auth';
+import { ROLE } from './constraint';
 
 function App() { 
   const dispatch = useDispatch();
@@ -64,18 +66,33 @@ function App() {
         {/* <Navbar /> */}
         {/* <NavBar /> */}
         <ToastContainer position="top-right" autoClose={3000} />
-        <Routes className="min-h-screen bg-gray-100" >
+        <Routes className="min-h-screen" >
           <Route path="/" element={Layout(<HomePage />)} />
           <Route path="/profile" element={Layout(<ProfilePage />)} />
           <Route path="/counter" element={Layout(<CounterPage />)} />
-          <Route path="/dish/counter/:counterId" element={Layout(<DishPage />)} />
           <Route path="/dish" element={Layout(<DishPage />)}></Route>
+          <Route path="/dish/counter/:counterId" element={
+            Layout(<ProtectedRoute allowedRoles={[ROLE.Merchant, ROLE.Customer]}>
+              <DishPage />
+            </ProtectedRoute>)} />
           <Route element={<Auth />} >
-            <Route path="/cart" element={Layout(<CartPage />)} />
-            <Route path="/admin" element={Layout(<AdminPage />)}></Route>
-            <Route path="/merchant" element={Layout(<MerchantPage />)}></Route>
-            <Route path="/user" element={Layout(<UserPage />)} />
-            <Route path="/managecounter" element={Layout(<ManageCounter />)} />
+              <Route path="/cart" element={Layout(<CartPage />)} />
+              <Route path="/admin" element={
+                Layout(<ProtectedRoute allowedRoles={[ROLE.Admin]}>
+                <AdminPage />
+              </ProtectedRoute>)} />
+              <Route path="/merchant" element={
+              Layout(<ProtectedRoute allowedRoles={[ROLE.Merchant]}>
+                <MerchantPage />
+              </ProtectedRoute>)} />
+              <Route path="/user" element={
+            Layout(<ProtectedRoute allowedRoles={[ROLE.Admin]}>
+                <UserPage />
+              </ProtectedRoute>)} />
+              <Route path="/managecounter" element={
+              Layout(<ProtectedRoute allowedRoles={[ROLE.Admin]}>
+                <ManageCounter />
+              </ProtectedRoute>)} />
           </Route>
           <Route path="/loginsignup" element={<AuthPage />} />
         </Routes>

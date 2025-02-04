@@ -11,6 +11,7 @@ import editIcon from "../../assets/editImage.png";
 import deleteIcon from "../../assets/delete.png";
 import { removeLoading, setLoading } from "../../Slices/UserSlice";
 import { ROLE } from "../../constraint";
+import { notifyError, notifySuccess } from "../../App";
 
 const DishCard = ({ dishes, counterId }) => {
   const dispatch = useDispatch();
@@ -61,6 +62,9 @@ const DishCard = ({ dishes, counterId }) => {
     .then(response =>{
         console.log(response.data);
         dispatch(removeDish(response.data.dish));
+        notifySuccess("Dish Deleted Successfully");
+    }).catch(error =>{
+      notifyError(error?.response?.data?.message || "Something went wrong");
     })
   }
 
@@ -121,7 +125,7 @@ const DishCard = ({ dishes, counterId }) => {
                 
              -
                 {isInCart(dish) ? (
-                  <Link to="/cart"><button
+                  <Link to="/cart" className="w-full"><button
                   className="bg-yellow-400 text-black w-full px-4 py-2 rounded-lg hover:bg-yellow-500">  <span className="text-sm text-black">Go to Cart</span></button></Link>
                 ):(
                   <button

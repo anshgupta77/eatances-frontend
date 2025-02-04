@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDish , updateDish} from "../../Slices/DishSlice";
 import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { useRequestCall } from "../../hook";
-import { notifyError } from "../../App";
+import { notifyError, notifySuccess } from "../../App";
 
 
 const EditDish = ({ dish, onClose, counterId }) => {
@@ -28,6 +28,7 @@ const EditDish = ({ dish, onClose, counterId }) => {
         console.log("Updated dish:", response.data);
         const updatedDish = response.data.dish;
         dispatch(updateDish({updatedDish: updatedDish, id: dish._id}))
+        notifySuccess("Dish updated successfully");
       })
       .catch((error) => {
         window.scrollTo(0,0);

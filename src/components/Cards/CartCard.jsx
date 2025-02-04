@@ -1,17 +1,19 @@
 import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart, totalPrice } from "../../Slices/CartSlice";
+import { ValidationOfCart, setCart, totalPrice } from "../../Slices/CartSlice";
 import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import deleteImage from "../../assets/delete.png";
 import { FiTrash } from "react-icons/fi";
 import { useRequestCall } from "../../hook";
+import { notifySuccess } from "../../App";
 
 const CartCard = ({ cartItems }) => {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
   const subTotal = useSelector(totalPrice);
+  const isCartValid = useSelector(ValidationOfCart);
 
 
   const [makeDeleteRequest] = useRequestCall("delete");
@@ -25,6 +27,7 @@ const CartCard = ({ cartItems }) => {
       .then((response) => {
         console.log(response.data);
         dispatch(setCart(response.data.cart));
+        notifySuccess("Item Removed Successfully");
       })
     };
 
@@ -34,6 +37,7 @@ const CartCard = ({ cartItems }) => {
       .then((response) => {
         console.log(response.data);
         dispatch(setCart(response.data.cart));
+        notifySuccess("Cart Cleared Successfully");
       })
     }
 
@@ -78,10 +82,9 @@ const CartCard = ({ cartItems }) => {
                   </button>
                 </div>
               ) : (
-                cartItems.map((item) => {
-                  if (!item.dish) {
-                    return (
-                      <div key={item.id} className="flex flex-col items-center justify-center gap-4 py-10 ">
+                !isCartValid ? 
+                (
+                      <div className="flex flex-col items-center justify-center gap-4 py-10 ">
                         <h2 className="text-2xl font-bold text-gray-800">
                           Your cart is invalid! Clear your cart.
                         </h2>
@@ -89,10 +92,10 @@ const CartCard = ({ cartItems }) => {
                             Clear Cart
                           </button>
                       </div>
-                    )
-                  } else {
-                    return (
-                      <div key={item.dish._id} className="flex border-b border-gray-200 bg-white p-4 items-center">
+                    ):(
+                    cartItems.map((item) => {
+                      return (
+                      <div key={item.dish._id} className="flex border-2 border-gray-200 bg-white p-4 items-center my-3">
                         <img
                           src={item.dish.image}
                           alt={item.dish.name}
@@ -128,7 +131,7 @@ const CartCard = ({ cartItems }) => {
                               ) : (
                                 <button
                                   onClick={() => handleQuantity(item.dish, -1)}
-                                  className="px-2 py-1 bg-gray-300 rounded"
+                                  className="px-2 bg-gray-300 rounded"
                                 >
                                   -
                                 </button>
@@ -150,8 +153,8 @@ const CartCard = ({ cartItems }) => {
                         </button>
                       </div>
                     );
-                  }
-                })
+                  // }
+                }))
               )}
             </div>  
 

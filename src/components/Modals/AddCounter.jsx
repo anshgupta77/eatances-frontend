@@ -5,6 +5,7 @@ import { setUser, setLoading, removeLoading } from "../../Slices/UserSlice";
 import { addCounter } from "../../Slices/CounterSlice";
 import { useSelect } from "@chakra-ui/react";
 import { useRequestCall } from "../../hook";
+import { notifySuccess } from "../../App";
 
 const AddCounter = ({ onClose }) => {
     const [name, setName] = useState("");
@@ -38,6 +39,7 @@ const AddCounter = ({ onClose }) => {
             .then(response => {
                 console.log("Counter added:", response?.data?.counter || {});
                 dispatch(addCounter( response?.data?.counter))
+                notifySuccess("Counter added successfully");
             })
             .catch(error => {
                 console.error("Error adding counter:", error);

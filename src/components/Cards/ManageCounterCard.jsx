@@ -8,6 +8,7 @@ import {setLoading, removeLoading } from "../../Slices/UserSlice";
 import axios from "axios";
 import { deleteCounter } from "../../Slices/CounterSlice";
 import { useRequestCall } from "../../hook";
+import { notifySuccess } from "../../App";
 
 const ManageCounterCard = ({ counterData }) => {
   const [showEditModal, setShowEditModal] = useState(false);
@@ -24,6 +25,7 @@ const ManageCounterCard = ({ counterData }) => {
     .then(response => {
         console.log(response?.data);
         dispatch(deleteCounter(response?.data?.counter || {}));
+        notifySuccess("Counter deleted successfully");
         }
     )
 }

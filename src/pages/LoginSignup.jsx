@@ -49,7 +49,7 @@ const AuthPage = () => {
         console.log("login cart",response.data.user.cart);
         // .then(response =>{
         //   console.log(response);
-          navigate(path);
+          navigate("/");
         
       })
       .catch((err) => {

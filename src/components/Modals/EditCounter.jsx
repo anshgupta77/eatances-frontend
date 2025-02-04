@@ -4,6 +4,7 @@ import { updateCounter } from "../../Slices/CounterSlice";
 import { useDispatch } from "react-redux";
 import { useRequestCall } from "../../hook"; 
 import { ROLE } from "../../constraint";
+import { notifySuccess } from "../../App";
 const EditCounterModal = ({ counter, onClose }) => {
   const [counterName, setCounterName] = useState(counter.name);
   const [merchants, setMerchants] = useState([]);
@@ -52,6 +53,7 @@ const EditCounterModal = ({ counter, onClose }) => {
       .then((response) => {
         console.log("Counter updated:", response.data.counter);
          dispatch(updateCounter(response.data.counter))// Close the modal after submission
+         notifySuccess("Counter updated successfully");
       })
       .catch((error) => {
         console.error("Error updating counter:", error);

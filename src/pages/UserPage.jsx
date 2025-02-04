@@ -87,6 +87,8 @@ import { CircularProgress } from "@mui/material";
 import UserCard from "../components/Cards/UserCard";
 import { setUser } from "../Slices/UserSlice";
 import { useRequestCall } from "../hook";
+import { notifyError } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const UserPage = () => {
     const dispatch = useDispatch();
@@ -95,7 +97,7 @@ const UserPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [role, setRole] = useState(""); // Default: No role selected
     const [page, setPage] = useState(1); // Fixed limit per page
-
+    const navigate = useNavigate()
     const [error , setError] = useState(null);
     const [callingRequest] = useRequestCall("get");
 
@@ -113,7 +115,9 @@ const UserPage = () => {
             })
             .catch((error) => {
                 console.error("Error fetching users:", error);
-                setError(error?.response?.data?.message || "Unauthorised access");
+                // setError(error?.response?.data?.message || "Unauthorised access");
+                notifyError(error?.response?.data?.message || "Unauthorised access");
+                navigate("/");
                 dispatch(setUser([]));
             });
     };

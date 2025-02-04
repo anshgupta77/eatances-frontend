@@ -31,4 +31,10 @@ export const totalPrice = (state) =>state.cart.items.reduce((acc, element) =>{
     return acc;
 }, 0);
 
+export const ValidationOfCart = (state) =>state.cart.items.reduce((acc, element) =>{
+    if(!element.dish)
+        return acc && false;
+    return acc;
+}, true);
+
 export default cartSlice.reducer;

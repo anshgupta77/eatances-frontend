@@ -6,6 +6,7 @@ import { addDish } from "../../Slices/DishSlice";
 import { CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useRequestCall } from "../../hook";
+import { notifyError, notifySuccess } from "../../App";
 
 const AddDish = ({ onClose, counterId }) => {
   const dispatch = useDispatch();
@@ -30,9 +31,11 @@ const AddDish = ({ onClose, counterId }) => {
       .then((response) => {
         console.log("New dish added:", response.data);
         dispatch(addDish(response.data.dish)); 
+        notifySuccess("Dish added successfully");
       })
       .catch((error) => {
         console.error("Error adding dish:", error);
+        notifyError(error?.response?.data?.message || "Failed to add dish");
       })
       .finally(() => {
         onClose();
