@@ -20,9 +20,9 @@ const DishesPage = () => {
   const [counter, setCounter] = useState({});
   const [fetchDish] = useRequestCall("get");
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
+  console.log("user",user);
   
-  
-  const {id} = useParams();
+  const {counterId} = useParams();
 
   function fetchAllDishes(){
     fetchDish("http://localhost:3000/dish")
@@ -32,13 +32,15 @@ const DishesPage = () => {
     })
   }
 
-  function fetchDishByCounterId(id){
-    fetchDish(`http://localhost:3000/counter/${id}`)
+  function fetchDishByCounterId(counterId){
+    fetchDish(`http://localhost:3000/counter/${counterId}`)
     .then(response => {
       // console.log(response);
       setCounter(response.data.counter)
     })
-    fetchDish(`http://localhost:3000/dish/counter/${id}?role=${user.role}`)
+    fetchDish(`http://localhost:3000/dish/counter/${counterId}?role=${user.role}`,{
+      counterId: counterId
+    })
     .then(response => {
       // console.log(response);
       dispatch(setDish(response.data.counterDish));
@@ -47,8 +49,8 @@ const DishesPage = () => {
 
   useEffect(() => {
     window.scrollTo(0,0);
-    if(id){
-      fetchDishByCounterId(id);
+    if(counterId){
+      fetchDishByCounterId(counterId);
     }else{
       fetchAllDishes();
     }
@@ -57,16 +59,16 @@ const DishesPage = () => {
         setCounter({});
       }
 
-  }, [id]);
+  }, [counterId]);
 
-console.log(counter.name);
+// console.log(counter.name);
 
   return (
     <div className="min-h-[80vh] bg-gray-100">
     
     <img src={dishesPic} alt="" className="h-[50vh] w-full object-cover opacity-70"/>
     {/* Conditionally render the AddDish component */}
-    {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} />}
+    {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} counterId={counterId} />}
 
     {loading ? (
       <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
@@ -77,13 +79,13 @@ console.log(counter.name);
       
       <div className="my-[2%] flex flex-col text-center bg-gray-100 space-y-2">
         <div className="text-center text-5xl font-bold text-blue-950">
-        {id ? counter.name : "Flavours"} <span className="text-green-500">{id ? "Dishes Menu" : "you love,"}</span> {id ? "" : "One Destination!!"}
+        {counterId ? counter.name : "Flavours"} <span className="text-green-500">{counterId ? "Dishes Menu" : "you love,"}</span> {counterId ? "" : "One Destination!!"}
         </div>
         <div className="text-center text-lg text-gray-600">
         Enjoy a delightful variety of dishes from top restaurants, crafted to satisfy every craving. 
         </div>
         <div className="w-full flex justify-end pr-12">
-          {id && user && user.role === ROLE.Merchant && <button
+          {counterId && user && user.role === ROLE.Merchant && <button
           onClick={() => setIsAddDishOpen(true)}
           className="bg-green-600 w-40 py-3 px-2 text-xl text-white rounded-lg hover:bg-green-700 transition"
         >
@@ -92,7 +94,7 @@ console.log(counter.name);
 
         </div>
       </div>
-        <DishCard dishes={dishes} />
+        <DishCard dishes={dishes} counterId={counterId} />
       </div>
     )}
   </div>

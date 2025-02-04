@@ -20,6 +20,7 @@ import { setCurrentUser } from './Slices/AuthSlice';
 import AdminPage from './pages/AdminPage';
 import MerchantPage from './pages/MerchantPage';
 import Auth from './Auth';
+import { ToastContainer, toast } from "react-toastify";
 
 function App() { 
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function App() {
   useEffect(() =>{
     CallingRequest("http://localhost:3000/user/userinfo")
     .then(response =>{
+      console.log(response.data.user);
       dispatch(setCurrentUser(response.data.user));
     }).catch (error=> {
       console.log(error);
@@ -61,11 +63,12 @@ function App() {
       <Router>
         {/* <Navbar /> */}
         {/* <NavBar /> */}
+        <ToastContainer position="top-right" autoClose={3000} />
         <Routes className="min-h-screen bg-gray-100" >
           <Route path="/" element={Layout(<HomePage />)} />
           <Route path="/profile" element={Layout(<ProfilePage />)} />
           <Route path="/counter" element={Layout(<CounterPage />)} />
-          <Route path="/dish/counter/:id" element={Layout(<DishPage />)} />
+          <Route path="/dish/counter/:counterId" element={Layout(<DishPage />)} />
           <Route path="/dish" element={Layout(<DishPage />)}></Route>
           <Route element={<Auth />} >
             <Route path="/cart" element={Layout(<CartPage />)} />
@@ -83,3 +86,35 @@ function App() {
 }
 
 export default App
+
+
+export const notifySuccess = (message) => {
+  toast.success(message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",  
+    className: "bg-green-500 text-white border-2 border-green-700",
+    bodyClassName: "text-white font-semibold",
+  });
+};
+
+
+export const notifyError = (message) => {
+  toast.error(message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    className: "bg-red-500 text-red border-2 border-red-700", 
+    bodyClassName: "text-red font-semibold",
+  });
+};

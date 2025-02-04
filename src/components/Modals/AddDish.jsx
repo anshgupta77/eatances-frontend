@@ -7,9 +7,9 @@ import { CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useRequestCall } from "../../hook";
 
-const AddDish = ({ onClose }) => {
+const AddDish = ({ onClose, counterId }) => {
   const dispatch = useDispatch();
-  const counterId = useParams().id;
+  
   const [callingRequest] = useRequestCall("post");
   const [newDish, setNewDish] = useState({
     name: "",
@@ -26,7 +26,7 @@ const AddDish = ({ onClose }) => {
   };
 
   const handleAddDish = () => {
-    callingRequest("http://localhost:3000/dish", newDish)
+    callingRequest("http://localhost:3000/dish", {newDish: newDish, counterId: counterId})
       .then((response) => {
         console.log("New dish added:", response.data);
         dispatch(addDish(response.data.dish)); 

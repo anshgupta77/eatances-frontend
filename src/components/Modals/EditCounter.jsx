@@ -3,7 +3,7 @@ import axios from "axios";
 import { updateCounter } from "../../Slices/CounterSlice";
 import { useDispatch } from "react-redux";
 import { useRequestCall } from "../../hook"; 
-
+import { ROLE } from "../../constraint";
 const EditCounterModal = ({ counter, onClose }) => {
   const [counterName, setCounterName] = useState(counter.name);
   const [merchants, setMerchants] = useState([]);
@@ -18,7 +18,7 @@ const EditCounterModal = ({ counter, onClose }) => {
   useEffect(() => {
     // Fetch all users for merchant selection
     
-    axios.get("http://localhost:3000/user",{
+    axios.get(`http://localhost:3000/user?role=${ROLE.Merchant}`,{
       headers: {
         Authorization: `Bearer ${token}`,
       }

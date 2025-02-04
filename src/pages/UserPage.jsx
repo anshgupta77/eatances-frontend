@@ -96,6 +96,7 @@ const UserPage = () => {
     const [role, setRole] = useState(""); // Default: No role selected
     const [page, setPage] = useState(1); // Fixed limit per page
 
+    const [error , setError] = useState(null);
     const [callingRequest] = useRequestCall("get");
 
     const fetchUsers = (selectedRole, currentPage) => {
@@ -112,6 +113,7 @@ const UserPage = () => {
             })
             .catch((error) => {
                 console.error("Error fetching users:", error);
+                setError(error?.response?.data?.message || "Unauthorised access");
                 dispatch(setUser([]));
             });
     };
@@ -129,6 +131,7 @@ const UserPage = () => {
                     <CircularProgress />
                 </div>
             ) : (
+                error? <p className="text-red-500 text-center">{error}</p>:(
                 <div className="bg-gray-100">
                     {/* Role Selection */}
                     <div className="flex items-center justify-end space-x-4 p-4">
@@ -185,6 +188,7 @@ const UserPage = () => {
                         </button>
                     </div>
                 </div>
+                )
             )}
         </div>
     );

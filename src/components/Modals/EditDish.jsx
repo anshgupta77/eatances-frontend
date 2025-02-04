@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDish , updateDish} from "../../Slices/DishSlice";
 import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { useRequestCall } from "../../hook";
+import { notifyError } from "../../App";
 
-const EditDish = ({ dish, onClose }) => {
+
+const EditDish = ({ dish, onClose, counterId }) => {
   const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
   const [updatedDish, setUpdatedDish] = useState({ ...dish });
   const [callingRequest] = useRequestCall("patch");
@@ -18,11 +20,19 @@ const EditDish = ({ dish, onClose }) => {
 
   const saveChanges = () => {
     console.log("dish id:", dish._id);
-    callingRequest(`http://localhost:3000/dish/${dish._id}`, updatedDish)
+    callingRequest(`http://localhost:3000/dish/${dish._id}`, {
+        updatedDish: updatedDish,
+        counterId: counterId,
+      })
       .then((response) => {
         console.log("Updated dish:", response.data);
         const updatedDish = response.data.dish;
-        dispatch(updateDish({updatedDish: updatedDish, id: dish._id})); 
+        dispatch(updateDish({updatedDish: updatedDish, id: dish._id}))
+      })
+      .catch((error) => {
+        window.scrollTo(0,0);
+        console.error("Error updating dish:", error.response.data.message);
+        notifyError(error.response.data.message);
       })
   };
 

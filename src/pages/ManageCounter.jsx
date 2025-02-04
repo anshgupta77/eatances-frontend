@@ -15,13 +15,19 @@ const ManageCounter = () => {
     const merchant = useSelector(state => state.auth.currentUser);
     const [isAddCounterOpen, setIsAddCounterOpen] = useState(false);
    const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
+   const [error, setError] = useState(null);
 
     useEffect(() => {
         callingRequest("http://localhost:3000/counter")
             .then(response => {
                 console.log(response);
                 dispatch(setCounter(response?.data?.counters || []));
-            })
+            }).catch(error => {
+                console.error("Error fetching counters:", error);
+                setError(error?.response?.data?.message || "Unauthorised access");
+                dispatch(setCounter([]));
+            });
+
             return () => {
                 dispatch(setCounter([]));
             }
@@ -29,7 +35,10 @@ const ManageCounter = () => {
 
     return (
         <div className="p-6 min-h-[80vh] bg-gray-100">
-            <div className="flex justify-between items-center mb-8">
+
+            {error? <p className="text-red-500 text-center">{error}</p>: (
+                <>
+                    <div className="flex justify-between items-center mb-8">
                 <button
                     onClick={() => setIsAddCounterOpen(true)}
                     className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
@@ -52,6 +61,9 @@ const ManageCounter = () => {
             ) : (
                 <ManageCounterCard counterData={counter} />
             )} */}
+             </>
+            )} 
+            
         </div>
     );
 };
