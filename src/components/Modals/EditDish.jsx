@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setDish , updateDish} from "../../Slices/DishSlice";
-import { setLoading, removeLoading } from "../../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { useRequestCall } from "../../hook";
+import { notifyError, notifySuccess } from "../../App";
 
-const EditDish = ({ dish, onClose }) => {
+
+const EditDish = ({ dish, onClose, counterId, setLoading }) => {
   const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
   const [updatedDish, setUpdatedDish] = useState({ ...dish });
   const [callingRequest] = useRequestCall("patch");
   const dispatch = useDispatch();
-
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedDish({ ...updatedDish, [name]: value });
@@ -18,12 +20,26 @@ const EditDish = ({ dish, onClose }) => {
 
   const saveChanges = () => {
     console.log("dish id:", dish._id);
-    callingRequest(`http://localhost:3000/dish/${dish._id}`, updatedDish)
+    setLoading(true);
+    callingRequest(`${VITE_BACKEND_URL}/dish/${dish._id}`, {
+        updatedDish: updatedDish,
+        counterId: counterId,
+      })
       .then((response) => {
+        window.scrollTo(0,0);
         console.log("Updated dish:", response.data);
         const updatedDish = response.data.dish;
-        dispatch(updateDish({updatedDish: updatedDish, id: dish._id})); 
+        dispatch(updateDish({updatedDish: updatedDish, id: dish._id}))
+        notifySuccess("Dish updated successfully");
       })
+      .catch((error) => {
+        window.scrollTo(0,0);
+        console.error("Error updating dish:", error.response.data.message);
+        notifyError(error.response.data.message);
+      }).finally(() => {
+        setLoading(false);
+        onClose();
+      });
   };
 
   return (
@@ -89,6 +105,37 @@ const EditDish = ({ dish, onClose }) => {
             onChange={handleInputChange}
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+
+
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Availability
+          </label>
+          <div className="flex space-x-4">
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="inStock"
+                value="true"
+                checked={updatedDish.inStock === true}
+                onChange={() => setUpdatedDish({ ...updatedDish, inStock: true })}
+                className="form-radio text-blue-500"
+              />
+              <span>In Stock</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                name="inStock"
+                value="false"
+                checked={updatedDish.inStock === false}
+                onChange={() => setUpdatedDish({ ...updatedDish, inStock: false })}
+                className="form-radio text-blue-500"
+              />
+              <span>Out of Stock</span>
+            </label>
+          </div>
         </div>
 
         <div className="mb-4">

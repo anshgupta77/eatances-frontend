@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading, removeLoading } from "../../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { addDish } from "../../Slices/DishSlice";
 import { CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useRequestCall } from "../../hook";
+import { notifyError, notifySuccess } from "../../App";
 
-const AddDish = ({ onClose }) => {
+const AddDish = ({ onClose, counterId, setLoading }) => {
   const dispatch = useDispatch();
-  const counterId = useParams().id;
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [callingRequest] = useRequestCall("post");
   const [newDish, setNewDish] = useState({
     name: "",
@@ -17,6 +18,7 @@ const AddDish = ({ onClose }) => {
     price: "",
     category: "",
     counter: counterId,
+    inStock: true,
   });
 
   const handleInputChange = (e) => {
@@ -25,15 +27,19 @@ const AddDish = ({ onClose }) => {
   };
 
   const handleAddDish = () => {
-    callingRequest("http://localhost:3000/dish", newDish)
+    setLoading(true);
+    callingRequest( `${VITE_BACKEND_URL}/dish`, {newDish: newDish, counterId: counterId})
       .then((response) => {
         console.log("New dish added:", response.data);
         dispatch(addDish(response.data.dish)); 
+        notifySuccess("Dish added successfully");
       })
       .catch((error) => {
         console.error("Error adding dish:", error);
+        notifyError(error?.response?.data?.message || "Failed to add dish");
       })
       .finally(() => {
+        setLoading(false);
         onClose();
       });
   };
@@ -100,6 +106,36 @@ const AddDish = ({ onClose }) => {
             className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         </div>
+
+        <div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2">
+    Availability
+  </label>
+  <div className="flex space-x-4">
+    <label className="flex items-center space-x-2">
+      <input
+        type="radio"
+        name="inStock"
+        value="true"
+        checked={newDish.inStock === true}
+        onChange={() => setNewDish({ ...newDish, inStock: true })}
+        className="form-radio text-blue-500"
+      />
+      <span>In Stock</span>
+    </label>
+    <label className="flex items-center space-x-2">
+      <input
+        type="radio"
+        name="inStock"
+        value="false"
+        checked={newDish.inStock === false}
+        onChange={() => setNewDish({ ...newDish, inStock: false })}
+        className="form-radio text-blue-500"
+      />
+      <span>Out of Stock</span>
+    </label>
+  </div>
+</div>
 
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">

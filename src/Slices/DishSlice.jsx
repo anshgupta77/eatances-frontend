@@ -24,7 +24,6 @@ const dishSlice = createSlice({
             const dish = action.payload;
             state.items = state.items.filter(item => item._id !== dish._id);
         }
-
     }
 });
 

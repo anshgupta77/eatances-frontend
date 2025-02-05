@@ -87,22 +87,26 @@ import { CircularProgress } from "@mui/material";
 import UserCard from "../components/Cards/UserCard";
 import { setUser } from "../Slices/UserSlice";
 import { useRequestCall } from "../hook";
+import { notifyError } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const UserPage = () => {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.user.items);
-    const loading = useSelector((state) => state.user.loading);
+    const [loading, setLoading] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
     const [role, setRole] = useState(""); // Default: No role selected
     const [page, setPage] = useState(1); // Fixed limit per page
-
+    const navigate = useNavigate()
+    const [error , setError] = useState(null);
     const [callingRequest] = useRequestCall("get");
-
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const fetchUsers = (selectedRole, currentPage) => {
-        const url = `http://localhost:3000/user?page=${currentPage}&${
+        const url = `${VITE_BACKEND_URL}/user?page=${currentPage}&${
             selectedRole ? `&role=${selectedRole}` : ""
         }`;
 
+        setLoading(true);
         callingRequest(url)
             .then((response) => {
                 console.log(response.data);
@@ -112,11 +116,17 @@ const UserPage = () => {
             })
             .catch((error) => {
                 console.error("Error fetching users:", error);
+                // setError(error?.response?.data?.message || "Unauthorised access");
+                notifyError(error?.response?.data?.message || "Unauthorised access");
+                navigate("/");
                 dispatch(setUser([]));
+            }).finally(() =>{
+                setLoading(false);
             });
     };
 
     useEffect(() => {
+        setLoading(true);
         fetchUsers(role, page); // Fetch based on role & page
     }, [role, page]); // Re-fetch when role or page changes
 
@@ -124,11 +134,12 @@ const UserPage = () => {
     return (
         <div className="min-h-[80vh]  bg-gray-100">
             {loading ? (
-                <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
+                <div className="absolute inset-0 flex justify-center items-center bg-white z-50">
                     {console.log("loading")}
                     <CircularProgress />
                 </div>
             ) : (
+                error? <p className="text-red-500 text-center">{error}</p>:(
                 <div className="bg-gray-100">
                     {/* Role Selection */}
                     <div className="flex items-center justify-end space-x-4 p-4">
@@ -185,6 +196,7 @@ const UserPage = () => {
                         </button>
                     </div>
                 </div>
+                )
             )}
         </div>
     );

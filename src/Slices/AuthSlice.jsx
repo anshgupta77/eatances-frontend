@@ -4,6 +4,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         currentUser: {},
+        loading: true,
     },
     reducers: {
         setCurrentUser: (state, action) => {
@@ -12,7 +13,7 @@ const authSlice = createSlice({
         },
         removeCurrentUser: (state) => {
             state.currentUser = {};
-        },
+        }
     },
 });
 

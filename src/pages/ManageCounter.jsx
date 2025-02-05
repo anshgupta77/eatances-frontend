@@ -3,33 +3,54 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setCounter } from "../Slices/CounterSlice";
 import ManageCounterCard from "../components/Cards/ManageCounterCard";
-import { setLoading, removeLoading } from "../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import AddCounter from "../components/Modals/AddCounter";
 import { useRequestCall } from "../hook"; // Import the AddCounter component
+import { ROLE } from "../constraint";
+import { notifyError } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const ManageCounter = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
-    const loading = useSelector(state => state.user.loading);
-    const merchant = useSelector(state => state.auth.currentUser);
+    const [loading, setLoading] = useState(false); ;
+    const user = useSelector(state => state.auth.currentUser);
     const [isAddCounterOpen, setIsAddCounterOpen] = useState(false);
-   const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
-
+    const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
+    const [error, setError] = useState(null);
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const navigate = useNavigate();
     useEffect(() => {
-        callingRequest("http://localhost:3000/counter")
-            .then(response => {
-                console.log(response);
-                dispatch(setCounter(response?.data?.counters || []));
-            })
-            return () => {
-                dispatch(setCounter([]));
-            }
+        // if(user?.role === ROLE.Admin){
+            setLoading(true);
+            callingRequest(`${VITE_BACKEND_URL}/counter`)
+                .then(response => {
+                    console.log(response);
+                    dispatch(setCounter(response?.data?.counters || []));
+                }).catch(error => {
+                    console.error("Error fetching counters:", error);
+                    setError(error?.response?.data?.message || "Unauthorised access");
+                    dispatch(setCounter([]));
+                }).finally(() => {
+                    setLoading(false);
+                });
+
+                return () => {
+                    dispatch(setCounter([]));
+                }
+        // } else {
+        //     notifyError("Unauthorised access");
+        //     navigate("/");
+        // }
     }, []);
 
     return (
         <div className="p-6 min-h-[80vh] bg-gray-100">
-            <div className="flex justify-between items-center mb-8">
+
+            {error? <p className="text-red-500 text-center">{error}</p>: (
+                <>
+                    <div className="flex justify-between items-center mb-8">
                 <button
                     onClick={() => setIsAddCounterOpen(true)}
                     className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
@@ -52,6 +73,9 @@ const ManageCounter = () => {
             ) : (
                 <ManageCounterCard counterData={counter} />
             )} */}
+             </>
+            )} 
+            
         </div>
     );
 };

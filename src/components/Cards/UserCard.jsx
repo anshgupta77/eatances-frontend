@@ -14,6 +14,7 @@ const UserCard = ({ userData}) => {
     const [selectedRole, setSelectedRole] = useState(userData.role);
     const [callingPatchRequest] = useRequestCall("patch");
     const [callingDeleteRequest] = useRequestCall("delete");
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     // Handle role change
     const handleRoleChange = (event) => {
         const newRole = event.target.value;
@@ -28,7 +29,7 @@ const UserCard = ({ userData}) => {
 
     // Handle user deletion
     const handleDelete = () => {
-        callingDeleteRequest(`http://localhost:3000/user/${userData._id}`)
+        callingDeleteRequest(`${VITE_BACKEND_URL}/user/${userData._id}`)
             .then(response => {
                 console.log(response?.data?.user || {});
                 dispatch(removeUser(response.data.user)); // Assuming the response contains the user data

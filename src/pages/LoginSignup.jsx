@@ -15,7 +15,7 @@ const AuthPage = () => {
   const [error,setError] = useState(null);
 //   const [loading, userFetch] = useRetryCall("get");
   const [loginRegisterInfo] = useRequestCall("post");
-
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;  
   const location = useLocation();
   const path = location.state?.from || "/profile";
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const AuthPage = () => {
     e.preventDefault();
     setError(null);
     if(isLoginView){
-    axios.post("http://localhost:3000/login", { email: formData.email, password: formData.password })
+    axios.post(`${VITE_BACKEND_URL}/login`, { email: formData.email, password: formData.password })
         .then((response) => {
         
         const {token, refresh_token, user} = response?.data;
@@ -49,7 +49,7 @@ const AuthPage = () => {
         console.log("login cart",response.data.user.cart);
         // .then(response =>{
         //   console.log(response);
-          navigate("/profile");
+          navigate("/");
         
       })
       .catch((err) => {
@@ -58,7 +58,7 @@ const AuthPage = () => {
         setError(errorMessage);
     });
     }else{
-    axios.post("http://localhost:3000/register", { username: formData.name, email: formData.email, password: formData.password , role: formData.role})
+    axios.post(`${VITE_BACKEND_URL}/register`, { username: formData.name, email: formData.email, password: formData.password , role: formData.role})
       .then((response) => {
         const email = formData.email;
         dispatch(setCurrentUser({email}));
