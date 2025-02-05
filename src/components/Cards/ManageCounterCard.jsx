@@ -97,6 +97,7 @@ const ManageCounterCard = ({ counterData }) => {
         <EditCounterModal
           counter={selectedCounter}
           onClose={() => setShowEditModal(false)}
+          setLoading={setLoading}
         />
       )}
     </div>

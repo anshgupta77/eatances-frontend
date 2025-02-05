@@ -11,7 +11,7 @@ import { useState } from "react";
 import AddDish from "../components/Modals/AddDish";
 import { ROLE } from "../constraint";
 import dishesPic from "../assets/dishes_Page.jpeg"
-
+import WeOffer from "../components/WeOffer";
 const DishesPage = () => {
   const dispatch = useDispatch();
   const dishes = useSelector((state) => state.dish.items);
@@ -73,6 +73,8 @@ const DishesPage = () => {
 
 // console.log(counter.name);
   return (
+    <>
+
     <div className="min-h-[80vh] bg-gray-100">
     
     <img src={dishesPic} alt="" className="h-[50vh] w-full object-cover opacity-70"/>
@@ -80,7 +82,7 @@ const DishesPage = () => {
     {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} counterId={counterId}  setLoading={setLoading}/>}
 
      {loading ? (
-      <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
+       <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
         <CircularProgress />
       </div>
     ) : (
@@ -97,7 +99,7 @@ const DishesPage = () => {
           {counterId && user && user.role === ROLE.Merchant && <button
           onClick={() => setIsAddDishOpen(true)}
           className="bg-green-600 w-40 py-3 px-2 text-xl text-white rounded-lg hover:bg-green-700 transition"
-        >
+          >
           Add Dish
         </button>}
 
@@ -107,6 +109,8 @@ const DishesPage = () => {
       </div>
    )} 
   </div>
+   <WeOffer/>
+   </>
   );
 };
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CounterCard = ({ counterData }) => {
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col">
+    <div className="bg-gray-100 min-h-[50vh] flex flex-col">
       <div className="my-[2%] flex flex-col text-center space-y-2">
         <div className="text-center text-5xl font-bold text-blue-950">
           Your <span className="text-green-500">Favourite Brands</span>, All in One Place

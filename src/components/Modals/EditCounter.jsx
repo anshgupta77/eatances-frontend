@@ -7,7 +7,7 @@ import { useRequestCall } from "../../hook";
 import { ROLE } from "../../constraint";
 import { notifySuccess } from "../../App";
 
-const EditCounterModal = ({ counter, onClose }) => {
+const EditCounterModal = ({ counter, onClose, setLoading }) => {
   const [counterName, setCounterName] = useState(counter.name);
   const [merchants, setMerchants] = useState([]);
   const [selectedMerchants, setSelectedMerchants] = useState(
@@ -15,6 +15,8 @@ const EditCounterModal = ({ counter, onClose }) => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [callingGetRequest] = useRequestCall("get");
+  const [callingPatchRequest] = useRequestCall("patch");
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   // const itemsPerPage = 5;
 
@@ -23,15 +25,16 @@ const EditCounterModal = ({ counter, onClose }) => {
 
   useEffect(() => {
     // Fetch all users for merchant selection
-    axios.get(`${VITE_BACKEND_URL}/user?role=${ROLE.Merchant}&page=${currentPage}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    setLoading(true);
+    callingGetRequest(`${VITE_BACKEND_URL}/user?role=${ROLE.Merchant}&page=${currentPage}`)
     .then((response) => {
       setMerchants(response.data.users || []);
       setTotalPages(response.data.totalPages);
     })
     .catch((error) => {
       console.error("Error fetching merchants:", error);
+    }).finally(() => {
+      setLoading(false);
     });
   }, [currentPage]);
 
@@ -46,9 +49,8 @@ const EditCounterModal = ({ counter, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.patch(`${VITE_BACKEND_URL}/counter/${counter._id}`, 
+    callingPatchRequest(`${VITE_BACKEND_URL}/counter/${counter._id}`, 
       { name: counterName, merchants: selectedMerchants },
-      { headers: { Authorization: `Bearer ${token}` } }
     )
     .then((response) => {
       dispatch(updateCounter(response.data.counter));
