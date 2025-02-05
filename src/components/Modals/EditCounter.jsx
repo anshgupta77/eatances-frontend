@@ -7,7 +7,7 @@ import { useRequestCall } from "../../hook";
 import { ROLE } from "../../constraint";
 import { notifySuccess } from "../../App";
 
-const EditCounterModal = ({ counter, onClose }) => {
+const EditCounterModal = ({ counter, onClose, setLoading }) => {
   const [counterName, setCounterName] = useState(counter.name);
   const [merchants, setMerchants] = useState([]);
   const [selectedMerchants, setSelectedMerchants] = useState(
@@ -25,6 +25,7 @@ const EditCounterModal = ({ counter, onClose }) => {
 
   useEffect(() => {
     // Fetch all users for merchant selection
+    setLoading(true);
     callingGetRequest(`${VITE_BACKEND_URL}/user?role=${ROLE.Merchant}&page=${currentPage}`)
     .then((response) => {
       setMerchants(response.data.users || []);
@@ -32,6 +33,8 @@ const EditCounterModal = ({ counter, onClose }) => {
     })
     .catch((error) => {
       console.error("Error fetching merchants:", error);
+    }).finally(() => {
+      setLoading(false);
     });
   }, [currentPage]);
 
