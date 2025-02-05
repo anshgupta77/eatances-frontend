@@ -94,7 +94,7 @@ const NewNavbar = () => {
                 <ShoppingCart className="w-8 h-8 text-green-500 cursor-pointer hover:text-green-600" />
             </Link>
         </div>
-            {!user?(<Link to="/loginsignup">
+            {!user.email?(<Link to="/loginsignup">
                 <button className="flex items-center justify-center space-x-2 px-8 py-3 text-green-600 text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition-all duration-300">
                 <i className="fi-rr-user text-green-600 text-xl"></i>
                 <span>Login</span>

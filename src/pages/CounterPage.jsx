@@ -8,6 +8,7 @@ import { CircularProgress } from "@mui/material";
 import { useRequestCall } from "../hook";
 import Restuarant from "../assets/resturants.avif"
 import { Link } from "react-router-dom";
+import WeOffer from "../components/WeOffer";
 const CounterPage = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
@@ -41,10 +42,11 @@ const CounterPage = () => {
                 <CircularProgress />
             </div>
             ) :(
-                <div className="min-h-screen">
+                <div className="min-h-[50vh]">
                     <CounterCard counterData={counter}/>    
                 </div>
             )}
+            <WeOffer/>
         </div>
      );
 }

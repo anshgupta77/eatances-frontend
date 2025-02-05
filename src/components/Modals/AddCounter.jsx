@@ -7,7 +7,7 @@ import { useSelect } from "@chakra-ui/react";
 import { useRequestCall } from "../../hook";
 import { notifySuccess } from "../../App";
 
-const AddCounter = ({ onClose }) => {
+const AddCounter = ({ onClose, setLoading }) => {
     const [name, setName] = useState("");
     const [merchant, setMerchant] = useState("");
     // const [search, setSearch] = useState("");
@@ -19,12 +19,17 @@ const AddCounter = ({ onClose }) => {
     const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
+        setLoading(true);
         callingGetRequest(`${VITE_BACKEND_URL}/user`) 
             .then(response => {
                 console.log(response);
                 console.log(response?.data?.users || []);
                 dispatch(setUser(response.data.users)); // Assuming the response contains users data
-            })
+            }).catch(error => {
+                console.error("Error fetching users:", error);
+            }).finally(() => {
+                setLoading(false);
+            });
 
             return () => {  
                 dispatch(setUser([]));

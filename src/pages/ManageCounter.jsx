@@ -63,16 +63,16 @@ const ManageCounter = () => {
             </div>
 
             {/* Add Counter Modal */}
-            {isAddCounterOpen && <AddCounter onClose={() => setIsAddCounterOpen(false)} />}
+            {isAddCounterOpen && <AddCounter onClose={() => setIsAddCounterOpen(false)} setLoading={setLoading}/>}
 
-            <ManageCounterCard counterData={counter} />
-            {/* {loading ? (
+            {/* <ManageCounterCard counterData={counter} /> */}
+            {loading ? (
                 <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
                     <CircularProgress />
                 </div>
             ) : (
                 <ManageCounterCard counterData={counter} />
-            )} */}
+            )}
              </>
             )} 
             
