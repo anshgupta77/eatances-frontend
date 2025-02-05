@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const ManageCounter = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
-    const loading = useSelector(state => state.user.loading);
+    const [loading, setLoading] = useState(false); ;
     const user = useSelector(state => state.auth.currentUser);
     const [isAddCounterOpen, setIsAddCounterOpen] = useState(false);
     const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
@@ -23,6 +23,7 @@ const ManageCounter = () => {
     const navigate = useNavigate();
     useEffect(() => {
         // if(user?.role === ROLE.Admin){
+            setLoading(true);
             callingRequest(`${VITE_BACKEND_URL}/counter`)
                 .then(response => {
                     console.log(response);
@@ -31,6 +32,8 @@ const ManageCounter = () => {
                     console.error("Error fetching counters:", error);
                     setError(error?.response?.data?.message || "Unauthorised access");
                     dispatch(setCounter([]));
+                }).finally(() => {
+                    setLoading(false);
                 });
 
                 return () => {

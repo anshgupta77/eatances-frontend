@@ -106,6 +106,7 @@ const UserPage = () => {
             selectedRole ? `&role=${selectedRole}` : ""
         }`;
 
+        setLoading(true);
         callingRequest(url)
             .then((response) => {
                 console.log(response.data);
@@ -133,7 +134,7 @@ const UserPage = () => {
     return (
         <div className="min-h-[80vh]  bg-gray-100">
             {loading ? (
-                <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
+                <div className="absolute inset-0 flex justify-center items-center bg-white z-50">
                     {console.log("loading")}
                     <CircularProgress />
                 </div>

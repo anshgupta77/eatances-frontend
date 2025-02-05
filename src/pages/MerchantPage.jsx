@@ -11,17 +11,25 @@ import { useRequestCall } from "../hook"; // Import the AddCounter component
 const MerchantPage = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
-    const loading = useSelector(state => state.user.loading);
+    // const loading = useSelector(state => state.user.loading);
+    const [loading, setLoading] = useState(false);
     const merchant = useSelector(state => state.auth.currentUser);
     const [isAddCounterOpen, setIsAddCounterOpen] = useState(false);
    const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
     const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
+        setLoading(true);
         callingRequest(`${VITE_BACKEND_URL}/counter/merchantpanel`)
             .then(response => {
                 console.log(response);
                 dispatch(setCounter(response?.data?.counters || []));
             })
+            .catch(error => {
+                console.error("Error fetching counters:", error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
             return () => {
                 dispatch(setCounter([]));
             }

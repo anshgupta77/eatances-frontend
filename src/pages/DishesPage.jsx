@@ -16,7 +16,7 @@ const DishesPage = () => {
   const dispatch = useDispatch();
   const dishes = useSelector((state) => state.dish.items);
   const user = useSelector((state) => state.auth.currentUser);
-  const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
+  const [loading, setLoading] = useState(false); // Get loading state from Redux
   const [counter, setCounter] = useState({});
   const [fetchDish] = useRequestCall("get");
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
@@ -30,7 +30,11 @@ const DishesPage = () => {
     .then(response => {
       // console.log(response);
       dispatch(setDish(response.data.dishes));
-    })
+    }).catch(error => { 
+      console.error("Error fetching dishes:", error);
+    }).finally(() =>{
+      setLoading(false);
+    }); 
   }
 
   function fetchDishByCounterId(counterId){
@@ -45,11 +49,16 @@ const DishesPage = () => {
     .then(response => {
       // console.log(response);
       dispatch(setDish(response.data.counterDish));
-    })
+    }).catch(error => {
+      console.error("Error fetching dishes:", error);
+    }).finally(() =>{
+      setLoading(false);
+    });
   }
 
   useEffect(() => {
     window.scrollTo(0,0);
+    setLoading(true);
     if(counterId){
       fetchDishByCounterId(counterId);
     }else{
@@ -63,15 +72,14 @@ const DishesPage = () => {
   }, [counterId]);
 
 // console.log(counter.name);
-
   return (
     <div className="min-h-[80vh] bg-gray-100">
     
     <img src={dishesPic} alt="" className="h-[50vh] w-full object-cover opacity-70"/>
     {/* Conditionally render the AddDish component */}
-    {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} counterId={counterId} />}
+    {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} counterId={counterId}  setLoading={setLoading}/>}
 
-    {loading ? (
+     {loading ? (
       <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
         <CircularProgress />
       </div>
@@ -95,9 +103,9 @@ const DishesPage = () => {
 
         </div>
       </div>
-        <DishCard dishes={dishes} counterId={counterId} />
+        <DishCard dishes={dishes} counterId={counterId} setLoading={setLoading}/>
       </div>
-    )}
+   )} 
   </div>
   );
 };

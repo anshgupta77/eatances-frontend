@@ -13,7 +13,7 @@ import deleteIcon from "../../assets/delete.png";
 import { ROLE } from "../../constraint";
 import { notifyError, notifySuccess } from "../../App";
 
-const DishCard = ({ dishes, counterId }) => {
+const DishCard = ({ dishes, counterId ,setLoading }) => {
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -78,7 +78,7 @@ const DishCard = ({ dishes, counterId }) => {
   return (
     <>
       {isEditing && (
-        <EditDish dish={currentDish} onClose={closeEditModal} counterId={counterId}  />
+        <EditDish dish={currentDish} onClose={closeEditModal} counterId={counterId} setLoading={setLoading} />
       )}
 
     

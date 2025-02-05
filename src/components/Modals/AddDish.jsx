@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useRequestCall } from "../../hook";
 import { notifyError, notifySuccess } from "../../App";
 
-const AddDish = ({ onClose, counterId }) => {
+const AddDish = ({ onClose, counterId, setLoading }) => {
   const dispatch = useDispatch();
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [callingRequest] = useRequestCall("post");
@@ -27,6 +27,7 @@ const AddDish = ({ onClose, counterId }) => {
   };
 
   const handleAddDish = () => {
+    setLoading(true);
     callingRequest( `${VITE_BACKEND_URL}/dish`, {newDish: newDish, counterId: counterId})
       .then((response) => {
         console.log("New dish added:", response.data);
@@ -38,6 +39,7 @@ const AddDish = ({ onClose, counterId }) => {
         notifyError(error?.response?.data?.message || "Failed to add dish");
       })
       .finally(() => {
+        setLoading(false);
         onClose();
       });
   };

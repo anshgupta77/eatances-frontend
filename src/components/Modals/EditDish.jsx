@@ -7,7 +7,7 @@ import { useRequestCall } from "../../hook";
 import { notifyError, notifySuccess } from "../../App";
 
 
-const EditDish = ({ dish, onClose, counterId }) => {
+const EditDish = ({ dish, onClose, counterId, setLoading }) => {
   const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
   const [updatedDish, setUpdatedDish] = useState({ ...dish });
   const [callingRequest] = useRequestCall("patch");
@@ -20,11 +20,13 @@ const EditDish = ({ dish, onClose, counterId }) => {
 
   const saveChanges = () => {
     console.log("dish id:", dish._id);
+    setLoading(true);
     callingRequest(`${VITE_BACKEND_URL}/dish/${dish._id}`, {
         updatedDish: updatedDish,
         counterId: counterId,
       })
       .then((response) => {
+        window.scrollTo(0,0);
         console.log("Updated dish:", response.data);
         const updatedDish = response.data.dish;
         dispatch(updateDish({updatedDish: updatedDish, id: dish._id}))
@@ -34,7 +36,10 @@ const EditDish = ({ dish, onClose, counterId }) => {
         window.scrollTo(0,0);
         console.error("Error updating dish:", error.response.data.message);
         notifyError(error.response.data.message);
-      })
+      }).finally(() => {
+        setLoading(false);
+        onClose();
+      });
   };
 
   return (
