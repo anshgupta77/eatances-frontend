@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setCounter } from "../Slices/CounterSlice";
 import CounterCard from "../components/Cards/CounterCard";
-import { setLoading, removeLoading } from "../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import { useRequestCall } from "../hook";
 import Restuarant from "../assets/resturants.avif"
@@ -13,10 +13,11 @@ const CounterPage = () => {
     const counter = useSelector(state => state.counter.items);
     const loading = useSelector(state => state.user.loading);
     const [callingRequest] = useRequestCall("get");
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     console.log(counter);
     useEffect(() =>{
         window.scrollTo(0,0);
-        callingRequest("http://localhost:3000/counter")
+        callingRequest(`${VITE_BACKEND_URL}/counter`)
             .then(response => {
                 console.log(response);
                 dispatch(setCounter(response.data.counters))

@@ -9,7 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import { useRequestCall } from "../../hook";
 import editIcon from "../../assets/editImage.png";
 import deleteIcon from "../../assets/delete.png";
-import { removeLoading, setLoading } from "../../Slices/UserSlice";
+// import { removeLoading, setLoading } from "../../Slices/UserSlice";
 import { ROLE } from "../../constraint";
 import { notifyError, notifySuccess } from "../../App";
 
@@ -20,8 +20,12 @@ const DishCard = ({ dishes, counterId }) => {
   const [currentDish, setCurrentDish] = useState(null);
   const [callingPostRequest] = useRequestCall("post");
   const [callingDeleteRequest] = useRequestCall("delete");
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [patchLoading, setPatchLoading] = useState(false)
+  const loading = deleteLoading || patchLoading
   const items = useSelector(state => state.cart.items);
   const user = useSelector(state => state.auth.currentUser);
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   // const counterId = useParams()
   console.log("CounterId", counterId);
   
@@ -56,7 +60,7 @@ const DishCard = ({ dishes, counterId }) => {
 
 
   function deleteDish(id){
-    callingDeleteRequest(`http://localhost:3000/dish/${id}`,{
+    callingDeleteRequest(`${VITE_BACKEND_URL}/dish/${id}`,{
       counterId: counterId
     })
     .then(response =>{

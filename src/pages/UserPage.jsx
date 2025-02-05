@@ -93,16 +93,16 @@ import { useNavigate } from "react-router-dom";
 const UserPage = () => {
     const dispatch = useDispatch();
     const users = useSelector((state) => state.user.items);
-    const loading = useSelector((state) => state.user.loading);
+    const [loading, setLoading] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
     const [role, setRole] = useState(""); // Default: No role selected
     const [page, setPage] = useState(1); // Fixed limit per page
     const navigate = useNavigate()
     const [error , setError] = useState(null);
     const [callingRequest] = useRequestCall("get");
-
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const fetchUsers = (selectedRole, currentPage) => {
-        const url = `http://localhost:3000/user?page=${currentPage}&${
+        const url = `${VITE_BACKEND_URL}/user?page=${currentPage}&${
             selectedRole ? `&role=${selectedRole}` : ""
         }`;
 
@@ -119,10 +119,13 @@ const UserPage = () => {
                 notifyError(error?.response?.data?.message || "Unauthorised access");
                 navigate("/");
                 dispatch(setUser([]));
+            }).finally(() =>{
+                setLoading(false);
             });
     };
 
     useEffect(() => {
+        setLoading(true);
         fetchUsers(role, page); // Fetch based on role & page
     }, [role, page]); // Re-fetch when role or page changes
 

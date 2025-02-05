@@ -4,7 +4,7 @@ import EditCounterModal from "../Modals/EditCounter";
 import editImage from "../../assets/editImage.png";
 import deleteImage from "../../assets/delete.png";
 import { useDispatch } from "react-redux";
-import {setLoading, removeLoading } from "../../Slices/UserSlice";
+// import {setLoading, removeLoading } from "../../Slices/UserSlice";
 import axios from "axios";
 import { deleteCounter } from "../../Slices/CounterSlice";
 import { useRequestCall } from "../../hook";
@@ -14,20 +14,27 @@ const ManageCounterCard = ({ counterData }) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedCounter, setSelectedCounter] = useState(null);
   const [callingRequest] = useRequestCall("delete");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const handleEditClick = (counter) => {
     setSelectedCounter(counter);
     setShowEditModal(true);
   };
 
   const handleDeleteClick = (counter) => {
-    callingRequest(`http://localhost:3000/counter/${counter._id}`)
+    setLoading(true);
+    callingRequest(`${VITE_BACKEND_URL}/counter/${counter._id}`)
     .then(response => {
         console.log(response?.data);
         dispatch(deleteCounter(response?.data?.counter || {}));
         notifySuccess("Counter deleted successfully");
         }
-    )
+    ).catch(error => {
+        console.error("Error deleting counter:", error);
+    }).finally(() => {
+        setLoading(false);
+    });
 }
 
   return (

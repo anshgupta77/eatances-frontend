@@ -6,7 +6,7 @@ import DishCard from "../components/Cards/DishesCard";
 import { useParams } from "react-router-dom";
 import { useRequestCall } from "../hook";
 import { CircularProgress } from "@mui/material";
-import { setLoading, removeLoading } from "../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { useState } from "react";
 import AddDish from "../components/Modals/AddDish";
 import { ROLE } from "../constraint";
@@ -20,6 +20,7 @@ const DishesPage = () => {
   const [counter, setCounter] = useState({});
   const [fetchDish] = useRequestCall("get");
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   console.log("user",user);
   
   const {counterId} = useParams();
@@ -33,12 +34,12 @@ const DishesPage = () => {
   }
 
   function fetchDishByCounterId(counterId){
-    fetchDish(`http://localhost:3000/counter/${counterId}`)
+    fetchDish(`${VITE_BACKEND_URL}/counter/${counterId}`)
     .then(response => {
       // console.log(response);
       setCounter(response.data.counter)
     })
-    fetchDish(`http://localhost:3000/dish/counter/${counterId}?role=${user.role}`,{
+    fetchDish(`${VITE_BACKEND_URL}/dish/counter/${counterId}?role=${user.role}`,{
       counterId: counterId
     })
     .then(response => {

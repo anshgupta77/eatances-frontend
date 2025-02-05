@@ -4,30 +4,16 @@ import  {Outlet, Navigate, useLocation}  from "react-router-dom";
 import React from "react";
 const Auth = () => {
     const user = useSelector(state => state.auth.currentUser);
+    const loading = useSelector(state =>state.user.loading);
     const token = localStorage.getItem("token")
-    console.log(user);
+    console.log("User from the auth",user);
     const location = useLocation();
+    // if(loading) return (<div>Loading...</div>)
     return ( 
-        token? <Outlet></Outlet> : <Navigate to="loginsignup" state={{from : location.pathname}}></Navigate>
+        user? <Outlet /> : <Navigate to="loginsignup" state={{from : location.pathname}} replace></Navigate>
      );
 }
- 
 export default Auth;
-
-export const ProtectedRoute = ({ children, allowedRoles }) => {
-    const user = useSelector(state => state.auth.currentUser);
-    const [notified, setNotified] = React.useState(false);
-  
-    if (!user || !allowedRoles.includes(user.role)) {
-      if (!notified) {
-        notifyError("You do not have permission to access this page");
-        setNotified(true); // ✅ Prevent multiple toasts
-      }
-      return <Navigate to="/" replace />;
-    }
-  
-    return children;
-  };
   
 
 

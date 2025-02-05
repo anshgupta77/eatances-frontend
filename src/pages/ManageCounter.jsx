@@ -3,34 +3,43 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setCounter } from "../Slices/CounterSlice";
 import ManageCounterCard from "../components/Cards/ManageCounterCard";
-import { setLoading, removeLoading } from "../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import AddCounter from "../components/Modals/AddCounter";
 import { useRequestCall } from "../hook"; // Import the AddCounter component
+import { ROLE } from "../constraint";
+import { notifyError } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const ManageCounter = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
     const loading = useSelector(state => state.user.loading);
-    const merchant = useSelector(state => state.auth.currentUser);
+    const user = useSelector(state => state.auth.currentUser);
     const [isAddCounterOpen, setIsAddCounterOpen] = useState(false);
-   const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
-   const [error, setError] = useState(null);
-
+    const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
+    const [error, setError] = useState(null);
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const navigate = useNavigate();
     useEffect(() => {
-        callingRequest("http://localhost:3000/counter")
-            .then(response => {
-                console.log(response);
-                dispatch(setCounter(response?.data?.counters || []));
-            }).catch(error => {
-                console.error("Error fetching counters:", error);
-                setError(error?.response?.data?.message || "Unauthorised access");
-                dispatch(setCounter([]));
-            });
+        // if(user?.role === ROLE.Admin){
+            callingRequest(`${VITE_BACKEND_URL}/counter`)
+                .then(response => {
+                    console.log(response);
+                    dispatch(setCounter(response?.data?.counters || []));
+                }).catch(error => {
+                    console.error("Error fetching counters:", error);
+                    setError(error?.response?.data?.message || "Unauthorised access");
+                    dispatch(setCounter([]));
+                });
 
-            return () => {
-                dispatch(setCounter([]));
-            }
+                return () => {
+                    dispatch(setCounter([]));
+                }
+        // } else {
+        //     notifyError("Unauthorised access");
+        //     navigate("/");
+        // }
     }, []);
 
     return (

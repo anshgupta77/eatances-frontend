@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser, setLoading, removeLoading } from "../../Slices/UserSlice";
+import { setUser } from "../../Slices/UserSlice";
 import { addCounter } from "../../Slices/CounterSlice";
 import { useSelect } from "@chakra-ui/react";
 import { useRequestCall } from "../../hook";
@@ -16,9 +16,10 @@ const AddCounter = ({ onClose }) => {
     const [callingPostRequest] = useRequestCall("post");
     const [showDropdown, setShowDropdown] = useState(false);
     const dispatch = useDispatch();
+    const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
-        callingGetRequest("http://localhost:3000/user") 
+        callingGetRequest(`${VITE_BACKEND_URL}/user`) 
             .then(response => {
                 console.log(response);
                 console.log(response?.data?.users || []);
@@ -35,7 +36,7 @@ const AddCounter = ({ onClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        callingPostRequest("http://localhost:3000/counter", { name : name, merchants: [merchant._id]})
+        callingPostRequest(`${VITE_BACKEND_URL}/counter`, { name : name, merchants: [merchant._id]})
             .then(response => {
                 console.log("Counter added:", response?.data?.counter || {});
                 dispatch(addCounter( response?.data?.counter))

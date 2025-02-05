@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading, removeLoading } from "../../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { addDish } from "../../Slices/DishSlice";
 import { CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import { notifyError, notifySuccess } from "../../App";
 
 const AddDish = ({ onClose, counterId }) => {
   const dispatch = useDispatch();
-  
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [callingRequest] = useRequestCall("post");
   const [newDish, setNewDish] = useState({
     name: "",
@@ -27,7 +27,7 @@ const AddDish = ({ onClose, counterId }) => {
   };
 
   const handleAddDish = () => {
-    callingRequest("http://localhost:3000/dish", {newDish: newDish, counterId: counterId})
+    callingRequest( `${VITE_BACKEND_URL}/dish`, {newDish: newDish, counterId: counterId})
       .then((response) => {
         console.log("New dish added:", response.data);
         dispatch(addDish(response.data.dish)); 

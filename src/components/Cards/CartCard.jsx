@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { ValidationOfCart, setCart, totalPrice } from "../../Slices/CartSlice";
-import { setLoading, removeLoading } from "../../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import deleteImage from "../../assets/delete.png";
 import { FiTrash } from "react-icons/fi";
@@ -11,7 +11,9 @@ import { notifySuccess } from "../../App";
 
 const CartCard = ({ cartItems }) => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.user.loading); // Get loading state from Redux
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [patchLoading, setPatchLoading] = useState(false)
+  const loading = deleteLoading || patchLoading // Get loading state from Redux
   const subTotal = useSelector(totalPrice);
   const isCartValid = useSelector(ValidationOfCart);
 
@@ -19,21 +21,25 @@ const CartCard = ({ cartItems }) => {
   const [makeDeleteRequest] = useRequestCall("delete");
   const [makePatchRequest] = useRequestCall("patch");
   console.log(loading);
-
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   // console.log(cartItems[0].quantity);
   const removeFromCart = (dish) => {
-   
-    makeDeleteRequest(`http://localhost:3000/cart/${dish._id}`)
+    setDeleteLoading(true);
+    makeDeleteRequest(`${VITE_BACKEND_URL}/cart/${dish._id}`)
       .then((response) => {
         console.log(response.data);
         dispatch(setCart(response.data.cart));
         notifySuccess("Item Removed Successfully");
-      })
+      }).catch((error) => {
+        console.error("Error removing item from cart:", error);
+      }).finally(() => {
+        setDeleteLoading(false);
+      });
     };
 
 
     function handleClearCart(){
-      makeDeleteRequest(`http://localhost:3000/cart`)
+      makeDeleteRequest(`${VITE_BACKEND_URL}/cart`)
       .then((response) => {
         console.log(response.data);
         dispatch(setCart(response.data.cart));
@@ -44,12 +50,16 @@ const CartCard = ({ cartItems }) => {
 
 
   function handleQuantity(dish, increment) {
-    makePatchRequest(`http://localhost:3000/cart/${dish._id}`, { changeQuantity :increment })
+    setPatchLoading(true);
+    makePatchRequest(`${VITE_BACKEND_URL}/cart/${dish._id}`, { changeQuantity :increment })
         .then((response) => {
           console.log(response.data);
           dispatch(setCart(response.data.cart));
+        }).catch((error) => {
+          console.error("Error updating quantity:", error);
+        }).finally(() => {
+          setPatchLoading(false);
         })
-
   }
   
   return (

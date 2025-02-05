@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setDish , updateDish} from "../../Slices/DishSlice";
-import { setLoading, removeLoading } from "../../Slices/UserSlice";
+// import { setLoading, removeLoading } from "../../Slices/UserSlice";
 import { useRequestCall } from "../../hook";
 import { notifyError, notifySuccess } from "../../App";
 
@@ -12,7 +12,7 @@ const EditDish = ({ dish, onClose, counterId }) => {
   const [updatedDish, setUpdatedDish] = useState({ ...dish });
   const [callingRequest] = useRequestCall("patch");
   const dispatch = useDispatch();
-
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedDish({ ...updatedDish, [name]: value });
@@ -20,7 +20,7 @@ const EditDish = ({ dish, onClose, counterId }) => {
 
   const saveChanges = () => {
     console.log("dish id:", dish._id);
-    callingRequest(`http://localhost:3000/dish/${dish._id}`, {
+    callingRequest(`${VITE_BACKEND_URL}/dish/${dish._id}`, {
         updatedDish: updatedDish,
         counterId: counterId,
       })

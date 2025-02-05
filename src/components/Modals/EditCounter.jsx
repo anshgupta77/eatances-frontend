@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { updateCounter } from "../../Slices/CounterSlice";
@@ -5,30 +6,34 @@ import { useDispatch } from "react-redux";
 import { useRequestCall } from "../../hook"; 
 import { ROLE } from "../../constraint";
 import { notifySuccess } from "../../App";
+
 const EditCounterModal = ({ counter, onClose }) => {
   const [counterName, setCounterName] = useState(counter.name);
   const [merchants, setMerchants] = useState([]);
-  const [callingPatchRequest] = useRequestCall("patch");
-  const [callingGetRequest] = useRequestCall("get");
-  console.log("Counter the edit page ");
   const [selectedMerchants, setSelectedMerchants] = useState(
     counter.merchants.map((merchant) => merchant._id)
   );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  // const itemsPerPage = 5;
+
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+
   useEffect(() => {
     // Fetch all users for merchant selection
-    
-    axios.get(`http://localhost:3000/user?role=${ROLE.Merchant}`,{
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }
+    axios.get(`${VITE_BACKEND_URL}/user?role=${ROLE.Merchant}&page=${currentPage}`, {
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then((response) => {
-        console.log(response?.data?.users || []);
-        setMerchants(response.data.users)
+    .then((response) => {
+      setMerchants(response.data.users || []);
+      setTotalPages(response.data.totalPages);
     })
-  }, []);
+    .catch((error) => {
+      console.error("Error fetching merchants:", error);
+    });
+  }, [currentPage]);
 
   const handleMerchantChange = (merchantId) => {
     setSelectedMerchants((prev) =>
@@ -41,37 +46,33 @@ const EditCounterModal = ({ counter, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Send the updated counter details to the backend
-    axios.patch(`http://localhost:3000/counter/${counter._id}`, {
-        name: counterName,
-        merchants: selectedMerchants,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      })
-      .then((response) => {
-        console.log("Counter updated:", response.data.counter);
-         dispatch(updateCounter(response.data.counter))// Close the modal after submission
-         notifySuccess("Counter updated successfully");
-      })
-      .catch((error) => {
-        console.error("Error updating counter:", error);
-      }).finally(() => {
-        onClose();
-      })
+    axios.patch(`${VITE_BACKEND_URL}/counter/${counter._id}`, 
+      { name: counterName, merchants: selectedMerchants },
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+    .then((response) => {
+      dispatch(updateCounter(response.data.counter));
+      notifySuccess("Counter updated successfully");
+      onClose();
+    })
+    .catch((error) => {
+      console.error("Error updating counter:", error);
+    });
   };
+
+  // Pagination Logic
+  // const totalPages = Math.ceil(merchants.length / itemsPerPage);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const paginatedMerchants = merchants.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
-      <div
-        className="absolute inset-0 bg-gray-300 opacity-50"
-        onClick={onClose}
-      ></div>
+      <div className="absolute inset-0 bg-gray-300 opacity-50" onClick={onClose}></div>
 
       <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
         <h2 className="text-xl font-bold mb-4">Edit Counter</h2>
         <form onSubmit={handleSubmit}>
+          
           {/* Counter Name */}
           <div className="mb-4">
             <label className="block text-gray-700">Counter Name</label>
@@ -84,7 +85,7 @@ const EditCounterModal = ({ counter, onClose }) => {
             />
           </div>
 
-          {/* Merchants */}
+          {/* Merchants with Pagination */}
           <div className="mb-4">
             <label className="block text-gray-700">Assign Merchants</label>
             <div className="space-y-2">
@@ -103,8 +104,30 @@ const EditCounterModal = ({ counter, onClose }) => {
                 </div>
               ))}
             </div>
+
+            {/* Pagination Controls */}
+            <div className="flex justify-center items-center mt-4 text-gray-700 font-medium">
+              <button
+                type="button"
+                className={`px-3 py-1 rounded-lg ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-gray-200 hover:bg-gray-300"}`}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                {"<"}
+              </button>
+              <span className="mx-3">{currentPage} / {totalPages || 1}</span>
+              <button
+                type="button"
+                className={`px-3 py-1 rounded-lg ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-gray-200 hover:bg-gray-300"}`}
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+              >
+                {">"}
+              </button>
+            </div>
           </div>
 
+          {/* Action Buttons */}
           <div className="flex justify-between">
             <button
               type="button"
@@ -127,3 +150,4 @@ const EditCounterModal = ({ counter, onClose }) => {
 };
 
 export default EditCounterModal;
+
