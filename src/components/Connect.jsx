@@ -9,7 +9,7 @@ const Connect = () => {
             <div className="bg-[#228B22] text-white">
 
             <div className="w-[90vw] mx-auto">
-            
+            <></>
 
 
             <div className="flex h-auto bg-[#228B22] pt-7">
