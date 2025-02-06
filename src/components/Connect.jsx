@@ -2,7 +2,7 @@ const Connect = () => {
     return ( 
         <div className="">
             <div 
-                className="flex justify-center items-center h-[7vh] bg-[#0a830a] border-b-1 text-md text-white *: font-serif hover:bg-[#228B22] cursor-pointer" 
+                className="flex justify-center items-center h-[7vh] bg-[#228B22] border-b-1 text-md text-white *: font-serif hover:bg-[#228B22] cursor-pointer" 
                 onClick={() => window.scrollTo(0, 0)}>
                 Back to top
             </div>

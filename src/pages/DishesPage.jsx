@@ -98,7 +98,7 @@ const DishesPage = () => {
         <div className="w-full flex justify-end pr-12">
           {counterId && user && user.role === ROLE.Merchant && <button
           onClick={() => setIsAddDishOpen(true)}
-          className="text-[#0a830a] w-40 py-3 px-2 text-xl text-white rounded-lg hover:bg-green-700 transition"
+          className="bg-[#0a830a] text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
           >
           Add Dish
         </button>}

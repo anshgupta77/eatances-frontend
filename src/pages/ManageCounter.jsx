@@ -49,18 +49,18 @@ const ManageCounter = () => {
         <div className="p-6 min-h-[80vh] bg-gray-100">
 
             {error? <p className="text-red-500 text-center">{error}</p>: (
-                <>
-                    <div className="flex justify-between items-center mb-8">
-                <button
-                    onClick={() => setIsAddCounterOpen(true)}
-                    className="text-[#0a830a] text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
-                >
-                    Add Counter
-                </button>
-                <h1 className="text-3xl font-bold text-gray-800 text-center flex-grow">
-                    Manage Counters
-                </h1>
-            </div>
+            <>
+                <div className="flex justify-between items-center mb-8">
+                    <button
+                        onClick={() => setIsAddCounterOpen(true)}
+                        className="bg-[#0a830a] text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+                    >
+                        Add Counter
+                    </button>
+                    <h1 className="text-3xl font-bold text-green-800 text-center flex-grow">
+                        Manage Counters
+                    </h1>
+                </div>
 
             {/* Add Counter Modal */}
             {isAddCounterOpen && <AddCounter onClose={() => setIsAddCounterOpen(false)} setLoading={setLoading}/>}
