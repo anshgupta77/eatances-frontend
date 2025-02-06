@@ -53,7 +53,7 @@ const ManageCounter = () => {
                     <div className="flex justify-between items-center mb-8">
                 <button
                     onClick={() => setIsAddCounterOpen(true)}
-                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
+                    className="text-[#0a830a] text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"
                 >
                     Add Counter
                 </button>

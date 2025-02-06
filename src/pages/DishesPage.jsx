@@ -10,7 +10,7 @@ import { CircularProgress } from "@mui/material";
 import { useState } from "react";
 import AddDish from "../components/Modals/AddDish";
 import { ROLE } from "../constraint";
-import dishesPic from "../assets/dishes_Page.jpeg"
+import dishesPic from "../assets/dishes_Page1.jpeg"
 import WeOffer from "../components/WeOffer";
 const DishesPage = () => {
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ const DishesPage = () => {
 
     <div className="min-h-[80vh] bg-gray-100">
     
-    <img src={dishesPic} alt="" className="h-[50vh] w-full object-cover opacity-70"/>
+    <img src={dishesPic} alt="" className="h-[50vh] w-full object-cover"/>
     {/* Conditionally render the AddDish component */}
     {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} counterId={counterId}  setLoading={setLoading}/>}
 
@@ -90,7 +90,7 @@ const DishesPage = () => {
       
       <div className="my-[2%] flex flex-col text-center bg-gray-100 space-y-2">
         <div className="text-center text-5xl font-bold text-blue-950">
-        {counterId ? counter.name : "Flavours"} <span className="text-green-500">{counterId ? "Dishes Menu" : "you love,"}</span> {counterId ? "" : "One Destination!!"}
+        {counterId ? counter.name : "Flavours"} <span className="text-[#228B22]">{counterId ? "Dishes Menu" : "you love,"}</span> {counterId ? "" : "One Destination!!"}
         </div>
         <div className="text-center text-lg text-gray-600">
         Enjoy a delightful variety of dishes from top restaurants, crafted to satisfy every craving. 
@@ -98,7 +98,7 @@ const DishesPage = () => {
         <div className="w-full flex justify-end pr-12">
           {counterId && user && user.role === ROLE.Merchant && <button
           onClick={() => setIsAddDishOpen(true)}
-          className="bg-green-600 w-40 py-3 px-2 text-xl text-white rounded-lg hover:bg-green-700 transition"
+          className="text-[#0a830a] w-40 py-3 px-2 text-xl text-white rounded-lg hover:bg-green-700 transition"
           >
           Add Dish
         </button>}

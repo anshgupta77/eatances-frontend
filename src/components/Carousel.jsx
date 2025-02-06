@@ -7,9 +7,9 @@ const Carousel = () => {
         <div className="flex flex-col justify-center text-left space-y-4 w-[50%] ">
         <div className="text-blue-950">
             <div className="text-3xl font-bold">
-                <span className="text-green-600">No Markup </span> Food Ordering
+                <span className="text-[#0a830a]">No Markup </span> Food Ordering
             </div>
-        <div className="text-6xl font-bold text-green-600">
+        <div className="text-6xl font-bold text-[#0a830a]">
             <span>Your Passport to <br /></span>
             <span>the</span> <span className=" text-blue-950">Future of Dining</span>
         </div>
@@ -18,7 +18,7 @@ const Carousel = () => {
           Welcome to Eatance, the revolutionary Food-Tech that is transforming your dining experience. Happy You, Happy Restaurants
         </div>
         <div>
-          <button className="px-12 py-4 bg-green-500 text-white text-xl rounded-md hover:bg-green-600">
+          <button className="px-12 py-4 bg-[#228B22] text-white text-xl rounded-md hover:bg-[#228B22]">
             Contact us
           </button>
         </div>
@@ -33,3 +33,7 @@ const Carousel = () => {
 };
 
 export default Carousel;
+
+
+
+

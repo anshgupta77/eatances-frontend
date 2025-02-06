@@ -83,12 +83,12 @@ const AuthPage = () => {
       <div className="flex space border-b bg-white border-gray-300 py-3">
       <Link to="/">
         <div 
-            className="text-3xl font-bold text-blue-950 font-serif hover:text-green-500"
+            className="text-3xl font-bold text-blue-950 font-serif hover:text-[#228B22]"
             style={{ fontFamily: "'Poppins', sans-serif" }}
             >
             eatances
             <span 
-                className="text-green-600 inline-flex align-baseline" 
+                className="text-[#0a830a] inline-flex align-baseline" 
                 style={{ fontSize: '1.5rem', marginLeft: '0.1rem' }}
             >
                 •
@@ -185,7 +185,7 @@ const AuthPage = () => {
               
               <button
                 type="submit"
-                className="w-full bg-green-500 hover:bg-green-600 border border-green-500 rounded-lg py-1 px-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 mt-2"
+                className="w-full text-white bg-[#228B22] hover:text-blue-950 border border-green-500 rounded-lg py-1 px-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 mt-2"
               >
                 {isLoginView ? 'Sign-In' : 'Create your Eatance account'}
               </button>

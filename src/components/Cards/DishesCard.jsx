@@ -109,14 +109,14 @@ const DishCard = ({ dishes, counterId ,setLoading }) => {
 
               </div>
               <p className="text-sm text-gray-600 mb-4">{dish.description}</p>
-              <p className="text-sm font-semibold text-green-600">
+              <p className="text-sm font-semibold text-[#0a830a]">
                 Category: {dish.category}
               </p>
               <p className="text-lg font-bold text-gray-900 mt-2">
                 ₹{dish.price}
               </p>
               {dish.inStock ? (
-                <p className="text-sm text-green-500 font-medium mt-2">
+                <p className="text-sm text-[#228B22] font-medium mt-2">
                   In Stock
                 </p>
               ) : (

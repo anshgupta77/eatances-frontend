@@ -2,17 +2,17 @@ const Connect = () => {
     return ( 
         <div className="">
             <div 
-                className="flex justify-center items-center h-[7vh] bg-green-500 border-b-1 text-md text-white *: font-serif hover:bg-green-600 cursor-pointer" 
+                className="flex justify-center items-center h-[7vh] bg-[#0a830a] border-b-1 text-md text-white *: font-serif hover:bg-[#228B22] cursor-pointer" 
                 onClick={() => window.scrollTo(0, 0)}>
                 Back to top
             </div>
-            <div className="bg-green-600 text-white">
+            <div className="bg-[#228B22] text-white">
 
             <div className="w-[90vw] mx-auto">
             
 
 
-            <div className="flex h-auto bg-green-600 pt-7">
+            <div className="flex h-auto bg-[#228B22] pt-7">
                 {/* Left Section: eatances */}
                 <div 
                     className="text-3xl font-bold text-gray-800 font-serif w-1/4 pl-5" 
@@ -20,7 +20,7 @@ const Connect = () => {
                 >
                     eatances
                     <span 
-                        className="text-green-600 inline-flex align-baseline" 
+                        className="bg-[#228B22] inline-flex align-baseline" 
                         style={{ fontSize: '1.5rem', marginLeft: '0.1rem' }}
                     >
                         •

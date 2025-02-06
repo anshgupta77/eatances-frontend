@@ -6,7 +6,7 @@ const CounterCard = ({ counterData }) => {
     <div className="bg-gray-100 min-h-[50vh] flex flex-col">
       <div className="my-[2%] flex flex-col text-center space-y-2">
         <div className="text-center text-5xl font-bold text-blue-950">
-          Your <span className="text-green-500">Favourite Brands</span>, All in One Place
+          Your <span className="text-[#228B22]">Favourite Brands</span>, All in One Place
         </div>
         <div className="text-center text-lg text-gray-600">
           Eatance partners with the best restaurants and event organizers to bring you an unmatched selection of coupons and deals.

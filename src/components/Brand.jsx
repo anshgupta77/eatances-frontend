@@ -13,7 +13,7 @@ const Brand = () => {
         <div className="space-y-4 bg-gray-100 h-[65vh] flex flex-col mt-[10%]">
             <div className="my-[4%] flex flex-col justify-between text-center space-y-4">
                 <div className="text-center text-5xl font-bold text-blue-950">
-                    Your <span className="text-green-500">Favourite Brands</span>, All in One Place
+                    Your <span className="text-[#228B22]">Favourite Brands</span>, All in One Place
                 </div>
                 <div className="text-center text-lg text-gray-600">
                     Eatance partners with the best restaurants and event organizers to bring you an unmatched selection of coupons and deals.
@@ -30,7 +30,7 @@ const Brand = () => {
             </div>
             <div className="flex justify-center">
                 <Link to="/counter">
-                    <button className="px-18 py-4 bg-green-500 text-white text-xl rounded-md hover:bg-green-600">
+                    <button className="px-18 py-4 bg-[#228B22] text-white text-xl rounded-md hover:bg-[#228B22]">
                             View all Brands
                         </button>
                 </Link>

@@ -143,7 +143,7 @@ export const notifySuccess = (message) => {
     draggable: true,
     progress: undefined,
     theme: "light",  
-    className: "bg-green-500 text-white border-2 border-green-700",
+    className: "bg-[#228B22] text-white border-2 border-green-700",
     bodyClassName: "text-white font-semibold",
   });
 };

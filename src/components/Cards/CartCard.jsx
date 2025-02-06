@@ -8,6 +8,17 @@ import deleteImage from "../../assets/delete.png";
 import { FiTrash } from "react-icons/fi";
 import { useRequestCall } from "../../hook";
 import { notifySuccess } from "../../App";
+import { Loader2 } from "lucide-react";
+import LoadingOverlay from "../LoadingOverlay";
+
+// const LoadingOverlay = () => (
+//   <div className="fixed inset-0 bg-gray-400/50 backdrop-blur-xs z-50 flex items-center justify-center">
+//     <div className="bg-gray-300 rounded-lg p-4 flex items-center gap-3">
+//       <Loader2 className="h-6 w-6 text-[#228B22] animate-spin" />
+//       <span className="text-[#228B22]">Processing...</span>
+//     </div>
+//   </div>
+// );
 
 const CartCard = ({ cartItems }) => {
   const dispatch = useDispatch();
@@ -67,12 +78,7 @@ const CartCard = ({ cartItems }) => {
       
       {/* CircularProgress Overlay */}
       {loading ? (
-        <> 
-          {console.log("loading" , loading)}
-          <div className="absolute inset-0 flex justify-center align-center bg-transparent opacity-50 z-50">
-            <CircularProgress />
-          </div>
-        </>
+        <LoadingOverlay />
       ):(
       <div className="flex gap-4">
             <div className="flex-1 bg-gray-100 border-r-1 pr-2 min-h-[80vh]">
@@ -85,7 +91,7 @@ const CartCard = ({ cartItems }) => {
                     Looks like you haven't added anything to your cart yet. Start exploring and add your favorite items to the cart!
                   </p>
                   <button
-                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md font-semibold"
+                    className="bg-[#228B22] hover:text-[#0a830a] text-white px-6 py-2 rounded-md font-semibold"
                     onClick={() => window.location.href = "/products"} // Redirect to products page
                   >
                     Shop Now
@@ -98,7 +104,7 @@ const CartCard = ({ cartItems }) => {
                         <h2 className="text-2xl font-bold text-gray-800">
                           Your cart is invalid! Clear your cart.
                         </h2>
-                          <button className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md font-semibold " onClick={handleClearCart}>
+                          <button className="bg-[#228B22] hover:text-[#0a830a] text-white px-6 py-2 rounded-md font-semibold " onClick={handleClearCart}>
                             Clear Cart
                           </button>
                       </div>
@@ -115,7 +121,7 @@ const CartCard = ({ cartItems }) => {
                           <h2 className="text-lg font-semibold">{item.dish.name}</h2>
                           <p className="text-sm text-gray-600">{item.dish.description}</p>
                           <div className="flex items-center mt-2">
-                            <span className="text-green-500 text-sm font-bold">
+                            <span className="text-[#228B22] text-sm font-bold">
                               {item.dish.category}
                             </span>
                           </div>
@@ -201,7 +207,7 @@ const CartCard = ({ cartItems }) => {
               </div>
 
               {/* Proceed to Checkout Button */}
-              <button className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded mb-4">
+              <button className="w-full bg-[#228B22] hover:text-[#0a830a] text-white font-semibold py-2 rounded mb-4">
                 Proceed to Buy
               </button>
 

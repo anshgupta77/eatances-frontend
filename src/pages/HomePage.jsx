@@ -11,7 +11,7 @@ import WeOffer from "../components/WeOffer";
 // import { CircularProgress } from "@mui/material";
 const HomePage = () => {
     return ( 
-        <div className="" style={{ fontFamily: "'Poppins', sans-serif" }}>
+        <div className="w-full overflow-x-hidden" style={{ fontFamily: "'Poppins', sans-serif" }}>
             {/* <CircularProgress /> */}
             <Carousel />
             <Scope />

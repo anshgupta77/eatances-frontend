@@ -37,7 +37,7 @@ const ProfilePage = () => {
 
                 <button 
                     onClick={handleLogout} 
-                    className="mt-5 bg-green-500 text-white py-2 px-5 rounded-lg shadow-md hover:bg-green-600 transition-all">
+                    className="mt-5 bg-[#228B22] text-white py-2 px-5 rounded-lg shadow-md hover:text-[#0a830a] transition-all">
                     Logout
                 </button>
             </div>
