@@ -22,6 +22,7 @@ import MerchantPage from './pages/MerchantPage';
 import Auth from './Auth';
 import { ToastContainer, toast } from "react-toastify";
 import { CircularProgress } from '@mui/material';
+import LoadingOverlay from './components/LoadingOverlay';
 
 import { ROLE } from './constraint';
 import { useSelector } from 'react-redux';
@@ -100,9 +101,7 @@ function App() {
 // )}
   if(loading){
     return (
-      <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
-        <CircularProgress />
-      </div>
+      <LoadingOverlay/>
     )
   }
   return (

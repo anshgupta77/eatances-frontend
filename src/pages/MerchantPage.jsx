@@ -7,6 +7,7 @@ import MerchantCounterCard from "../components/Cards/MerchantCounterCard";
 import { CircularProgress } from "@mui/material";
 import AddCounter from "../components/Modals/AddCounter";
 import { useRequestCall } from "../hook"; // Import the AddCounter component
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const MerchantPage = () => {
     const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const MerchantPage = () => {
    const [callingRequest] = useRequestCall("get");  // State to control AddCounter modal
     const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading(true);
         callingRequest(`${VITE_BACKEND_URL}/counter/merchantpanel`)
             .then(response => {
@@ -48,9 +50,7 @@ const MerchantPage = () => {
 
             {/* <ManageCounterCard counterData={counter} /> */}
             {loading ? (
-                <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
-                    <CircularProgress />
-                </div>
+                <LoadingOverlay />
             ) : (
                 <MerchantCounterCard counterData={counter} />
             )}

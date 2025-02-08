@@ -8,15 +8,20 @@ import Carousel from "../components/Carousel";
 import Scope from "../components/Scope";
 import Brand from "../components/Brand";
 import WeOffer from "../components/WeOffer";
-import { CircularProgress } from "@mui/material";
+
+
 
 const HomePage = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []); // Runs only on component mount
+
     return ( 
         <div className="w-full overflow-x-hidden font-['Poppins']">
             <Carousel />
             <Scope />
-            <Brand/>
-            <WeOffer/>
+            <Brand />
+            <WeOffer />
         </div>
      );
 }

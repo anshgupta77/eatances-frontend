@@ -12,6 +12,7 @@ import AddDish from "../components/Modals/AddDish";
 import { ROLE } from "../constraint";
 import dishesPic from "../assets/dishes_Page1.jpeg"
 import WeOffer from "../components/WeOffer";
+import LoadingOverlay from "../components/LoadingOverlay";
 const DishesPage = () => {
   const dispatch = useDispatch();
   const dishes = useSelector((state) => state.dish.items);
@@ -82,9 +83,7 @@ const DishesPage = () => {
     {isAddDishOpen && <AddDish onClose={() => setIsAddDishOpen(false)} counterId={counterId}  setLoading={setLoading}/>}
 
      {loading ? (
-       <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
-        <CircularProgress />
-      </div>
+             <LoadingOverlay />
     ) : (
       <div>
       

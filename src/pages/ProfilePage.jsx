@@ -6,6 +6,9 @@ const ProfilePage = () => {
     const user = useSelector(state => state.auth.currentUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    useEffect(() => {
+            window.scrollTo(0, 0);
+        }, []);
 
     function handleLogout() {
         dispatch(removeCurrentUser());

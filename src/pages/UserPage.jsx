@@ -12,6 +12,7 @@ import { setUser } from "../Slices/UserSlice";
 import { useRequestCall } from "../hook";
 import { notifyError } from "../App";
 import { useNavigate } from "react-router-dom";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const UserPage = () => {
     const dispatch = useDispatch();
@@ -49,14 +50,13 @@ const UserPage = () => {
     useEffect(() => {
         setLoading(true);
         fetchUsers(role, currentPage);
+        window.scrollTo(0, 0);
     }, [role, currentPage]);
 
     return (
         <div className="min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8 py-8">
             {loading ? (
-                <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75 z-50">
-                    <CircularProgress />
-                </div>
+                <LoadingOverlay />
             ) : error ? (
                 <p className="text-red-500 text-center text-lg">{error}</p>
             ) : (

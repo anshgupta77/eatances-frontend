@@ -9,6 +9,7 @@ import { useRequestCall } from "../hook";
 import Restuarant from "../assets/resturants.avif"
 import { Link } from "react-router-dom";
 import WeOffer from "../components/WeOffer";
+import LoadingOverlay from "../components/LoadingOverlay";
 const CounterPage = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
@@ -38,9 +39,8 @@ const CounterPage = () => {
         <div className="min-h-screen">
             <img src={Restuarant} alt="" className="h-[50vh] w-full object-cover"/>
             {loading ? (
-            <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
-                <CircularProgress />
-            </div>
+            
+            <LoadingOverlay />
             ) :(
                 <div className="min-h-[50vh]">
                     <CounterCard counterData={counter}/>    

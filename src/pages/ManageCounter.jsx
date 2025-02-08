@@ -10,6 +10,7 @@ import { useRequestCall } from "../hook"; // Import the AddCounter component
 import { ROLE } from "../constraint";
 import { notifyError } from "../App";
 import { useNavigate } from "react-router-dom";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 const ManageCounter = () => {
     const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const ManageCounter = () => {
     const navigate = useNavigate();
     useEffect(() => {
         // if(user?.role === ROLE.Admin){
+            window.scrollTo(0, 0);
             setLoading(true);
             callingRequest(`${VITE_BACKEND_URL}/counter`)
                 .then(response => {
@@ -67,9 +69,7 @@ const ManageCounter = () => {
 
             {/* <ManageCounterCard counterData={counter} /> */}
             {loading ? (
-                <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
-                    <CircularProgress />
-                </div>
+                <LoadingOverlay />
             ) : (
                 <ManageCounterCard counterData={counter} />
             )}

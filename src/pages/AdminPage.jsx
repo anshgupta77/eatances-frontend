@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
 const AdminPage = () => {
+  useEffect(() => {
+          window.scrollTo(0, 0);
+      }, []);
   return (
     <div className="flex justify-center items-start min-h-[80vh] bg-gray-100 px-4 py-8 lg:py-12">
       <div className="w-full max-w-4xl">

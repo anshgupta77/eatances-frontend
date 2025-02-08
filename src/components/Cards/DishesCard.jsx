@@ -53,6 +53,7 @@ const DishCard = ({ dishes, counterId ,setLoading }) => {
     .then(response =>{
         console.log(response);
         dispatch(setCart(response?.data?.cart || []));
+        notifySuccess("Dish added to cart successfully");
     })
   }
 
