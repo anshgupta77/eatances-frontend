@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import EditCounterModal from "../Modals/EditCounter";
+import DeleteConfirmationModal from "../Modals/DeleteConfirm";
 import { useDispatch } from "react-redux";
 import { deleteCounter } from "../../Slices/CounterSlice";
 import { useRequestCall } from "../../hook";
@@ -8,6 +9,7 @@ import { notifySuccess } from "../../App";
 
 const ManageCounterCard = ({ counterData }) => {
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCounter, setSelectedCounter] = useState(null);
   const [callingRequest] = useRequestCall("delete");
   const [loading, setLoading] = useState(false);
@@ -20,17 +22,24 @@ const ManageCounterCard = ({ counterData }) => {
   };
 
   const handleDeleteClick = (counter) => {
+    setSelectedCounter(counter);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
     setLoading(true);
-    callingRequest(`${VITE_BACKEND_URL}/counter/${counter._id}`)
+    callingRequest(`${VITE_BACKEND_URL}/counter/${selectedCounter._id}`)
       .then(response => {
         dispatch(deleteCounter(response?.data?.counter || {}));
         notifySuccess("Counter deleted successfully");
+        setShowDeleteModal(false);
       })
       .catch(error => {
         console.error("Error deleting counter:", error);
       })
       .finally(() => {
         setLoading(false);
+        setSelectedCounter(null);
       });
   };
 
@@ -107,6 +116,14 @@ const ManageCounterCard = ({ counterData }) => {
           setLoading={setLoading}
         />
       )}
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleConfirmDelete}
+        DeleteDataName={selectedCounter?.name}
+      />
     </div>
   );
 };

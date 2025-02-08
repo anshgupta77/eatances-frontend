@@ -1,5 +1,5 @@
 import './App.css'
-// import Navbar from "./components/Navbar"
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CartPage from './pages/CartPage';
@@ -26,7 +26,7 @@ import LoadingOverlay from './components/LoadingOverlay';
 
 import { ROLE } from './constraint';
 import { useSelector } from 'react-redux';
-// import { removeLoading, setLoading } from './Slices/UserSlice';
+
 
 function App() { 
   const dispatch = useDispatch();
@@ -43,32 +43,6 @@ function App() {
     )
   }
 
-  // useEffect(() =>{
-  //   dispatch(setLoading());
-  //   CallingRequest(`${VITE_BACKEND_URL}/user/userinfo`)
-  //   .then(response =>{
-  //     console.log(response.data.user);
-  //     dispatch(setCurrentUser(response.data.user));
-  //   }).catch (error=> {
-  //     console.log(error);
-  //   }).finally(() =>{
-  //     dispatch(removeLoading()); 
-  //   })
-  // },[])
-
-  // useEffect(()=>{
-  //   dispatch(setLoading());
-  //   CallingRequest(`${VITE_BACKEND_URL}/cart`)
-  //   .then(response =>{
-  //     console.log(response?.data?.cart || []);
-  //     dispatch(setCart(response.data.cart));
-  //   }).catch(error =>{
-  //     console.log(error);
-  //   })
-  //   .finally(() =>{
-  //     dispatch(removeLoading());
-  //   })
-  // }, [])
 
   useEffect(() => {
     const fetchUserInfo = CallingRequest(`${VITE_BACKEND_URL}/user/userinfo`);
@@ -94,11 +68,7 @@ function App() {
         dispatch(setCurrentUser(null));
       }
   }, []);
-//   {loading && (
-//     <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 z-50">
-//         <CircularProgress />
-//     </div>
-// )}
+
   if(loading){
     return (
       <LoadingOverlay/>

@@ -62,10 +62,6 @@ const EditCounterModal = ({ counter, onClose, setLoading }) => {
     });
   };
 
-  // Pagination Logic
-  // const totalPages = Math.ceil(merchants.length / itemsPerPage);
-  // const startIndex = (currentPage - 1) * itemsPerPage;
-  // const paginatedMerchants = merchants.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">

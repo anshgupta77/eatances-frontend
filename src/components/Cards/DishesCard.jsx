@@ -12,12 +12,14 @@ import deleteIcon from "../../assets/delete.png";
 // import { removeLoading, setLoading } from "../../Slices/UserSlice";
 import { ROLE } from "../../constraint";
 import { notifyError, notifySuccess } from "../../App";
+import DeleteConfirmationModal from "../Modals/DeleteConfirm";
 
 const DishCard = ({ dishes, counterId ,setLoading }) => {
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
   const [currentDish, setCurrentDish] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [callingPostRequest] = useRequestCall("post");
   const [callingDeleteRequest] = useRequestCall("delete");
   const [deleteLoading, setDeleteLoading] = useState(false)
@@ -47,6 +49,11 @@ const DishCard = ({ dishes, counterId ,setLoading }) => {
     setIsEditing(false);
   };
 
+  const handleDeleteClick = (dish) => {
+    setCurrentDish(dish);
+    setShowDeleteModal(true);
+  }
+
 
   function addItemToCart(dish){
     callingPostRequest("http://localhost:3000/cart", {dish: dish._id})
@@ -54,6 +61,9 @@ const DishCard = ({ dishes, counterId ,setLoading }) => {
         console.log(response);
         dispatch(setCart(response?.data?.cart || []));
         notifySuccess("Dish added to cart successfully");
+    }).catch(error =>{
+        console.error("Error adding dish to cart:", error);
+        notifyError(error?.response?.data?.message || "Failed to add dish to cart");
     })
   }
 
@@ -105,7 +115,9 @@ const DishCard = ({ dishes, counterId ,setLoading }) => {
                 </h2>
                 {counterId && user && (user.role===ROLE.Merchant) &&<div className="flex space-x-4">
                     <img src={editIcon} alt="" onClick={() => openEditModal(dish)} className="w-5 h-5 cursor-pointer hover:opacity-75"/>
-                    <img src={deleteIcon} alt="" onClick={() => deleteDish(dish._id)} className="w-5 h-5 cursor-pointer hover:opacity-75"/>
+                    {/* <img src={deleteIcon} alt="" onClick={() => deleteDish(dish._id)} className="w-5 h-5 cursor-pointer hover:opacity-75"/> */}
+
+                    <img src={deleteIcon} alt="" onClick={() => handleDeleteClick(dish)} className="w-5 h-5 cursor-pointer hover:opacity-75"/>
                   </div>}
 
               </div>
@@ -142,15 +154,18 @@ const DishCard = ({ dishes, counterId ,setLoading }) => {
                 )}
                 
              
-                
-                {/* {user && (user.role===ROLE.Merchant) &&<div className="flex space-x-4">
-                  <img src={editIcon} alt="" onClick={() => openEditModal(dish)} className="w-5 h-5 cursor-pointer hover:opacity-75"/>
-                  <img src={deleteIcon} alt="" onClick={() => deleteDish(dish._id)} className="w-5 h-5 cursor-pointer hover:opacity-75"/>
-                </div>} */}
+               
               </div>}
             </div>
           </div>
         ))}
+
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={() =>deleteDish(currentDish?._id)}
+        DeleteDataName={currentDish?.name}
+      />
       </div>
     </>
   );

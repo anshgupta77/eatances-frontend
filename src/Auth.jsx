@@ -8,9 +8,8 @@ const Auth = () => {
     const token = localStorage.getItem("token")
     console.log("User from the auth",user);
     const location = useLocation();
-    // if(loading) return (<div>Loading...</div>)
     return ( 
-        token ? <Outlet /> : <Navigate to="loginsignup" state={{from : location.pathname}} replace></Navigate>
+        user ? <Outlet /> : <Navigate to="loginsignup" state={{from : location.pathname}} replace></Navigate>
      );
 }
 export default Auth;

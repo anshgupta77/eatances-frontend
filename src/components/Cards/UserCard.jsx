@@ -1,91 +1,20 @@
 
-// import React from "react";
-// import { useDispatch } from "react-redux";
-// import { removeUser, updateUser } from "../../Slices/UserSlice";
-// import { useRequestCall } from "../../hook";
-// import userProfile from "../../assets/userprofile.jpeg";
-// import { X } from "lucide-react"; // Importing cross icon
-
-// const UserCard = ({ userData }) => {
-//     const dispatch = useDispatch();
-//     const [callingPatchRequest] = useRequestCall("patch");
-//     const [callingDeleteRequest] = useRequestCall("delete");
-//     const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-//     const handleRoleChange = (event) => {
-//         const newRole = event.target.value;
-//         callingPatchRequest(`${VITE_BACKEND_URL}/user/${userData._id}/role`, { role: newRole })
-//             .then((response) => {
-//                 dispatch(updateUser(response.data.user));
-//             });
-//     };
-
-//     const handleDelete = () => {
-//         callingDeleteRequest(`${VITE_BACKEND_URL}/user/${userData._id}`).then((response) => {
-//             dispatch(removeUser(response.data.user));
-//         });
-//     };
-
-//     return (
-//         <div className="bg-white rounded-lg shadow-md overflow-hidden relative p-4">
-//             {/* Close Button (Cross) */}
-//             <button
-//                 onClick={handleDelete}
-//                 className="absolute top-2 right-2 rounded-full bg-white text-red-500 hover:text-red-600 transition-colors mb-4 "
-//             >
-//                 <X size={30} />
-//             </button>
-
-//             <div className="flex flex-col sm:flex-row items-center gap-4">
-//                 {/* Avatar */}
-//                 <div className="flex-shrink-0">
-//                     <img
-//                         src={userProfile}
-//                         alt={`${userData.username}'s Avatar`}
-//                         className="w-20 h-20 sm:w-16 sm:h-16 rounded-full object-cover"
-//                     />
-//                 </div>
-
-//                 {/* User Info */}
-//                 <div className="flex-1 text-center sm:text-left">
-//                     <h3 className="text-xl font-semibold text-gray-800">{userData.username}</h3>
-//                     <p className="text-sm text-gray-600 mt-1">{userData.email}</p>
-
-//                     {/* Role Selection */}
-//                         <div className="mt-3">
-//                             <select
-//                                 value={userData.role}
-//                                 onChange={handleRoleChange}
-//                                 className="w-full sm:w-auto p-2 border rounded-md bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-//                             >
-//                                 <option value="admin">Admin</option>
-//                                 <option value="merchant">Merchant</option>
-//                                 <option value="customer">Customer</option>
-//                             </select>
-//                         </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default UserCard;
-
-
-
-
 import React from "react";
 import { useDispatch } from "react-redux";
 import { removeUser, updateUser } from "../../Slices/UserSlice";
 import { useRequestCall } from "../../hook";
 import userProfile from "../../assets/userprofile.jpeg";
 import { X } from "lucide-react"; // Importing cross icon
+import DeleteConfirmationModal from "../Modals/DeleteConfirm";
+import { useState } from "react";
+import { notifyError, notifySuccess } from "../../App";
 
 const UserCard = ({ userData }) => {
     const dispatch = useDispatch();
     const [callingPatchRequest] = useRequestCall("patch");
     const [callingDeleteRequest] = useRequestCall("delete");
     const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleRoleChange = (event) => {
         const newRole = event.target.value;
@@ -94,11 +23,18 @@ const UserCard = ({ userData }) => {
                 dispatch(updateUser(response.data.user));
             });
     };
+    const handleDeleteClick = () => {
+        setShowDeleteModal(true);
+      }
 
-    const handleDelete = () => {
+    const deleteUser = () => {
         callingDeleteRequest(`${VITE_BACKEND_URL}/user/${userData._id}`).then((response) => {
             dispatch(removeUser(response.data.user));
+            notifySuccess("User Deleted Successfully");
+        }).catch((error) => {
+            notifyError(error?.response?.data?.message || "Error deleting user");
         });
+
     };
 
     return (
@@ -106,20 +42,12 @@ const UserCard = ({ userData }) => {
             <div className="flex flex-col items-center relative">
                 {/* Close Button (Cross) */}
                 <button
-                    onClick={handleDelete}
+                    onClick={handleDeleteClick}
                     className="absolute top-2 right-2 rounded-full bg-white text-[#228822] hover:text-[#397139] transition-colors hover:font-bold"
                 >
                     <X size={24} />
                 </button>
 
-                {/* Avatar */}
-                {/* <div className="w-24 h-24 bg-[#228B22]/10 rounded-full flex items-center justify-center mb-4">
-                    <img
-                        src={userProfile}
-                        alt={`${userData.username}'s Avatar`}
-                        className="w-20 h-20 rounded-full object-cover"
-                    />
-                </div> */}
 
                     <div className="w-24 h-24 bg-[#228B22]/10 rounded-full flex items-center justify-center mb-4">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#228B22]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -155,6 +83,12 @@ const UserCard = ({ userData }) => {
                     </div>
                 </div>
             </div>
+            <DeleteConfirmationModal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={deleteUser}
+                DeleteDataName={userData?.username}
+            />
         </div>
     );
 };

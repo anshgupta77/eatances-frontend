@@ -12,6 +12,7 @@ const AddDish = ({ onClose, counterId, setLoading }) => {
   const dispatch = useDispatch();
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const [callingRequest] = useRequestCall("post");
+  console.log("CounterId", counterId);
   const [newDish, setNewDish] = useState({
     name: "",
     description: "",
