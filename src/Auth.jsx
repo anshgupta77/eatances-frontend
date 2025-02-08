@@ -10,7 +10,7 @@ const Auth = () => {
     const location = useLocation();
     // if(loading) return (<div>Loading...</div>)
     return ( 
-        user? <Outlet /> : <Navigate to="loginsignup" state={{from : location.pathname}} replace></Navigate>
+        token ? <Outlet /> : <Navigate to="loginsignup" state={{from : location.pathname}} replace></Navigate>
      );
 }
 export default Auth;

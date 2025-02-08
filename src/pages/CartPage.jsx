@@ -8,7 +8,7 @@ const CartPage = () => {
         window.scrollTo(0, 0);
     }, []);
     return ( 
-        <div className="min-h-[80vh]">
+        <div className="min-h-[80vh] w-full px-2 lg:px-0">
             <CartCard cartItems={cartItems} />
         </div>
      );

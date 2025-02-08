@@ -46,8 +46,8 @@ const BrandsPhoto = [
 
 const Brand = () => {
     return ( 
-        <div className="space-y-4 bg-gray-100 min-h-[65vh] flex flex-col mt-[10%] py-8 lg:py-0">
-            <div className="my-[4%] flex flex-col justify-between text-center space-y-4 px-4">
+        <div className="space-y-4 bg-gray-100 min-h-[40vh] flex flex-col mt-[5%] py-8 lg:py-20">
+            <div className="my-[0%] flex flex-col justify-between text-center space-y-4 px-4">
                 <div className="text-center text-3xl lg:text-5xl font-bold text-blue-950">
                     Your <span className="text-[#228B22]">Favourite Brands</span>, All in One Place
                 </div>

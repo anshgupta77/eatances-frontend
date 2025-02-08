@@ -140,7 +140,7 @@ const EditCounterModal = ({ counter, onClose, setLoading }) => {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-[#0a830a] text-white rounded-lg hover:bg-green-700"
+              className="px-4 py-2 bg-[#0a830a] text-white rounded-lg hover:bg-green-700"
             >
               Save Changes
             </button>
