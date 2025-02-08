@@ -9,7 +9,7 @@ const Auth = () => {
     console.log("User from the auth",user);
     const location = useLocation();
     return ( 
-        token ? <Outlet /> : <Navigate to="loginsignup" state={{from : location.pathname}} replace></Navigate>
+        user ? <Outlet /> : <Navigate to="loginsignup" state={{from : location.pathname}} replace></Navigate>
      );
 }
 export default Auth;

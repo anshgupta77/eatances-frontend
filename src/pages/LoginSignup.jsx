@@ -88,7 +88,7 @@ const AuthPage = () => {
       <div className="flex space border-b bg-white border-gray-300 py-3">
       <Link to="/">
         <div 
-            className="text-3xl font-bold text-blue-950 font-serif hover:text-[#228B22]"
+            className="text-3xl font-bold text-blue-950 font-serif hover:text-[#228B22] pl-10"
             style={{ fontFamily: "'Poppins', sans-serif" }}
             >
             eatances
