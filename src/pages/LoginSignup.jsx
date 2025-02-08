@@ -15,7 +15,7 @@ const AuthPage = () => {
   const [isLoginView, setIsLoginView] = useState(true);
   const [error,setError] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
-//   const [loading, userFetch] = useRetryCall("get");
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [loginRegisterInfo] = useRequestCall("post");
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;  
   const location = useLocation();
@@ -24,7 +24,7 @@ const AuthPage = () => {
     email: '',
     password: '',
     name: '',
-    role: ''
+    role: "customer"
   });
 
   const handleInputChange = (e) => {
@@ -155,30 +155,36 @@ const AuthPage = () => {
                 <label className="block text-sm font-bold mb-1">Password</label>
                 <div className="relative">
                   <input type={passwordVisible ? "text" : "password"} name="password" value={formData.password} onChange={handleInputChange} className="w-full px-3 py-2 border border-gray-300 rounded focus:border-yellow-600 focus:ring-1 focus:ring-yellow-600 focus:outline-none" placeholder={isLoginView ? '' : 'At least 6 characters'} />
-                  <button type="button" onClick={() => setPasswordVisible(!passwordVisible)} className="absolute inset-y-0 right-3 flex items-center">
+                  <button type="button" onClick={() => setPasswordVisible(!passwordVisible)} className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700">
                     {passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
-                {!isLoginView && <p className="text-xs text-gray-600 mt-1">Passwords must be at least 6 characters.</p>}
+                {!isLoginView && <p className="text-xs text-gray-600 mt-1 ">Passwords must be at least 6 characters.</p>}
               </div>
 
-              
               {!isLoginView && (
-                <div className="mb-4">
-                    <label className="block text-sm font-bold mb-1">Role</label>
-                    <select
-                    name="role"
-                    value={formData.role}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:border-yellow-600 focus:ring-1 focus:ring-yellow-600 focus:outline-none"
+                <div className="mb-4 relative">
+                  <label className="block text-sm font-bold mb-1">Confirm Password</label>
+                  <div className="relative">
+                    <input
+                      type={confirmPasswordVisible ? "text" : "password"}
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded focus:border-yellow-600 focus:ring-1 focus:ring-yellow-600 focus:outline-none"
+                      placeholder="Confirm your password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                      className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
                     >
-                    <option value="">Select Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="customer">Customer</option>
-                    <option value="merchant">Merchant</option>
-                    </select>
+                      {confirmPasswordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
                 </div>
-                )}
+              )}
+              
 
 
               

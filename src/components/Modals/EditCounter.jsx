@@ -9,6 +9,7 @@ import { notifySuccess } from "../../App";
 
 const EditCounterModal = ({ counter, onClose, setLoading }) => {
   const [counterName, setCounterName] = useState(counter.name);
+  const [imageUrl, setImageUrl] = useState(counter.image);
   const [merchants, setMerchants] = useState([]);
   const [selectedMerchants, setSelectedMerchants] = useState(
     counter.merchants.map((merchant) => merchant._id)
@@ -77,6 +78,16 @@ const EditCounterModal = ({ counter, onClose, setLoading }) => {
             <input
               type="text"
               value={counterName}
+              onChange={(e) => setCounterName(e.target.value)}
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Image Url</label>
+            <input
+              type="text"
+              value={imageUrl}
               onChange={(e) => setCounterName(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
               required

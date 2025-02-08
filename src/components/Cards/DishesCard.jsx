@@ -143,11 +143,11 @@ const DishCard = ({ dishes, counterId ,setLoading }) => {
              -
                 {isInCart(dish) ? (
                   <Link to="/cart" className="w-full"><button
-                  className="bg-yellow-400 text-black w-full px-4 py-2 rounded-lg hover:bg-yellow-500">  <span className="text-sm text-black">Go to Cart</span></button></Link>
+                  className="bg-[#db9f11] text-black w-full px-4 py-2 rounded-lg hover:bg-yellow-400">  <span className="text-sm text-black">Go to Cart</span></button></Link>
                 ):(
                   <button
                   onClick={()=>addItemToCart(dish)}
-                  className="bg-blue-600 text-white w-full px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                  className="bg-[#228822] text-white w-full px-4 py-2 rounded-lg hover:bg-[#3f703f] transition"
                 >
                   Add to Cart
                 </button>

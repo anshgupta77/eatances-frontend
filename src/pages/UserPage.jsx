@@ -68,7 +68,7 @@ const UserPage = () => {
                                 setRole(e.target.value);
                                 setCurrentPage(1);
                             }}
-                            className="w-1/10 p-2 border rounded-r-full rounded-l-full bg-gray-200  focus:ring-1 focus:ring-[#228822] focus:border-[#308030e0] text-[#228B22] font-medium"
+                            className="w-1/2 sm:w-1/3 md:w-1/5 p-2 border rounded-r-full rounded-l-full bg-gray-200  focus:ring-1 focus:ring-[#228822] focus:border-[#308030e0] text-[#228B22] font-medium"
                         >
                             <option value="">All Users</option>
                             <option value="admin">Admin</option>

@@ -82,7 +82,7 @@ const CartCard = ({ cartItems }) => {
                 </p>
                 <button
                   className="bg-[#228B22] hover:text-[#0a830a] text-white px-4 lg:px-6 py-2 rounded-md font-semibold text-sm lg:text-base"
-                  onClick={() => window.location.href = "/products"}
+                  onClick={() => window.location.href = "/dish"}
                 >
                   Shop Now
                 </button>
