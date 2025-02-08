@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { removeCurrentUser } from "../Slices/AuthSlice";
-
+import { useEffect } from "react";
 const ProfilePage = () => {
     const user = useSelector(state => state.auth.currentUser);
     const dispatch = useDispatch();
