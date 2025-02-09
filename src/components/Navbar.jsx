@@ -9,6 +9,8 @@ const NewNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const cartItems = useSelector(state => state.cart.items);
     const user = useSelector(state => state.auth.currentUser);
+    const token = localStorage.getItem("token");
+    console.log("User from the auth",user);
     const cartItemsCount = cartItems.length;
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -86,7 +88,7 @@ const NewNavbar = () => {
                         </div>
 
                         <div className="hidden md:block">
-                            {!user.email ? (
+                            {token ? (
                                 <Link to="/loginsignup">
                                     <button className="flex items-center justify-center space-x-2 px-8 py-3 text-[#0a830a] text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition-all duration-300">
                                         <i className="fi-rr-user text-[#0a830a] text-xl"></i>
@@ -142,7 +144,7 @@ const NewNavbar = () => {
                                 Contact us
                             </div>
                             <div className="pt-4">
-                                {!user.email ? (
+                                {!token ? (
                                     <Link to="/loginsignup" onClick={() => setIsMenuOpen(false)}>
                                         <button className="w-full flex items-center justify-center space-x-2 px-8 py-3 text-[#0a830a] text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition-all duration-300">
                                             <i className="fi-rr-user text-[#0a830a] text-xl"></i>

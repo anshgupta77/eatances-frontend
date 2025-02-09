@@ -62,9 +62,8 @@ const ProfilePage = () => {
                             </button>
                         </div>
                     ) : (
-                        <div className="flex items-center justify-center p-4">
-                            <div className="w-8 h-8 border-4 border-[#228B22] border-t-transparent rounded-full animate-spin"></div>
-                            <p className="ml-2 text-gray-500">Loading user data...</p>
+                        <div className="flex items-center justify-center">
+                            <p className="text-gray-500">Require to login to acces details</p>
                         </div>
                     )}
                 </div>
