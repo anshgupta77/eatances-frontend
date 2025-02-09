@@ -14,7 +14,7 @@ const ProfilePage = () => {
         dispatch(removeCurrentUser());
         localStorage.removeItem("token");
         localStorage.removeItem("refresh-token");
-        navigate("/loginsignup");
+        navigate("/");
     }
 
     return (

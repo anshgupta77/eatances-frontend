@@ -6,6 +6,7 @@ import CounterCard from "../components/Cards/CounterCard";
 // import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { CircularProgress } from "@mui/material";
 import { useRequestWithoutToken } from "../hook";
+import { useRequestCall } from "../hook";
 import Restuarant from "../assets/resturants.avif"
 import { Link } from "react-router-dom";
 import WeOffer from "../components/WeOffer";
@@ -14,7 +15,7 @@ const CounterPage = () => {
     const dispatch = useDispatch();
     const counter = useSelector(state => state.counter.items);
     const [loading, setLoading] = useState(false);
-    const [callingRequest] = useRequestWithoutToken("get");
+    const [callingRequest] = useRequestCall("get");
     const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     console.log(counter);
     useEffect(() =>{

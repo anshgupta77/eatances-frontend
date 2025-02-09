@@ -10,6 +10,7 @@ const NewNavbar = () => {
     const cartItems = useSelector(state => state.cart.items);
     const user = useSelector(state => state.auth.currentUser);
     const token = localStorage.getItem("token");
+    console.log("User from the auth",token);
     console.log("User from the auth",user);
     const cartItemsCount = cartItems.length;
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const NewNavbar = () => {
         dispatch(removeCurrentUser());
         localStorage.removeItem("token");
         localStorage.removeItem("refresh-token");
-        navigate("/loginsignup");
+        navigate("/");
     }
 
     const toggleMenu = () => {
@@ -132,9 +133,9 @@ const NewNavbar = () => {
                             <Link to="/dish" className="hover:text-[#0a830a]" onClick={() => setIsMenuOpen(false)}>
                                 Dishes
                             </Link>
-                            <Link to="/counter" className="hover:text-[#0a830a]" onClick={() => setIsMenuOpen(false)}>
+                            {token && <Link to="/counter" className="hover:text-[#0a830a]" onClick={() => setIsMenuOpen(false)}>
                                 Counter
-                            </Link>
+                            </Link>}
                             {user && user.role === ROLE.Merchant && (
                                 <Link to="/merchant" className="hover:text-[#0a830a]" onClick={() => setIsMenuOpen(false)}>
                                     Merchant Panel

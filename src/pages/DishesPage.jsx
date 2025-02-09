@@ -5,6 +5,7 @@ import { setDish } from "./../Slices/DishSlice";
 import DishCard from "../components/Cards/DishesCard";
 import { useParams } from "react-router-dom";
 import { useRequestWithoutToken } from "../hook";
+import { useRequestCall } from "../hook";
 import { CircularProgress } from "@mui/material";
 // import { setLoading, removeLoading } from "../Slices/UserSlice";
 import { useState } from "react";
@@ -19,7 +20,7 @@ const DishesPage = () => {
   const user = useSelector((state) => state.auth.currentUser);
   const [loading, setLoading] = useState(false); // Get loading state from Redux
   const [counter, setCounter] = useState({});
-  const [fetchDish] = useRequestWithoutToken("get");
+  const [fetchDish] = useRequestCall("get");
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   console.log("user",user);

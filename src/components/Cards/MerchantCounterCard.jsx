@@ -9,7 +9,7 @@ const MerchantCounterCard = ({ counterData }) => {
         <Link
           to={`/dish/counter/${counter._id}`}
           key={counter._id}
-          className="group relative bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+          className="relative bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 transform "
         >
           {/* Counter Image Section */}
           <div className="h-32 bg-[#228B22]/10 relative overflow-hidden">
@@ -60,7 +60,7 @@ const MerchantCounterCard = ({ counterData }) => {
 
               {/* View Details Button */}
               <div className="pt-2">
-                <div className="flex items-center justify-center p-2 bg-[#228B22]/10 rounded-xl text-[#228B22] group-hover:bg-[#228B22] group-hover:text-white transition-all duration-300">
+                <div className="flex items-center justify-center p-2 bg-[#228B22]/10 rounded-xl text-[#228B22] hover:bg-[#228B22] hover:text-white transition-all duration-300">
                   <span className="font-medium">View Details</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
