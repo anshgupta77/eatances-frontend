@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 
 
-const AuthPage = () => {
+const AuthPage = ({setToken}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoginView, setIsLoginView] = useState(true);
@@ -45,6 +45,7 @@ const AuthPage = () => {
         console.log(token, refresh_token);
         localStorage.setItem("token", token);
         localStorage.setItem("refresh-token", refresh_token);
+        setToken(token);
         // userFetch("http://localhost:4000/user/userinfo")
         dispatch(setCurrentUser(response.data.user));
         dispatch(setCart(response.data.user.cart));

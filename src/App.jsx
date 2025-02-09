@@ -31,13 +31,15 @@ import { useSelector } from 'react-redux';
 function App() { 
   const dispatch = useDispatch();
   const [CallingRequest] = useRequestCall("get");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  // setToken();
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   console.log(VITE_BACKEND_URL);
   const [loading, setLoading] = useState(true);
   function Layout(component){
     return (
       <>
-        <NavBar />
+        <NavBar token={token} setToken={setToken}/>
         {component}
       </>
     )
@@ -67,7 +69,7 @@ function App() {
         dispatch(setCart([]));
         dispatch(setCurrentUser(null));
       }
-  }, []);
+  }, [token]);
 
   if(loading){
     return (
@@ -80,7 +82,7 @@ function App() {
           <ToastContainer position="top-right" autoClose={3000} />
           <Routes className="min-h-screen" >
             <Route path="/" element={Layout(<HomePage />)} />
-            <Route path="/profile" element={Layout(<ProfilePage />)} />
+            <Route path="/profile" element={Layout(<ProfilePage setToken={setToken}/>)} />
             <Route path="/counter" element={Layout(<CounterPage />)} />
             <Route path="/dish" element={Layout(<DishPage />)}></Route>
             <Route path="/dish/counter/:counterId" element={Layout(<DishPage />)} />
@@ -91,7 +93,7 @@ function App() {
                 <Route path="/user" element={Layout(<UserPage />)} />
                 <Route path="/managecounter" element={Layout(<ManageCounter />)} />
             </Route>
-            <Route path="/loginsignup" element={<AuthPage />} />
+            <Route path="/loginsignup" element={<AuthPage setToken={setToken} />} />
           </Routes>
           <Connect/>
         </Router>
