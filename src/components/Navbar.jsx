@@ -62,7 +62,7 @@ const NewNavbar = ({token, setToken}) => {
                             <Link to="/dish">Dishes</Link>
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#0a830a] rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
                         </div>
-                        {user.email && <div className="relative hover:text-[#0a830a] cursor-pointer group">
+                        {user && user.email && <div className="relative hover:text-[#0a830a] cursor-pointer group">
                             <Link to="/counter">Counter</Link>
                             <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#0a830a] rounded-full opacity-0 group-hover:opacity-100 mt-1"></div>
                         </div>}
