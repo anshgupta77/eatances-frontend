@@ -20,7 +20,7 @@ const DishesPage = () => {
   const user = useSelector((state) => state.auth.currentUser);
   const [loading, setLoading] = useState(false); // Get loading state from Redux
   const [counter, setCounter] = useState({});
-  const [fetchDish] = useRequestCall("get");
+  const [fetchDish] = useRequestWithoutToken("get");
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   console.log("user",user);
@@ -28,7 +28,7 @@ const DishesPage = () => {
   const {counterId} = useParams();
 
   function fetchAllDishes(){
-    fetchDish("http://localhost:3000/dish")
+    fetchDish(`${VITE_BACKEND_URL}/dish`)
     .then(response => {
       // console.log(response);
       dispatch(setDish(response.data.dishes));
