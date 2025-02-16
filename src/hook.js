@@ -9,7 +9,9 @@ export function useRequestCall(method) {
   const call = async (url, body) => {
     try {
       const token = localStorage.getItem("token");
+      console.log("url", url, " Token ", token);
       return await axios.request(axiosConfig(method, url, body, token));
+
     } catch (error) {
       console.error(`Error in the ${method} method`, error.message);
       throw error; // Rethrow error for further handling if needed
