@@ -12,6 +12,7 @@ const CounterCard = ({ counterData }) => {
           Eatance partners with the best restaurants and event organizers to bring you an unmatched selection of coupons and deals.
         </div>
       </div>
+      {console.log(counterData)};
 
       <div className="p-4 flex flex-wrap justify-center gap-4">
         {counterData.map((counter, index) => (

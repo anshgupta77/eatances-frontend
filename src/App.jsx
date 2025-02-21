@@ -21,7 +21,6 @@ import AdminPage from './pages/AdminPage';
 import MerchantPage from './pages/MerchantPage';
 import Auth from './Auth';
 import { ToastContainer, toast } from "react-toastify";
-import { CircularProgress } from '@mui/material';
 import LoadingOverlay from './components/LoadingOverlay';
 
 import { ROLE } from './constraint';
