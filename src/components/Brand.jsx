@@ -10,6 +10,7 @@ const BrandsPhoto = [
 
 
 const Brand = () => {
+    const token = localStorage.getItem("token");
     return ( 
         <div className="space-y-4 bg-gray-100 min-h-[40vh] flex flex-col mt-[5%] py-8 lg:py-20">
             <div className="my-[0%] flex flex-col justify-between text-center space-y-4 px-4">
@@ -29,11 +30,11 @@ const Brand = () => {
                 ))}
             </div>
             <div className="flex justify-center px-4">
-                <Link to="/counter">
+                {token && <Link to="/counter">
                     <button className="px-8 lg:px-18 py-3 lg:py-4 bg-[#228B22] text-white text-lg lg:text-xl rounded-md hover:bg-[#228B22]">
                         View all Brands
                     </button>
-                </Link>
+                </Link>}
             </div>
         </div>
     );

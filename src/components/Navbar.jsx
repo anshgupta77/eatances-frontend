@@ -92,7 +92,7 @@ const NewNavbar = ({token, setToken}) => {
                         <div className="hidden md:block">
                             {!token ? (
                                 <Link to="/loginsignup">
-                                    <button className="flex items-center justify-center space-x-2 px-8 py-3 text-[#0a830a] text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition-all duration-300">
+                                    <button className="flex items-center justify-center space-x-2 px-8 py-3 text-[#0a830a] text-lg bg-gray-200 rounded-lg hover:bg-gray-300 transition-all duration-300" onClick={() => window.scrollTo(0, 0)}>
                                         <i className="fi-rr-user text-[#0a830a] text-xl"></i>
                                         <span>Login</span>
                                     </button>
