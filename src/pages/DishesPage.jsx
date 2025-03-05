@@ -26,6 +26,7 @@ const DishesPage = () => {
   const [isAddDishOpen, setIsAddDishOpen] = useState(false);
   const [search, setSearch] = useState("");
   const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const [isFocused, setIsFocused] = useState(false);
   console.log("search",search);
   
   const {counterId} = useParams();
@@ -92,37 +93,71 @@ const DishesPage = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 text-center">
             Discover Your Next Favorite Dish
           </h1>
-          
-          {/* Search Container */}
-          <div className="w-full max-w-2xl mx-auto">
-            <div className={`
-              bg-white rounded-full shadow-2xl
-              transform transition-all duration-300
-              flex items-center px-3 py-2 space-x-4
-            `}>
-              <img 
-                src={search_icon} 
-                alt="Search" 
-                className="w-6 h-6 opacity-60"
-              />
-              <input
-                type="text"
-                placeholder="Search for dishes..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                className="flex-1 outline-none text-lg text-gray-700 placeholder-gray-400"
-              />
-              <button
-                onClick={handleSearch}
-                className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-full font-medium transition-colors duration-200"
-              >
-                Search
-              </button>
-            </div>
-            
-            {/* Search Suggestions (optional) */}
-          </div>
+                <div className="w-full flex justify-center">
+                      <div className={`
+                        w-full max-w-2xl 
+                        bg-white 
+                        rounded-full 
+                        shadow-2xl
+                        flex items-center 
+                        px-3 py-2 
+                        transform transition-all 
+                        duration-300 
+                        ease-in-out
+                        ${isFocused ? 'ring-2 ring-green-500/50' : 'scale-100'}
+                        mobile:max-w-[90%]
+                        sm:max-w-md
+                        md:max-w-2xl
+                        lg:max-w-3xl
+                      `}>
+                        <img 
+                          src={search_icon} 
+                          alt="Search" 
+                          className="w-5 h-5 sm:w-6 sm:h-6 opacity-60 mr-2"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Search for dishes..."
+                          value={search}
+                          onChange={(e) => setSearch(e.target.value)}
+                          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                          onFocus={() => setIsFocused(true)}
+                          onBlur={() => setIsFocused(false)}
+                          className="
+                            flex-1 
+                            outline-none 
+                            text-base 
+                            sm:text-lg 
+                            text-gray-700 
+                            placeholder-gray-400
+                            transition-all 
+                            duration-300
+                            w-full
+                          "
+                        />
+                        <button
+                          onClick={handleSearch}
+                          className="
+                            bg-green-600 
+                            hover:bg-green-700 
+                            text-white 
+                            px-2 
+                            py-1 
+                            sm:px-3 
+                            sm:py-2 
+                            rounded-full 
+                            font-medium 
+                            transition-colors 
+                            duration-200 
+                            my-1
+                            text-sm 
+                            sm:text-base
+                          "
+                        >
+                          Search
+                        </button>
+                      </div>
+                    </div>
         </div>
       </div>
 
